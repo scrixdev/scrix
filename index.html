@@ -2775,9 +2775,25 @@
             margin-left: auto;
             flex-shrink: 0;
         }
-        #gamesMenu.gsize-list .add-game-card {
-            justify-content: flex-start;
+        #gamesMenu.gsize-list .project-card {
+            flex-direction: row;
+            border-radius: 10px;
+            height: 56px;
         }
+        #gamesMenu.gsize-list .project-card .project-card-thumb {
+            width: 80px;
+            height: 56px;
+            flex-shrink: 0;
+            border-bottom: none;
+            border-right: 1px solid var(--border-subtle);
+            border-radius: 0;
+        }
+        #gamesMenu.gsize-list .project-card .project-card-body {
+            flex: 1;
+            padding: 8px 12px;
+        }
+        #gamesMenu.gsize-list .project-card .project-card-name { font-size: 13px; margin-bottom: 1px; }
+        #gamesMenu.gsize-list .project-card .project-card-date { font-size: 11px; }
         #gamesMenu.gsize-list .add-game-icon { font-size: 22px; width: 36px; text-align: center; }
         #gamesMenu.gsize-list .add-game-label { font-size: 14px; }
 
@@ -10588,20 +10604,40 @@ ${js}
                 const safeName = String(game.name || 'Projet').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
                 const isValidThumb = game.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(game.thumbnail);
                 const thumbHtml = isValidThumb
-                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview" style="width:100%;height:90px;object-fit:cover;border-radius:10px;margin-bottom:8px;"/>`
-                    : `<div style="font-size:42px;margin-bottom:8px;">${game.icon || '🎮'}</div>`;
+                    ? `<img src="${game.thumbnail}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="preview"/>`
+                    : `<span style="font-size:32px;">${game.icon || '🎮'}</span>`;
+                const date = game.timestamp ? new Date(game.timestamp).toLocaleDateString('fr-FR') : '';
                 return `
-                <div class="game-card custom-game-card" style="cursor:pointer;padding:16px;overflow:hidden;" onclick="launchCustomGame(${i})">
-                    ${thumbHtml}
-                    <div style="font-weight:700;font-size:14px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;margin-bottom:2px;" id="cgName_${i}">${safeName}</div>
-                    <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:10px;">Ton projet</div>
-                    <div style="display:flex;gap:6px;justify-content:center;" onclick="event.stopPropagation()">
-                        <button onclick="event.stopPropagation();renameCustomGame(${i})" title="Renommer" style="background:rgba(124,58,237,0.15);border:1px solid var(--border-subtle);color:var(--text-tertiary);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.18s;">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        </button>
-                        <button onclick="event.stopPropagation();removeCustomGame(${i})" title="Supprimer" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.18s;">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                        </button>
+                <div class="project-card" onclick="launchCustomGame(${i})" style="cursor:pointer;">
+                    <div class="project-card-thumb">
+                        ${thumbHtml}
+                        <div class="project-card-thumb-overlay"></div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="project-card-info" onclick="event.stopPropagation()">
+                            <div class="project-card-name" id="cgName_${i}"
+                                 ondblclick="event.stopPropagation();renameCustomGame(${i})"
+                                 title="Double-clic pour renommer">
+                                ${safeName}
+                            </div>
+                            <div class="project-card-date">${date}</div>
+                        </div>
+                        <div class="project-card-actions" onclick="event.stopPropagation()">
+                            <button class="project-card-btn" onclick="event.stopPropagation();renameCustomGame(${i})" title="Renommer">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="project-card-btn danger" onclick="event.stopPropagation();removeCustomGame(${i})" title="Supprimer">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                                    <path d="M10 11v6M14 11v6"/>
+                                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             }).join('');
