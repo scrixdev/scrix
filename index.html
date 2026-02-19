@@ -6946,6 +6946,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
 
         // ===== SORT PROJECTS =====
         window._sortMode = 'date';
+        window._fbUser = undefined; // undefined = Firebase pas encore chargé, null = déconnecté
         document.querySelector('.project-name').value = 'Mon Projet';
         function sortProjects(mode) {
             window._sortMode = mode;
@@ -9221,6 +9222,13 @@ ${js}
 
         function loadProjectsList() {
             const projectsList = document.getElementById('projectsList');
+
+            // Si Firebase pas encore chargé, attendre un peu
+            if (typeof window._fbUser === 'undefined') {
+                projectsList.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:40px;">Chargement...</div>`;
+                setTimeout(loadProjectsList, 600);
+                return;
+            }
 
             // Si pas connecté, afficher un message d'invite
             if (!window._fbUser) {
