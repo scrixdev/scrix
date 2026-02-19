@@ -2779,52 +2779,65 @@
             flex-direction: row;
             border-radius: 10px;
             height: 56px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-default);
-            overflow: hidden;
-            align-items: center;
         }
         #gamesMenu.gsize-list .project-card .project-card-thumb {
-            width: 44px;
-            height: 36px;
+            width: 80px;
+            height: 56px;
             flex-shrink: 0;
             border-bottom: none;
-            border-right: none;
-            border-radius: 6px;
-            margin-left: 14px;
-            overflow: hidden;
+            border-right: 1px solid var(--border-subtle);
+            border-radius: 0;
         }
         #gamesMenu.gsize-list .project-card .project-card-body {
             flex: 1;
-            padding: 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            padding: 8px 12px;
         }
-        #gamesMenu.gsize-list .project-card .project-card-info {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-name {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-date {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            margin-left: 8px;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-actions {
-            margin-left: auto;
-            flex-shrink: 0;
-            padding-right: 14px;
-        }
+        #gamesMenu.gsize-list .project-card .project-card-name { font-size: 13px; margin-bottom: 1px; }
+        #gamesMenu.gsize-list .project-card .project-card-date { font-size: 11px; }
         #gamesMenu.gsize-list .add-game-icon { font-size: 22px; width: 36px; text-align: center; }
         #gamesMenu.gsize-list .add-game-label { font-size: 14px; }
+
+        /* ===== PROJECT-CARD DANS GAMES MENU : taille uniforme avec game-card ===== */
+        #gamesMenu .project-card {
+            height: 180px;
+        }
+        #gamesMenu .project-card .project-card-thumb {
+            height: 110px;
+            flex-shrink: 0;
+        }
+        #gamesMenu .project-card .project-card-body {
+            padding: 8px 10px;
+            flex: 1;
+        }
+        #gamesMenu .project-card .project-card-name {
+            font-size: 13px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #gamesMenu .project-card .project-card-date {
+            font-size: 11px;
+        }
+        #gamesMenu .project-card .project-card-actions {
+            gap: 3px;
+        }
+        /* Ajustements par taille de grille */
+        #gamesMenu.gsize-md .project-card {
+            height: 150px;
+        }
+        #gamesMenu.gsize-md .project-card .project-card-thumb {
+            height: 85px;
+        }
+        #gamesMenu.gsize-sm .project-card {
+            height: 110px;
+        }
+        #gamesMenu.gsize-sm .project-card .project-card-thumb {
+            height: 55px;
+        }
+        #gamesMenu.gsize-sm .project-card .project-card-body {
+            padding: 5px 8px;
+        }
 
         /* Custom game card actions (like project cards) */
         .custom-game-actions {
@@ -2858,25 +2871,6 @@
             text-overflow: ellipsis;
         }
         .custom-game-name-el[title] { cursor: pointer; }
-
-        /* ===== PROJECT CARDS IN GAMES GRID — uniform height ===== */
-        #gamesMenu .project-card {
-            height: 180px; /* même hauteur que .game-card par défaut (gsize-lg) */
-        }
-        #gamesMenu .project-card .project-card-thumb {
-            flex: 1;
-            height: auto;
-            min-height: 0;
-        }
-        #gamesMenu .project-card .project-card-body {
-            flex-shrink: 0;
-        }
-        #gamesMenu.gsize-md .project-card { height: 150px; }
-        #gamesMenu.gsize-sm .project-card { height: 110px; }
-        #gamesMenu.gsize-sm .project-card .project-card-thumb { height: 60px; flex: none; }
-        #gamesMenu.gsize-sm .project-card .project-card-body { padding: 6px 10px; }
-        #gamesMenu.gsize-sm .project-card .project-card-name { font-size: 11px; }
-        #gamesMenu.gsize-sm .project-card .project-card-date { font-size: 10px; }
 
         /* ===== CUSTOM MINIGAMES ===== */
         .custom-game-card {
@@ -10789,8 +10783,7 @@ ${js}
 
         async function removeCustomGame(index) {
             const games = getCustomGames();
-            const name = games[index] ? games[index].name : 'ce mini-jeu';
-            if (!confirm(`Supprimer "${name}" des mini-jeux ?\n\nCette action est irréversible.`)) return;
+            const name = games[index] ? games[index].name : '';
             games.splice(index, 1);
             saveCustomGames(games);
             await syncCustomGamesToCloud();
