@@ -2547,6 +2547,304 @@
             z-index: 1;
         }
 
+        /* ===== FULLSCREEN GAME OVERLAY ===== */
+        .game-fullscreen-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 20000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-fullscreen-overlay.active {
+            display: flex;
+            animation: gameFadeIn 0.25s ease;
+        }
+        @keyframes gameFadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .game-fullscreen-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(26,15,46,0.95), rgba(36,24,56,0.95));
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 20001;
+            gap: 12px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .game-fullscreen-topbar.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .game-fullscreen-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .game-fullscreen-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .game-fs-btn {
+            background: rgba(124,58,237,0.2);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .game-fs-btn:hover {
+            background: rgba(124,58,237,0.4);
+            color: var(--text-primary);
+            border-color: var(--primary-purple);
+        }
+        .game-fs-btn.danger:hover {
+            background: rgba(239,68,68,0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .game-fs-toggle-bar {
+            position: fixed;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20002;
+            background: rgba(124,58,237,0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-default);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        .game-fullscreen-overlay.active .game-fs-toggle-bar {
+            opacity: 0;
+        }
+        .game-fullscreen-topbar.hidden ~ .game-fs-toggle-bar,
+        .game-fs-toggle-bar.visible {
+            opacity: 1;
+        }
+        /* Canvas + iframe in fullscreen */
+        .game-fullscreen-overlay #gameCanvas {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            width: 100vw !important;
+            height: calc(100vh - 52px) !important;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            display: block;
+        }
+        .game-fullscreen-overlay #customGameIframe {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 52px);
+            border: none;
+            border-radius: 0;
+            z-index: 20000;
+        }
+        .game-fullscreen-overlay .game-info {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20003;
+            background: rgba(0,0,0,0.6);
+            color: var(--purple-light);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        /* ===== CUSTOM MINIGAMES ===== */
+        .custom-game-card {
+            position: relative;
+        }
+        .custom-game-thumb {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+            background: var(--bg-elevated);
+        }
+        .custom-game-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(239,68,68,0.85);
+            border: none;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .game-card:hover .custom-game-delete {
+            opacity: 1;
+        }
+        .add-game-card {
+            border: 2px dashed var(--border-default);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .add-game-card:hover {
+            border-color: var(--primary-purple);
+            background: var(--surface-glass);
+            transform: translateY(-4px);
+        }
+        .add-game-icon {
+            font-size: 40px;
+            color: var(--primary-purple);
+        }
+        .add-game-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Modal sélection projet pour mini-jeu */
+        .proj-selector-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 11000;
+        }
+        .proj-selector-modal.active {
+            display: flex;
+        }
+        .proj-selector-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-default);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideInUp 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .proj-selector-header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
+            padding: 20px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .proj-selector-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+        .proj-selector-close {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .proj-selector-close:hover { background: rgba(255,255,255,0.25); transform: rotate(90deg); }
+        .proj-selector-list {
+            overflow-y: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+        .proj-selector-card {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .proj-selector-card:hover {
+            border-color: var(--primary-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(124,58,237,0.25);
+        }
+        .proj-selector-thumb {
+            width: 100%;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: var(--bg-elevated);
+        }
+        .proj-selector-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .game-canvas-container {
             background: #000;
             border-radius: 16px;
@@ -6341,16 +6639,43 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                         <div class="game-title">Devinez le nombre</div>
                         <div class="game-desc">Trouvez le nombre mystère</div>
                     </div>
-                </div>
-                <div id="gameArea" class="game-canvas-container">
-                    <div class="game-info" id="gameInfo">Score: 0</div>
-                    <canvas id="gameCanvas" width="600" height="400"></canvas>
-                    <div class="game-controls">
-                        <button class="game-btn" onclick="restartCurrentGame()">🔄 Recommencer</button>
-                        <button class="game-btn" onclick="backToGamesMenu()">◀ Retour au menu</button>
+                    <!-- Cartes mini-jeux custom dynamiques -->
+                    <div id="customGamesCards"></div>
+                    <!-- Bouton ajouter -->
+                    <div class="game-card add-game-card" onclick="openProjectSelector()" id="addGameBtn">
+                        <div class="add-game-icon">➕</div>
+                        <div class="add-game-label">Ajouter un projet</div>
                     </div>
                 </div>
+                <div id="gameArea" class="game-canvas-container" style="display:none;">
+                    <!-- Les jeux se lancent maintenant en plein écran -->
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Game Overlay -->
+    <div class="game-fullscreen-overlay" id="gameFullscreenOverlay">
+        <div class="game-fullscreen-topbar" id="gameTopbar">
+            <div class="game-fullscreen-title" id="gameFullscreenTitle">🎮 Jeu</div>
+            <div class="game-fullscreen-actions">
+                <button class="game-fs-btn" onclick="restartCurrentGame()" title="Recommencer">🔄 Restart</button>
+                <button class="game-fs-btn danger" onclick="closeFullscreenGame()">✕ Quitter</button>
+            </div>
+        </div>
+        <div class="game-fs-toggle-bar" id="gameToggleBar" onclick="toggleGameTopbar()">▼ Afficher les contrôles</div>
+        <div class="game-info" id="gameInfo">Score: 0</div>
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+    </div>
+
+    <!-- Project Selector Modal for Mini-Games -->
+    <div class="proj-selector-modal" id="projSelectorModal">
+        <div class="proj-selector-box">
+            <div class="proj-selector-header">
+                <div class="proj-selector-title">🎮 Choisir un projet comme mini-jeu</div>
+                <button class="proj-selector-close" onclick="closeProjectSelector()">✕</button>
+            </div>
+            <div class="proj-selector-list" id="projSelectorList"></div>
         </div>
     </div>
 
@@ -7930,6 +8255,11 @@ ${js}
         // Close menu on Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
+                const overlay = document.getElementById('gameFullscreenOverlay');
+                if (overlay && overlay.classList.contains('active')) {
+                    closeFullscreenGame();
+                    return;
+                }
                 closeMenu();
             }
         });
@@ -8883,7 +9213,7 @@ ${js}
                 refreshMenuPill();
 
                 // Sync: charger les projets cloud et fusionner avec local
-                syncProjectsOnLogin(user);
+                syncProjectsOnLogin(user).then(() => loadCustomGamesFromCloud(user));
 
                 // Sync thème, pseudo et tutoriel
                 syncPrefsOnLogin(user).then(() => {
@@ -8926,6 +9256,7 @@ ${js}
                 window._fbFns.signOut(window._fbAuth).then(() => {
                     localStorage.removeItem('scrix_profile');
                     localStorage.removeItem('scrix_projects');
+                    localStorage.removeItem('scrix_custom_games');
                     loadProjectsList();
                     showNotification('Déconnecté', 'success');
                 });
@@ -10035,32 +10366,271 @@ ${js}
 
         function openMiniGames() {
             document.getElementById('miniGamesModal').classList.add('active');
-            backToGamesMenu();
+            document.getElementById('gamesMenu').style.display = 'grid';
+            renderCustomGameCards();
         }
 
         function closeMiniGames() {
             document.getElementById('miniGamesModal').classList.remove('active');
-            if (gameInterval) {
-                clearInterval(gameInterval);
-                gameInterval = null;
-            }
+            // Fermer aussi le plein écran si actif
+            const overlay = document.getElementById('gameFullscreenOverlay');
+            if (overlay) overlay.classList.remove('active');
+            if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
             currentGame = null;
         }
 
         function backToGamesMenu() {
+            // Fermer l'overlay plein écran si ouvert
+            const overlay = document.getElementById('gameFullscreenOverlay');
+            if (overlay) overlay.classList.remove('active');
+            // Réouvrir le modal mini-jeux
+            document.getElementById('miniGamesModal').classList.add('active');
             document.getElementById('gamesMenu').style.display = 'grid';
-            document.getElementById('gameArea').classList.remove('active');
-            if (gameInterval) {
-                clearInterval(gameInterval);
-                gameInterval = null;
-            }
+            if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
             currentGame = null;
+            renderCustomGameCards();
+            // Restore canvas if custom game iframe was shown
+            const iframe = document.getElementById('customGameIframe');
+            const canvas = document.getElementById('gameCanvas');
+            if (iframe) { iframe.style.display = 'none'; if (iframe.src) { URL.revokeObjectURL(iframe.src); iframe.src = ''; } }
+            if (canvas) canvas.style.display = 'block';
+        }
+
+        // ========== CUSTOM MINI-JEUX ==========
+
+        function getCustomGames() {
+            return JSON.parse(localStorage.getItem('scrix_custom_games') || '[]');
+        }
+
+        function saveCustomGames(games) {
+            localStorage.setItem('scrix_custom_games', JSON.stringify(games));
+        }
+
+        async function syncCustomGamesToCloud() {
+            if (!window._fbUser || !window._fbDb || !window._fbFns) return;
+            const { doc, setDoc } = window._fbFns;
+            try {
+                const games = getCustomGames();
+                // On sauvegarde juste les références (name + timestamp) sans le code pour la perf
+                const refs = games.map(g => ({ name: g.name, timestamp: g.timestamp, icon: g.icon || '🎮', thumbnail: g.thumbnail || null }));
+                await setDoc(doc(window._fbDb, 'users', window._fbUser.uid, 'prefs', 'customGames'), { games: refs });
+            } catch(e) { console.error('Custom games sync error:', e); }
+        }
+
+        async function loadCustomGamesFromCloud(user) {
+            if (!window._fbDb || !window._fbFns) return;
+            const { doc, getDoc } = window._fbFns;
+            try {
+                const snap = await getDoc(doc(window._fbDb, 'users', user.uid, 'prefs', 'customGames'));
+                if (!snap.exists()) return;
+                const cloudRefs = snap.data().games || [];
+                // On recompose à partir des projets locaux (qui ont déjà été synchronisés)
+                const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
+                const merged = cloudRefs.map(ref => {
+                    const proj = projects.find(p => p.name === ref.name && Math.abs((p.timestamp || 0) - (ref.timestamp || 0)) < 5000);
+                    if (proj) return { name: proj.name, timestamp: proj.timestamp, icon: ref.icon || '🎮', thumbnail: proj.thumbnail || ref.thumbnail || null, html: proj.html || '', css: proj.css || '', js: proj.js || '' };
+                    return null;
+                }).filter(Boolean);
+                if (merged.length > 0) {
+                    saveCustomGames(merged);
+                    renderCustomGameCards();
+                }
+            } catch(e) { console.error('Custom games load error:', e); }
+        }
+
+        function renderCustomGameCards() {
+            const container = document.getElementById('customGamesCards');
+            if (!container) return;
+            const games = getCustomGames();
+            if (games.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.style.display = 'contents';
+            container.innerHTML = games.map((game, i) => {
+                const safeName = String(game.name || 'Projet').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+                const isValidThumb = game.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(game.thumbnail);
+                const thumbHtml = isValidThumb
+                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview"/>`
+                    : `<div style="font-size:36px;margin-bottom:10px;">${game.icon || '🎮'}</div>`;
+                return `
+                <div class="game-card custom-game-card" onclick="launchCustomGame(${i})">
+                    <button class="custom-game-delete" onclick="event.stopPropagation(); removeCustomGame(${i})" title="Supprimer">✕</button>
+                    ${thumbHtml}
+                    <div class="game-title" style="font-size:15px;">${safeName}</div>
+                    <div class="game-desc">Ton projet</div>
+                </div>`;
+            }).join('');
+        }
+
+        function openProjectSelector() {
+            if (!window._fbUser) {
+                showNotification('🔒 Connecte-toi pour ajouter tes projets', 'error');
+                setTimeout(() => openLoginModal(), 800);
+                return;
+            }
+            const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
+            const list = document.getElementById('projSelectorList');
+            if (projects.length === 0) {
+                list.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:40px 20px;">
+                    <div style="font-size:40px;margin-bottom:12px;">📂</div>
+                    <div>Aucun projet sauvegardé</div>
+                </div>`;
+            } else {
+                list.innerHTML = projects.map((p, i) => {
+                    const safeName = String(p.name || 'Sans titre').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    const isValidThumb = p.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(p.thumbnail);
+                    const thumbHtml = isValidThumb
+                        ? `<img class="proj-selector-thumb" src="${p.thumbnail}" alt="preview"/>`
+                        : `<div style="font-size:28px;height:70px;display:flex;align-items:center;justify-content:center;background:var(--bg-elevated);border-radius:8px;margin-bottom:8px;">🎮</div>`;
+                    return `<div class="proj-selector-card" onclick="addCustomGame(${i})">
+                        ${thumbHtml}
+                        <div class="proj-selector-name">${safeName}</div>
+                    </div>`;
+                }).join('');
+            }
+            document.getElementById('projSelectorModal').classList.add('active');
+        }
+
+        function closeProjectSelector() {
+            document.getElementById('projSelectorModal').classList.remove('active');
+        }
+
+        async function addCustomGame(projIndex) {
+            const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
+            const proj = projects[projIndex];
+            if (!proj) return;
+
+            const games = getCustomGames();
+            // Vérifier doublon
+            if (games.some(g => g.name === proj.name && Math.abs((g.timestamp || 0) - (proj.timestamp || 0)) < 5000)) {
+                showNotification('Ce projet est déjà dans les mini-jeux !', 'error');
+                closeProjectSelector();
+                return;
+            }
+
+            games.push({
+                name: proj.name,
+                timestamp: proj.timestamp,
+                icon: '🎮',
+                thumbnail: proj.thumbnail || null,
+                html: proj.html || '',
+                css: proj.css || '',
+                js: proj.js || ''
+            });
+            saveCustomGames(games);
+            await syncCustomGamesToCloud();
+            closeProjectSelector();
+            renderCustomGameCards();
+            showNotification(`"${proj.name}" ajouté aux mini-jeux 🎮`, 'success');
+        }
+
+        async function removeCustomGame(index) {
+            const games = getCustomGames();
+            const name = games[index] ? games[index].name : '';
+            games.splice(index, 1);
+            saveCustomGames(games);
+            await syncCustomGamesToCloud();
+            renderCustomGameCards();
+            if (name) showNotification(`"${name}" retiré des mini-jeux`, 'success');
+        }
+
+        function launchCustomGame(index) {
+            const games = getCustomGames();
+            const game = games[index];
+            if (!game) return;
+
+            currentGame = 'custom_' + index;
+
+            // Ouvrir le fullscreen
+            document.getElementById('miniGamesModal').classList.remove('active');
+            const overlay = document.getElementById('gameFullscreenOverlay');
+            overlay.classList.add('active');
+            document.getElementById('gameTopbar').classList.remove('hidden');
+            document.getElementById('gameToggleBar').classList.remove('visible');
+
+            // Titre
+            document.getElementById('gameFullscreenTitle').textContent = '🎮 ' + game.name;
+            document.getElementById('gameInfo').textContent = game.name;
+
+            // Cacher le canvas, afficher l'iframe
+            const canvas = document.getElementById('gameCanvas');
+            if (canvas) canvas.style.display = 'none';
+
+            let iframe = document.getElementById('customGameIframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'customGameIframe';
+                iframe.style.cssText = 'position:fixed;top:52px;left:0;width:100vw;height:calc(100vh - 52px);border:none;z-index:20000;';
+                overlay.appendChild(iframe);
+            } else {
+                iframe.style.display = 'block';
+            }
+
+            const htmlContent = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{margin:0;padding:0;box-sizing:border-box;}body{overflow:auto;}${game.css || ''}</style></head><body>${game.html || ''}<script>${game.js || ''}<\/script></body></html>`;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            iframe._blobUrl = url;
+            iframe.src = url;
+        }
+
+
+        function resizeGameCanvas() {
+            const canvas = document.getElementById('gameCanvas');
+            if (!canvas) return;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight - 52;
         }
 
         function startGame(gameName) {
-            document.getElementById('gamesMenu').style.display = 'none';
-            document.getElementById('gameArea').classList.add('active');
+            // Fermer le modal mini-jeux
+            document.getElementById('miniGamesModal').classList.remove('active');
+            // Ouvrir l'overlay plein écran
+            const overlay = document.getElementById('gameFullscreenOverlay');
+            overlay.classList.add('active');
             currentGame = gameName;
+            // Titre
+            const titles = { snake: '🐍 Snake', memory: '🧠 Memory', pong: '🏓 Pong', breakout: '🧱 Breakout', guess: '🎯 Devinez le nombre' };
+            document.getElementById('gameFullscreenTitle').textContent = titles[gameName] || '🎮 Jeu';
+            // Réinitialiser la topbar
+            document.getElementById('gameTopbar').classList.remove('hidden');
+            document.getElementById('gameToggleBar').classList.remove('visible');
+            // Resize canvas plein écran
+            resizeGameCanvas();
+            // Assurer que canvas est visible, iframe cachée
+            const canvas = document.getElementById('gameCanvas');
+            if (canvas) canvas.style.display = 'block';
+            const iframe = document.getElementById('customGameIframe');
+            if (iframe) { iframe.style.display = 'none'; }
+        }
+
+        function closeFullscreenGame() {
+            const overlay = document.getElementById('gameFullscreenOverlay');
+            overlay.classList.remove('active');
+            if (gameInterval) { clearInterval(gameInterval); gameInterval = null; }
+            currentGame = null;
+            // Nettoyage iframe custom
+            const iframe = document.getElementById('customGameIframe');
+            if (iframe) {
+                if (iframe._blobUrl) { URL.revokeObjectURL(iframe._blobUrl); iframe._blobUrl = null; }
+                iframe.src = '';
+                iframe.style.display = 'none';
+            }
+            // Remettre le canvas
+            const canvas = document.getElementById('gameCanvas');
+            if (canvas) canvas.style.display = 'block';
+            // Réouvrir le menu mini-jeux
+            document.getElementById('miniGamesModal').classList.add('active');
+            document.getElementById('gamesMenu').style.display = 'grid';
+            renderCustomGameCards();
+        }
+
+        function toggleGameTopbar() {
+            const bar = document.getElementById('gameTopbar');
+            const toggle = document.getElementById('gameToggleBar');
+            bar.classList.toggle('hidden');
+            toggle.classList.toggle('visible');
+            toggle.textContent = bar.classList.contains('hidden') ? '▼ Afficher les contrôles' : '▲ Masquer les contrôles';
         }
 
         function restartCurrentGame() {
@@ -10069,6 +10639,10 @@ ${js}
             else if (currentGame === 'pong') startPongGame();
             else if (currentGame === 'breakout') startBreakoutGame();
             else if (currentGame === 'guess') startGuessNumberGame();
+            else if (currentGame && currentGame.startsWith('custom_')) {
+                const idx = parseInt(currentGame.split('_')[1]);
+                launchCustomGame(idx);
+            }
         }
 
         // ========== SNAKE GAME ==========
@@ -10076,11 +10650,12 @@ ${js}
             startGame('snake');
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
-            const gridSize = 20;
-            const tileCount = canvas.width / gridSize;
+            const gridSize = Math.floor(Math.min(canvas.width, canvas.height) / 30);
+            const tilesX = Math.floor(canvas.width / gridSize);
+            const tilesY = Math.floor(canvas.height / gridSize);
 
-            let snake = [{x: 10, y: 10}];
-            let food = {x: 15, y: 15};
+            let snake = [{x: Math.floor(tilesX/2), y: Math.floor(tilesY/2)}];
+            let food = {x: Math.floor(tilesX * 0.7), y: Math.floor(tilesY * 0.7)};
             let dx = 1, dy = 0;
             let score = 0;
             let gameOver = false;
@@ -10110,7 +10685,7 @@ ${js}
                 const head = {x: snake[0].x + dx, y: snake[0].y + dy};
                 
                 // Check collisions
-                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount ||
+                if (head.x < 0 || head.x >= tilesX || head.y < 0 || head.y >= tilesY ||
                     snake.some(segment => segment.x === head.x && segment.y === head.y)) {
                     gameOver = true;
                     document.getElementById('gameInfo').textContent = `Game Over! Score: ${score}`;
@@ -10125,8 +10700,8 @@ ${js}
                 if (head.x === food.x && head.y === food.y) {
                     score += 10;
                     food = {
-                        x: Math.floor(Math.random() * tileCount),
-                        y: Math.floor(Math.random() * tileCount)
+                        x: Math.floor(Math.random() * tilesX),
+                        y: Math.floor(Math.random() * tilesY)
                     };
                 } else {
                     snake.pop();
@@ -10163,7 +10738,6 @@ ${js}
             
             const symbols = ['🌸', '🎮', '⭐', '🎨', '🚀', '💎', '🔥', '🌈'];
             
-            // Fisher-Yates shuffle pour un vrai mélange aléatoire
             let cards = [...symbols, ...symbols];
             for (let i = cards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -10174,24 +10748,23 @@ ${js}
             let matched = [];
             let score = 0;
             let isAnimating = false;
-            const cardWidth = 65;
-            const cardHeight = 75;
-            const padding = 12;
             const totalCards = 16;
-            const topMargin = 30; // Marge supérieure
-            const bottomMargin = 20; // Marge inférieure
+
+            // Calculer la taille des cartes pour remplir l'écran
+            const cols = 4, rows = 4;
+            const paddingH = Math.floor(canvas.width * 0.02);
+            const paddingV = Math.floor(canvas.height * 0.02);
+            const marginH = Math.floor(canvas.width * 0.05);
+            const marginV = Math.floor(canvas.height * 0.06);
+            const cardWidth = Math.floor((canvas.width - marginH * 2 - paddingH * (cols - 1)) / cols);
+            const cardHeight = Math.floor((canvas.height - marginV * 2 - paddingV * (rows - 1)) / rows);
+            const padding = Math.max(paddingH, paddingV);
+            const startX = marginH;
+            const startY = marginV;
             
-            // Calculer pour centrer les cartes horizontalement et verticalement avec marges
-            const gridWidth = (cardWidth * 4) + (padding * 3);
-            const gridHeight = (cardHeight * 4) + (padding * 3);
-            const startX = (canvas.width - gridWidth) / 2;
-            const startY = topMargin;
+            let cardStates = {};
+            let matchAnimations = {};
             
-            // Animation states
-            let cardStates = {}; // {index: {rotation: 0-180, isFlipping: bool}}
-            let matchAnimations = {}; // {index: {rotation: 0-720, scale: 1}}
-            
-            // Initialize all cards as back (rotation = 0)
             for (let i = 0; i < totalCards; i++) {
                 cardStates[i] = {rotation: 0, isFlipping: false};
             }
@@ -10203,15 +10776,14 @@ ${js}
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 
-                const col = Math.floor((x - startX) / (cardWidth + padding));
-                const row = Math.floor((y - startY) / (cardHeight + padding));
+                const col = Math.floor((x - startX) / (cardWidth + paddingH));
+                const row = Math.floor((y - startY) / (cardHeight + paddingV));
                 const index = row * 4 + col;
                 
                 if (index >= 0 && index < totalCards && col >= 0 && col < 4 && row >= 0 && row < 4 && 
                     !flipped.includes(index) && !matched.includes(index) &&
                     !cardStates[index].isFlipping) {
                     
-                    // Start flip animation to front
                     flipped.push(index);
                     cardStates[index].isFlipping = true;
                     flipToFront(index);
@@ -10220,7 +10792,6 @@ ${js}
                         isAnimating = true;
                         setTimeout(() => {
                             if (cards[flipped[0]] === cards[flipped[1]]) {
-                                // Match found! Spin animation
                                 matchAnimations[flipped[0]] = {rotation: 0, scale: 1};
                                 matchAnimations[flipped[1]] = {rotation: 0, scale: 1};
                                 matched.push(...flipped);
@@ -10237,15 +10808,10 @@ ${js}
                                     }
                                 }, 1000);
                             } else {
-                                // No match - flip back
                                 setTimeout(() => {
                                     flipToBack(flipped[0]);
                                     flipToBack(flipped[1]);
-                                    
-                                    setTimeout(() => {
-                                        flipped = [];
-                                        isAnimating = false;
-                                    }, 500);
+                                    setTimeout(() => { flipped = []; isAnimating = false; }, 500);
                                 }, 500);
                             }
                         }, 700);
@@ -10257,12 +10823,8 @@ ${js}
                 const animate = () => {
                     if (cardStates[index].rotation < 180) {
                         cardStates[index].rotation += 18;
-                        if (cardStates[index].rotation >= 180) {
-                            cardStates[index].rotation = 180;
-                            cardStates[index].isFlipping = false;
-                        } else {
-                            requestAnimationFrame(animate);
-                        }
+                        if (cardStates[index].rotation >= 180) { cardStates[index].rotation = 180; cardStates[index].isFlipping = false; }
+                        else requestAnimationFrame(animate);
                     }
                 };
                 animate();
@@ -10273,12 +10835,8 @@ ${js}
                 const animate = () => {
                     if (cardStates[index].rotation > 0) {
                         cardStates[index].rotation -= 18;
-                        if (cardStates[index].rotation <= 0) {
-                            cardStates[index].rotation = 0;
-                            cardStates[index].isFlipping = false;
-                        } else {
-                            requestAnimationFrame(animate);
-                        }
+                        if (cardStates[index].rotation <= 0) { cardStates[index].rotation = 0; cardStates[index].isFlipping = false; }
+                        else requestAnimationFrame(animate);
                     }
                 };
                 animate();
@@ -10286,25 +10844,16 @@ ${js}
 
             function animate() {
                 if (currentGame !== 'memory') return;
-                
-                // Update match animations (fast spin)
                 for (let index in matchAnimations) {
                     const anim = matchAnimations[index];
-                    if (anim.rotation < 720) {
-                        anim.rotation += 36; // Fast rotation (2 full spins)
-                        anim.scale = 1 + Math.sin(anim.rotation * Math.PI / 180) * 0.2;
-                    } else {
-                        anim.rotation = 720;
-                        anim.scale = 1;
-                    }
+                    if (anim.rotation < 720) { anim.rotation += 36; anim.scale = 1 + Math.sin(anim.rotation * Math.PI / 180) * 0.2; }
+                    else { anim.rotation = 720; anim.scale = 1; }
                 }
-                
                 draw();
                 requestAnimationFrame(animate);
             }
 
             function draw() {
-                // Background
                 const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
                 gradient.addColorStop(0, '#1a0f2e');
                 gradient.addColorStop(1, '#2d1f4a');
@@ -10314,28 +10863,23 @@ ${js}
                 for (let i = 0; i < totalCards; i++) {
                     const col = i % 4;
                     const row = Math.floor(i / 4);
-                    const x = col * (cardWidth + padding) + startX;
-                    const y = row * (cardHeight + padding) + startY;
+                    const x = col * (cardWidth + paddingH) + startX;
+                    const y = row * (cardHeight + paddingV) + startY;
                     
                     ctx.save();
-                    
                     const centerX = x + cardWidth / 2;
                     const centerY = y + cardHeight / 2;
                     
-                    // Apply match animation if exists
                     if (matchAnimations[i]) {
                         const anim = matchAnimations[i];
                         ctx.translate(centerX, centerY);
                         ctx.rotate(anim.rotation * Math.PI / 180);
                         ctx.scale(anim.scale, anim.scale);
                         ctx.translate(-centerX, -centerY);
-                        
-                        // Glow effect
                         ctx.shadowBlur = 30;
                         ctx.shadowColor = '#10b981';
                     }
                     
-                    // Calculate scale for flip effect
                     const rotation = cardStates[i].rotation;
                     const scaleX = Math.abs(Math.cos(rotation * Math.PI / 180));
                     const showFront = rotation > 90;
@@ -10344,48 +10888,33 @@ ${js}
                     ctx.scale(scaleX, 1);
                     ctx.translate(-centerX, 0);
                     
-                    // Card color based on state
-                    if (matched.includes(i)) {
-                        ctx.fillStyle = '#10b981';
-                        ctx.strokeStyle = '#34d399';
-                        ctx.lineWidth = 3;
-                    } else if (showFront) {
-                        ctx.fillStyle = '#7c3aed';
-                        ctx.strokeStyle = '#a78bfa';
-                        ctx.lineWidth = 2.5;
-                    } else {
-                        ctx.fillStyle = '#2d1f4a';
-                        ctx.strokeStyle = '#6b7280';
-                        ctx.lineWidth = 2;
-                    }
+                    if (matched.includes(i)) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; ctx.lineWidth = 3; }
+                    else if (showFront) { ctx.fillStyle = '#7c3aed'; ctx.strokeStyle = '#a78bfa'; ctx.lineWidth = 2.5; }
+                    else { ctx.fillStyle = '#2d1f4a'; ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 2; }
                     
-                    // Draw rounded rectangle
-                    roundRect(ctx, x, y, cardWidth, cardHeight, 10);
+                    roundRect(ctx, x, y, cardWidth, cardHeight, 12);
                     ctx.fill();
                     ctx.stroke();
                     
-                    // Draw content
                     if (scaleX > 0.05) {
+                        const fontSize = Math.floor(cardHeight * 0.5);
                         if ((showFront && !matched.includes(i)) || matched.includes(i)) {
-                            // Show symbol
-                            ctx.font = '45px Arial';
+                            ctx.font = `${fontSize}px Arial`;
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'middle';
                             ctx.fillStyle = 'white';
+                            ctx.shadowBlur = 0;
                             ctx.fillText(cards[i], x + cardWidth/2, y + cardHeight/2);
                         } else if (!showFront) {
-                            // Show card back
-                            ctx.font = '30px Arial';
+                            ctx.font = `bold ${Math.floor(fontSize * 0.8)}px Arial`;
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'middle';
                             ctx.fillStyle = '#7c3aed';
                             ctx.fillText('?', x + cardWidth/2, y + cardHeight/2);
                         }
                     }
-                    
                     ctx.restore();
                 }
-                
                 document.getElementById('gameInfo').textContent = `Score: ${score} | Paires: ${matched.length/2}/8`;
             }
             
@@ -10472,20 +11001,20 @@ ${js}
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
             
-            const paddle = {x: canvas.width/2 - 50, y: canvas.height - 30, width: 100, height: 10, speed: 8};
-            const ball = {x: canvas.width/2, y: canvas.height - 50, dx: 5, dy: -5, radius: 8};
+            const paddle = {x: canvas.width/2 - 60, y: canvas.height - 30, width: 120, height: 14, speed: 8};
+            const ball = {x: canvas.width/2, y: canvas.height - 60, dx: 5, dy: -5, radius: 8};
             let score = 0;
             let gameOver = false;
             let gameWon = false;
 
-            // Create bricks
+            // Create bricks — adapt to canvas width
             const brickRowCount = 5;
-            const brickColumnCount = 8;
-            const brickWidth = 70;
-            const brickHeight = 20;
-            const brickPadding = 5;
-            const brickOffsetTop = 40;
+            const brickColumnCount = Math.floor((canvas.width - 20) / 80) || 10;
+            const brickPadding = 6;
+            const brickOffsetTop = 52;
             const brickOffsetLeft = 10;
+            const brickWidth = Math.floor((canvas.width - brickOffsetLeft * 2 - brickPadding * (brickColumnCount - 1)) / brickColumnCount);
+            const brickHeight = 22;
             let bricks = [];
 
             for (let c = 0; c < brickColumnCount; c++) {
@@ -10523,7 +11052,6 @@ ${js}
                     ball.x > paddle.x && ball.x < paddle.x + paddle.width &&
                     ball.dy > 0) {
                     ball.dy *= -1;
-                    // Add spin based on where ball hits paddle
                     const hitPos = (ball.x - paddle.x) / paddle.width;
                     ball.dx = (hitPos - 0.5) * 10;
                 }
@@ -10540,8 +11068,8 @@ ${js}
                     for (let r = 0; r < brickRowCount; r++) {
                         const b = bricks[c][r];
                         if (b.status === 1) {
-                            const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-                            const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+                            const brickX = brickOffsetLeft + c * (brickWidth + brickPadding);
+                            const brickY = brickOffsetTop + r * (brickHeight + brickPadding);
                             
                             if (ball.x + ball.radius > brickX && 
                                 ball.x - ball.radius < brickX + brickWidth &&
@@ -10551,7 +11079,6 @@ ${js}
                                 b.status = 0;
                                 score += 10;
                                 
-                                // Check win
                                 if (score === brickRowCount * brickColumnCount * 10) {
                                     gameWon = true;
                                     document.getElementById('gameInfo').textContent = `Victoire! Score: ${score} 🎉`;
@@ -10562,17 +11089,15 @@ ${js}
                 }
 
                 // Draw
-                ctx.fillStyle = '#000';
+                ctx.fillStyle = '#0a0010';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 // Draw bricks
                 for (let c = 0; c < brickColumnCount; c++) {
                     for (let r = 0; r < brickRowCount; r++) {
                         if (bricks[c][r].status === 1) {
-                            const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-                            const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-                            
-                            // Color gradient based on row
+                            const brickX = brickOffsetLeft + c * (brickWidth + brickPadding);
+                            const brickY = brickOffsetTop + r * (brickHeight + brickPadding);
                             const colors = ['#7c3aed', '#a78bfa', '#ec4899', '#f59e0b', '#10b981'];
                             ctx.fillStyle = colors[r];
                             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
@@ -10582,7 +11107,9 @@ ${js}
                 
                 // Draw paddle
                 ctx.fillStyle = '#7c3aed';
-                ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+                ctx.beginPath();
+                ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 6);
+                ctx.fill();
                 
                 // Draw ball
                 ctx.fillStyle = '#ec4899';
@@ -10607,8 +11134,10 @@ ${js}
             let gameWon = false;
             let inputActive = true;
 
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
             function drawGame() {
-                // Background gradient
                 const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
                 gradient.addColorStop(0, '#1a0f2e');
                 gradient.addColorStop(1, '#2d1f4a');
@@ -10616,98 +11145,86 @@ ${js}
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 // Title
-                ctx.fillStyle = '#7c3aed';
-                ctx.font = 'bold 42px Arial';
+                ctx.fillStyle = '#a78bfa';
+                ctx.font = `bold ${Math.floor(canvas.height * 0.07)}px Arial`;
                 ctx.textAlign = 'center';
-                ctx.fillText('🎯 Devinez le nombre', canvas.width/2, 70);
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🎯 Devinez le nombre', cx, cy - canvas.height * 0.28);
                 
                 // Instructions
-                ctx.fillStyle = '#a78bfa';
-                ctx.font = '16px Arial';
-                ctx.fillText('Utilisez votre clavier pour taper un nombre', canvas.width/2, 110);
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = `${Math.floor(canvas.height * 0.032)}px Arial`;
+                ctx.fillText('Utilisez votre clavier pour taper un nombre', cx, cy - canvas.height * 0.18);
                 
                 // Input box
+                const boxW = Math.min(400, canvas.width * 0.45);
+                const boxH = Math.floor(canvas.height * 0.1);
+                const boxX = cx - boxW / 2;
+                const boxY = cy - canvas.height * 0.13;
                 ctx.fillStyle = '#241838';
-                ctx.fillRect(canvas.width/2 - 150, 140, 300, 60);
+                ctx.beginPath();
+                ctx.roundRect(boxX, boxY, boxW, boxH, 12);
+                ctx.fill();
                 ctx.strokeStyle = inputActive ? '#7c3aed' : '#4a5568';
                 ctx.lineWidth = 3;
-                ctx.strokeRect(canvas.width/2 - 150, 140, 300, 60);
+                ctx.stroke();
                 
                 // Input text
                 ctx.fillStyle = '#f3f4f6';
-                ctx.font = 'bold 36px Arial';
-                ctx.fillText(currentInput || '_', canvas.width/2, 180);
+                ctx.font = `bold ${Math.floor(boxH * 0.6)}px Arial`;
+                ctx.textBaseline = 'middle';
+                ctx.fillText(currentInput || '—', cx, boxY + boxH / 2);
                 
                 // Message
                 ctx.fillStyle = gameWon ? '#10b981' : '#ec4899';
-                ctx.font = 'bold 28px Arial';
-                ctx.fillText(message, canvas.width/2, 260);
+                ctx.font = `bold ${Math.floor(canvas.height * 0.05)}px Arial`;
+                ctx.textBaseline = 'middle';
+                ctx.fillText(message, cx, cy + canvas.height * 0.06);
                 
                 // Attempts counter
                 ctx.fillStyle = '#d1d5db';
-                ctx.font = '22px Arial';
-                ctx.fillText(`Tentatives: ${attempts}`, canvas.width/2, 310);
+                ctx.font = `${Math.floor(canvas.height * 0.038)}px Arial`;
+                ctx.fillText(`Tentatives: ${attempts}`, cx, cy + canvas.height * 0.16);
                 
-                // Instructions at bottom
                 if (!gameWon) {
-                    ctx.fillStyle = '#9ca3af';
-                    ctx.font = '14px Arial';
-                    ctx.fillText('Tapez un nombre puis appuyez sur ENTRÉE', canvas.width/2, 360);
+                    ctx.fillStyle = '#6b7280';
+                    ctx.font = `${Math.floor(canvas.height * 0.026)}px Arial`;
+                    ctx.fillText('Tapez un nombre puis appuyez sur ENTRÉE', cx, cy + canvas.height * 0.26);
                 } else {
                     ctx.fillStyle = '#10b981';
-                    ctx.font = 'bold 32px Arial';
-                    ctx.fillText('🎉 BRAVO! 🎉', canvas.width/2, 360);
+                    ctx.font = `bold ${Math.floor(canvas.height * 0.06)}px Arial`;
+                    ctx.fillText('🎉 BRAVO! 🎉', cx, cy + canvas.height * 0.26);
                 }
             }
 
             function handleKeyPress(e) {
                 if (currentGame !== 'guess' || gameWon) return;
-                
-                // Numbers
                 if (e.key >= '0' && e.key <= '9') {
-                    if (currentInput.length < 3) {
-                        currentInput += e.key;
-                        drawGame();
-                    }
-                }
-                // Backspace
-                else if (e.key === 'Backspace') {
-                    currentInput = currentInput.slice(0, -1);
-                    drawGame();
-                }
-                // Enter - Submit guess
-                else if (e.key === 'Enter' && currentInput !== '') {
+                    if (currentInput.length < 3) { currentInput += e.key; drawGame(); }
+                } else if (e.key === 'Backspace') {
+                    currentInput = currentInput.slice(0, -1); drawGame();
+                } else if (e.key === 'Enter' && currentInput !== '') {
                     const guessNum = parseInt(currentInput);
-                    
                     if (isNaN(guessNum) || guessNum < 1 || guessNum > 100) {
-                        message = '❌ Entre 1 et 100 seulement!';
-                        currentInput = '';
-                        drawGame();
-                        return;
+                        message = '❌ Entre 1 et 100 seulement!'; currentInput = ''; drawGame(); return;
                     }
-                    
                     attempts++;
-                    
                     if (guessNum === targetNumber) {
                         message = `✨ Trouvé en ${attempts} tentative${attempts > 1 ? 's' : ''}! ✨`;
-                        gameWon = true;
-                        inputActive = false;
+                        gameWon = true; inputActive = false;
                         document.getElementById('gameInfo').textContent = `🎉 Victoire en ${attempts} tentatives!`;
                     } else if (guessNum < targetNumber) {
                         message = '⬆️ C\'est plus haut!';
                     } else {
                         message = '⬇️ C\'est plus bas!';
                     }
-                    
-                    currentInput = '';
-                    drawGame();
+                    currentInput = ''; drawGame();
                     document.getElementById('gameInfo').textContent = `Tentatives: ${attempts}`;
                 }
             }
 
             document.addEventListener('keydown', handleKeyPress);
             
-            // Cleanup when changing game
             const originalBackToMenu = window.backToGamesMenu;
             window.backToGamesMenu = function() {
                 document.removeEventListener('keydown', handleKeyPress);
