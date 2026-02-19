@@ -4007,7 +4007,6 @@
         #projectsList.size-sm .project-card-date { font-size: 10px; }
         #projectsList.size-sm .project-card-body { padding: 8px 10px; }
         #projectsList.size-sm .project-card-actions { gap: 3px; }
-        #projectsList.size-sm .project-card-btn { padding: 4px 8px; }
 
         #projectsList.size-list {
             grid-template-columns: 1fr;
@@ -4136,21 +4135,6 @@
             opacity: 1;
         }
 
-        .project-card-body {
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            flex: 1;
-            background: var(--bg-tertiary);
-        }
-
-        .project-card-info {
-            flex: 1;
-            min-width: 0;
-        }
-
         .project-card-name {
             font-weight: 700;
             font-size: 14px;
@@ -4158,47 +4142,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 3px;
         }
 
         .project-card-date {
             font-size: 11px;
             color: var(--text-tertiary);
-        }
-
-        .project-card-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .project-card-btn {
-            background: transparent;
-            border: 1px solid var(--border-default);
-            color: var(--text-tertiary);
-            padding: 6px 12px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: var(--font-sans);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .project-card-btn:hover {
-            background: var(--surface-glass);
-            border-color: var(--primary-purple);
-            color: var(--primary-purple);
-            transform: translateY(-1px);
-        }
-
-        .project-card-btn.danger:hover {
-            background: rgba(239, 68, 68, 0.15);
-            border-color: rgba(239, 68, 68, 0.6);
-            color: #ef4444;
         }
 
         .delete-project-btn:hover svg {
