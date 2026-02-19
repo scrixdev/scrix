@@ -2484,10 +2484,13 @@
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-bottom: 32px;
         }
+
+        /* Force all cards in the grid to the same height */
+        #gamesMenu { align-items: stretch; }
 
         .game-card {
             background: var(--bg-tertiary);
@@ -2499,6 +2502,11 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .game-card::before {
@@ -2692,6 +2700,120 @@
             pointer-events: none;
         }
 
+        /* ===== GAMES GRID SIZES ===== */
+        #gamesMenu.gsize-lg {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        #gamesMenu.gsize-md {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+        #gamesMenu.gsize-md .game-card { height: 150px; }
+        #gamesMenu.gsize-md .game-icon { font-size: 40px; margin-bottom: 10px; }
+        #gamesMenu.gsize-md .game-title { font-size: 15px; }
+        #gamesMenu.gsize-md .game-desc { font-size: 11px; }
+        #gamesMenu.gsize-md .game-card { padding: 18px 14px; }
+        #gamesMenu.gsize-sm {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        #gamesMenu.gsize-sm .game-card { height: 110px; }
+        #gamesMenu.gsize-sm .game-icon { font-size: 28px; margin-bottom: 6px; }
+        #gamesMenu.gsize-sm .game-title { font-size: 12px; margin-bottom: 2px; }
+        #gamesMenu.gsize-sm .game-desc { display: none; }
+        #gamesMenu.gsize-sm .game-card { padding: 14px 10px; }
+        #gamesMenu.gsize-sm .custom-game-thumb { height: 50px; }
+        #gamesMenu.gsize-list {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        #gamesMenu.gsize-list .game-card {
+            flex-direction: row;
+            height: 56px;
+            padding: 0 16px;
+            border-radius: 10px;
+            gap: 14px;
+            justify-content: flex-start;
+            text-align: left;
+        }
+        #gamesMenu.gsize-list .game-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+        }
+        #gamesMenu.gsize-list .game-title {
+            font-size: 14px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        #gamesMenu.gsize-list .game-desc {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 8px;
+            flex: 1;
+        }
+        #gamesMenu.gsize-list .custom-game-thumb {
+            width: 44px;
+            height: 36px;
+            margin-bottom: 0;
+            border-radius: 6px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        #gamesMenu.gsize-list .custom-game-name-el {
+            font-size: 14px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        #gamesMenu.gsize-list .custom-game-actions {
+            margin-top: 0;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        #gamesMenu.gsize-list .add-game-card {
+            justify-content: flex-start;
+        }
+        #gamesMenu.gsize-list .add-game-icon { font-size: 22px; width: 36px; text-align: center; }
+        #gamesMenu.gsize-list .add-game-label { font-size: 14px; }
+
+        /* Custom game card actions (like project cards) */
+        .custom-game-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            justify-content: flex-end;
+        }
+        .custom-game-btn {
+            background: rgba(124,58,237,0.15);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-tertiary);
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .custom-game-btn:hover { background: rgba(124,58,237,0.3); color: var(--text-primary); border-color: var(--primary-purple); }
+        .custom-game-btn.danger:hover { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #ef4444; }
+        .custom-game-name-el {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: default;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .custom-game-name-el[title] { cursor: pointer; }
+
         /* ===== CUSTOM MINIGAMES ===== */
         .custom-game-card {
             position: relative;
@@ -2730,14 +2852,6 @@
         .add-game-card {
             border: 2px dashed var(--border-default);
             background: transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
         }
         .add-game-card:hover {
             border-color: var(--primary-purple);
@@ -6610,6 +6724,20 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         <div class="minigames-container">
             <div class="minigames-header">
                 <div class="minigames-title">🎮 Mini-Jeux</div>
+                <div class="projects-size-btns" style="margin-right:12px;">
+                    <button class="proj-size-btn active" id="gsize-lg" onclick="setGamesSize('lg')" title="Grandes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="9" height="9" rx="1.5"/><rect x="13" y="2" width="9" height="9" rx="1.5"/><rect x="2" y="13" width="9" height="9" rx="1.5"/><rect x="13" y="13" width="9" height="9" rx="1.5"/></svg>
+                    </button>
+                    <button class="proj-size-btn" id="gsize-md" onclick="setGamesSize('md')" title="Moyennes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="2" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/><rect x="16" y="9" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/></svg>
+                    </button>
+                    <button class="proj-size-btn" id="gsize-sm" onclick="setGamesSize('sm')" title="Petites">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="17.5" width="4.5" height="4.5" rx="0.8"/></svg>
+                    </button>
+                    <button class="proj-size-btn" id="gsize-list" onclick="setGamesSize('list')" title="Liste">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
                 <button class="minigames-close" onclick="closeMiniGames()">✕</button>
             </div>
             <div class="minigames-content">
@@ -6640,7 +6768,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                         <div class="game-desc">Trouvez le nombre mystère</div>
                     </div>
                     <!-- Cartes mini-jeux custom dynamiques -->
-                    <div id="customGamesCards"></div>
+                    <div id="customGamesCards" style="display:contents;"></div>
                     <!-- Bouton ajouter -->
                     <div class="game-card add-game-card" onclick="openProjectSelector()" id="addGameBtn">
                         <div class="add-game-icon">➕</div>
@@ -10367,6 +10495,8 @@ ${js}
         function openMiniGames() {
             document.getElementById('miniGamesModal').classList.add('active');
             document.getElementById('gamesMenu').style.display = 'grid';
+            const savedSize = localStorage.getItem('scrix_games_size') || 'lg';
+            setGamesSize(savedSize);
             renderCustomGameCards();
         }
 
@@ -10398,6 +10528,17 @@ ${js}
 
         // ========== CUSTOM MINI-JEUX ==========
 
+        function setGamesSize(size) {
+            const grid = document.getElementById('gamesMenu');
+            if (!grid) return;
+            grid.classList.remove('gsize-lg', 'gsize-md', 'gsize-sm', 'gsize-list');
+            grid.classList.add('gsize-' + size);
+            document.querySelectorAll('[id^="gsize-"]').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('gsize-' + size);
+            if (btn) btn.classList.add('active');
+            localStorage.setItem('scrix_games_size', size);
+        }
+
         function getCustomGames() {
             return JSON.parse(localStorage.getItem('scrix_custom_games') || '[]');
         }
@@ -10406,12 +10547,76 @@ ${js}
             localStorage.setItem('scrix_custom_games', JSON.stringify(games));
         }
 
+        function renameCustomGame(index) {
+            const games = getCustomGames();
+            const game = games[index];
+            if (!game) return;
+            const nameEl = document.getElementById('cgName_' + index);
+            if (!nameEl) return;
+
+            const input = document.createElement('input');
+            input.value = game.name;
+            input.maxLength = 40;
+            input.style.cssText = 'background:rgba(124,58,237,0.15);border:1px solid var(--primary-purple);border-radius:6px;padding:2px 8px;color:var(--text-primary);font-family:var(--font-sans);font-size:13px;font-weight:700;width:100%;outline:none;';
+            nameEl.replaceWith(input);
+            input.focus();
+            input.select();
+
+            async function commit() {
+                const newName = input.value.trim();
+                if (newName && newName !== game.name) {
+                    games[index].name = newName;
+                    saveCustomGames(games);
+                    await syncCustomGamesToCloud();
+                    showNotification(`Renommé en "${newName}" ✅`, 'success');
+                }
+                renderCustomGameCards();
+            }
+            input.addEventListener('blur', commit);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+                if (e.key === 'Escape') { input.value = game.name; input.blur(); }
+            });
+        }
+
+        function renderCustomGameCards() {
+            const container = document.getElementById('customGamesCards');
+            if (!container) return;
+            const games = getCustomGames();
+            if (games.length === 0) { container.innerHTML = ''; return; }
+            container.style.display = 'contents';
+            container.innerHTML = games.map((game, i) => {
+                const safeName = String(game.name || 'Projet').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+                const isValidThumb = game.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(game.thumbnail);
+                const thumbHtml = isValidThumb
+                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview"/>`
+                    : `<div style="font-size:36px;margin-bottom:10px;">${game.icon || '🎮'}</div>`;
+                return `
+                <div class="game-card custom-game-card" onclick="launchCustomGame(${i})">
+                    ${thumbHtml}
+                    <div id="cgName_${i}" class="custom-game-name-el" ondblclick="event.stopPropagation();renameCustomGame(${i})" title="Double-clic pour renommer">${safeName}</div>
+                    <div class="game-desc" style="font-size:11px;margin-top:2px;">Ton projet</div>
+                    <div class="custom-game-actions" onclick="event.stopPropagation()">
+                        <button class="custom-game-btn" onclick="renameCustomGame(${i})" title="Renommer">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </button>
+                        <button class="custom-game-btn danger" onclick="removeCustomGame(${i})" title="Supprimer">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Restore saved grid size
+            const savedSize = localStorage.getItem('scrix_games_size') || 'lg';
+            setGamesSize(savedSize);
+        }
+
         async function syncCustomGamesToCloud() {
             if (!window._fbUser || !window._fbDb || !window._fbFns) return;
             const { doc, setDoc } = window._fbFns;
             try {
                 const games = getCustomGames();
-                // On sauvegarde juste les références (name + timestamp) sans le code pour la perf
                 const refs = games.map(g => ({ name: g.name, timestamp: g.timestamp, icon: g.icon || '🎮', thumbnail: g.thumbnail || null }));
                 await setDoc(doc(window._fbDb, 'users', window._fbUser.uid, 'prefs', 'customGames'), { games: refs });
             } catch(e) { console.error('Custom games sync error:', e); }
@@ -10436,31 +10641,6 @@ ${js}
                     renderCustomGameCards();
                 }
             } catch(e) { console.error('Custom games load error:', e); }
-        }
-
-        function renderCustomGameCards() {
-            const container = document.getElementById('customGamesCards');
-            if (!container) return;
-            const games = getCustomGames();
-            if (games.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-            container.style.display = 'contents';
-            container.innerHTML = games.map((game, i) => {
-                const safeName = String(game.name || 'Projet').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-                const isValidThumb = game.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(game.thumbnail);
-                const thumbHtml = isValidThumb
-                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview"/>`
-                    : `<div style="font-size:36px;margin-bottom:10px;">${game.icon || '🎮'}</div>`;
-                return `
-                <div class="game-card custom-game-card" onclick="launchCustomGame(${i})">
-                    <button class="custom-game-delete" onclick="event.stopPropagation(); removeCustomGame(${i})" title="Supprimer">✕</button>
-                    ${thumbHtml}
-                    <div class="game-title" style="font-size:15px;">${safeName}</div>
-                    <div class="game-desc">Ton projet</div>
-                </div>`;
-            }).join('');
         }
 
         function openProjectSelector() {
