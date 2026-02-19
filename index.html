@@ -12051,8 +12051,8 @@ ${html}
                 if (/\bon\w+\s*=\s*"/i.test(rawLine) && !/href|src|alt|title/.test(rawLine.toLowerCase()))
                     issues.push({ line: ln, type: 'info', msg: 'Handler inline — préfère addEventListener() en JS', code: rawLine.trim() });
 
-                // Missing doctype
-                if (ln === 1 && !/<!DOCTYPE/i.test(rawLine) && rawLine.trim() !== '')
+                // Missing doctype — ignorer si c'est un commentaire ou ligne vide
+                if (ln === 1 && !/<!DOCTYPE/i.test(rawLine) && rawLine.trim() !== '' && !/^\s*<!--/.test(rawLine))
                     issues.push({ line: 1, type: 'warning', msg: 'Pas de <!DOCTYPE html> en première ligne', code: rawLine.trim() });
             });
 
@@ -12418,9 +12418,15 @@ ${html}
             if (issues.length === 0) {
                 panel.classList.remove('has-errors', 'open');
                 panel.innerHTML = '';
+                // Nettoyer les markers CodeMirror (points + soulignements)
+                const _idMap0 = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+                const _cm0 = window._cmEditors?.[_idMap0[lang]];
+                if (_cm0 && _cm0._scrixLintMarkers) {
+                    _cm0._scrixLintMarkers.forEach(fn => { try { fn(); } catch(ex){} });
+                    _cm0._scrixLintMarkers = [];
+                }
                 // Mettre à jour quand même le badge de langage (ex: ☕ Java)
-                const _idMapL0 = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
-                const _detLang0 = detectLanguage(getEditorValue(_idMapL0[lang] || lang), lang);
+                const _detLang0 = detectLanguage(getEditorValue(_idMap0[lang] || lang), lang);
                 if (_detLang0 === 'java') statsEl.innerHTML += `<span class="code-stat stat-lang">☕ Java</span>`;
                 return;
             }
