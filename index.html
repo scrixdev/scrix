@@ -2107,6 +2107,7 @@
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             justify-content: flex-end;
+            align-items: center;
             gap: 8px;
         }
 
@@ -2123,6 +2124,31 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+
+        /* Undo/Redo button states */
+        .toolbar-btn.undo-btn,
+        .toolbar-btn.redo-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px;
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .toolbar-btn.undo-btn.has-history,
+        .toolbar-btn.redo-btn.has-history {
+            opacity: 1;
+            cursor: pointer;
+            border-color: var(--border-default);
+            color: var(--text-tertiary);
+        }
+        .toolbar-btn.undo-btn.has-history:hover,
+        .toolbar-btn.redo-btn.has-history:hover {
+            background: var(--surface-glass);
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+            transform: translateY(-1px);
+        }
         .toolbar-btn:hover {
             background: var(--surface-glass);
             border-color: var(--primary-purple);
@@ -5795,6 +5821,7 @@
                     <!-- HTML Editor -->
                     <div class="editor-content active" id="html-editor">
                         <div class="editor-toolbar">
+                            <button class="toolbar-btn undo-btn" id="undoBtn_html" onclick="editorUndo('html')" title="Annuler (Ctrl+Z)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button><button class="toolbar-btn redo-btn" id="redoBtn_html" onclick="editorRedo('html')" title="Rétablir (Ctrl+Y)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13C19 7 14 4 8 6a9 9 0 0 0-5 8"/></svg></button>
                             <button class="toolbar-btn" onclick="formatCode('html')">Format</button>
                             <button class="toolbar-btn" onclick="copyCode('html')">Copier</button>
                             <button class="toolbar-btn" onclick="toggleFindReplace('html')">Rechercher (Ctrl+F)</button>
@@ -5818,6 +5845,7 @@
                     <!-- CSS Editor -->
                     <div class="editor-content" id="css-editor">
                         <div class="editor-toolbar">
+                            <button class="toolbar-btn undo-btn" id="undoBtn_css" onclick="editorUndo('css')" title="Annuler (Ctrl+Z)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button><button class="toolbar-btn redo-btn" id="redoBtn_css" onclick="editorRedo('css')" title="Rétablir (Ctrl+Y)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13C19 7 14 4 8 6a9 9 0 0 0-5 8"/></svg></button>
                             <button class="toolbar-btn" onclick="formatCode('css')">Format</button>
                             <button class="toolbar-btn" onclick="copyCode('css')">Copier</button>
                             <button class="toolbar-btn" onclick="toggleFindReplace('css')">Rechercher (Ctrl+F)</button>
@@ -5854,6 +5882,7 @@ canvas {
                     <!-- JavaScript Editor -->
                     <div class="editor-content" id="js-editor">
                         <div class="editor-toolbar">
+                            <button class="toolbar-btn undo-btn" id="undoBtn_js" onclick="editorUndo('js')" title="Annuler (Ctrl+Z)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button><button class="toolbar-btn redo-btn" id="redoBtn_js" onclick="editorRedo('js')" title="Rétablir (Ctrl+Y)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13C19 7 14 4 8 6a9 9 0 0 0-5 8"/></svg></button>
                             <button class="toolbar-btn" onclick="formatCode('js')">Format</button>
                             <button class="toolbar-btn" onclick="copyCode('js')">Copier</button>
                             <button class="toolbar-btn" onclick="toggleFindReplace('js')">Rechercher (Ctrl+F)</button>
@@ -5976,6 +6005,7 @@ canvas.addEventListener('click', e => {
                     <!-- Python Editor -->
                     <div class="editor-content" id="python-editor">
                         <div class="editor-toolbar">
+                            <button class="toolbar-btn undo-btn" id="undoBtn_python" onclick="editorUndo('python')" title="Annuler (Ctrl+Z)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button><button class="toolbar-btn redo-btn" id="redoBtn_python" onclick="editorRedo('python')" title="Rétablir (Ctrl+Y)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13C19 7 14 4 8 6a9 9 0 0 0-5 8"/></svg></button>
                             <button class="toolbar-btn" onclick="runPython()">▶️ Run</button>
                             <button class="toolbar-btn" onclick="copyCode('python')">Copier</button>
                             <button class="toolbar-btn" onclick="toggleFindReplace('python')">Rechercher (Ctrl+F)</button>
@@ -6979,6 +7009,24 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         }
 
         // Switch language tabs
+
+        function editorUndo(lang) {
+            const idMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+            const cm = window._cmEditors?.[idMap[lang]];
+            if (cm) { cm.undo(); updateUndoRedoBtns(lang, cm); }
+        }
+        function editorRedo(lang) {
+            const idMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+            const cm = window._cmEditors?.[idMap[lang]];
+            if (cm) { cm.redo(); updateUndoRedoBtns(lang, cm); }
+        }
+        function updateUndoRedoBtns(lang, cm) {
+            const hist = cm.historySize();
+            const undoBtn = document.getElementById('undoBtn_' + lang);
+            const redoBtn = document.getElementById('redoBtn_' + lang);
+            if (undoBtn) undoBtn.classList.toggle('has-history', hist.undo > 0);
+            if (redoBtn) redoBtn.classList.toggle('has-history', hist.redo > 0);
+        }
         function switchTab(language) {
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -8887,7 +8935,7 @@ ${js}
                 icon: '🚪',
                 title: 'Se déconnecter ?',
                 desc: 'Tu vas être déconnecté de ton compte SCRIX.',
-                okText: 'Oui, me déconnecter',
+                okText: 'Se déconnecter',
                 cancelText: 'Annuler',
                 danger: true
             }, function(confirmed) {
@@ -9814,7 +9862,7 @@ ${js}
                         onblur="this.style.borderColor='var(--border-default)'"
                     />
                     <div class="confirm-btns">
-                        <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel">Annuler</button>
+                        <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button>
                         <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">💾 Sauvegarder</button>
                     </div>
                 </div>
@@ -11445,7 +11493,10 @@ ${html}
             ['html','css','js','python'].forEach(lang => {
                 const cmId = idMap[lang];
                 if (window._cmEditors?.[cmId]) {
-                    window._cmEditors[cmId].on('change', () => runLintForLang(lang));
+                    window._cmEditors[cmId].on('change', () => {
+                        runLintForLang(lang);
+                        updateUndoRedoBtns(lang, window._cmEditors[cmId]);
+                    });
                 }
                 // Initial lint
                 const code = getEditorValue(cmId);
@@ -11611,7 +11662,7 @@ self.addEventListener('fetch', e => {
                         <button class="button1" onclick="switchToLogin()">← Login</button>
                         <button class="button2" onclick="doEmailSignUp()">Create Account</button>
                     </div>
-                    <button type="button" class="button3" onclick="closeLoginModalDirect()">Annuler</button>
+                    <button type="button" class="button3" onclick="closeLoginModalDirect()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button>
                 </form>
 
                 <!-- VUE FORGOT PASSWORD -->
@@ -11627,7 +11678,7 @@ self.addEventListener('fetch', e => {
                         <button class="button1" onclick="switchToLogin()">← Retour</button>
                         <button class="button2" onclick="doForgotPassword()">Envoyer</button>
                     </div>
-                    <button type="button" class="button3" onclick="closeLoginModalDirect()">Annuler</button>
+                    <button type="button" class="button3" onclick="closeLoginModalDirect()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button>
                 </form>
             </div>
         </div>
