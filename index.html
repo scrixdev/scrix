@@ -11100,17 +11100,18 @@ ${js}
                 requestAnimationFrame(step);
             }
 
-            // Animation match: scale bounce + glow
+            // Animation match: petite vibration rapide
             function animMatch(i) {
                 const s = state[i];
-                const dur = 500;
+                const dur = 300;
                 const t0 = performance.now();
                 function step(t) {
                     const p = Math.min((t - t0) / dur, 1);
-                    s.matchScale = 1 + Math.sin(p * Math.PI) * 0.18;
-                    s.matchGlow  = Math.sin(p * Math.PI) * 40;
+                    // Vibration : oscillation rapide qui s'atténue
+                    s.shake = Math.sin(p * Math.PI * 5) * 5 * (1 - p);
+                    s.matchGlow = (1 - p) * 20;
                     if (p < 1) requestAnimationFrame(step);
-                    else { s.matchScale = 1; s.matchGlow = 0; }
+                    else { s.shake = 0; s.matchGlow = 0; }
                 }
                 requestAnimationFrame(step);
             }
@@ -11170,7 +11171,6 @@ ${js}
                                     state[a].matched = state[b].matched = true;
                                     matched.push(a, b);
                                     animMatch(a); animMatch(b);
-                                    spawnParticles(a); spawnParticles(b);
                                     flipped = [];
                                     isLocked = false;
                                     if (matched.length === TOTAL) {
