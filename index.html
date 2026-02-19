@@ -5820,7 +5820,7 @@
             overflow-y: auto;
             border-top-color: rgba(255,255,255,0.06);
         }
-        .linter-panel.has-errors {
+        .linter-panel.has-errors.open {
             max-height: 220px;
             overflow-y: auto;
             border-top-color: rgba(255,255,255,0.06);
@@ -12249,7 +12249,7 @@ ${html}
             if (!panel) return;
 
             if (issues.length === 0) {
-                panel.classList.remove('has-errors');
+                panel.classList.remove('has-errors', 'open');
                 panel.innerHTML = '';
                 // Mettre à jour quand même le badge de langage (ex: ☕ Java)
                 const _idMapL0 = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
@@ -12306,9 +12306,9 @@ ${html}
         function toggleLinterPanel(lang) {
             const panel = document.getElementById('linterPanel_' + lang);
             if (!panel) return;
-            // Si le panel a du contenu, on toggle la visibilité
+            // S'ouvre seulement au clic, jamais automatiquement
             if (panel.innerHTML.trim()) {
-                panel.classList.toggle('has-errors');
+                panel.classList.toggle('open');
             }
         }
 
