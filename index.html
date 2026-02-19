@@ -8855,52 +8855,39 @@ ${js}
         // ============================================================
 
         window.onFirebaseAuthChange = function(user) {
-            try {
             const signInBtn = document.getElementById('authSignInBtn');
             const userPill   = document.getElementById('authUserPill');
 
             if (user) {
                 // Connecté
                 if (signInBtn) signInBtn.style.display = 'none';
-                userPill.style.display  = 'flex';
+                if (userPill) userPill.style.display = 'flex';
 
                 const _savedProf = JSON.parse(localStorage.getItem('scrix_profile_' + user.uid) || '{}');
                 const firstName = _savedProf.username || (user.displayName || 'User').split(' ')[0];
-                document.getElementById('authUsername').textContent = firstName;
+
+                const authUsername = document.getElementById('authUsername');
+                if (authUsername) authUsername.textContent = firstName;
 
                 const _headerAvatarSrc = _savedProf.customAvatar || user.photoURL || null;
                 if (_headerAvatarSrc) {
                     const img = document.getElementById('authAvatarImg');
-                    img.src = _headerAvatarSrc;
-                    img.style.display = 'block';
-                    document.getElementById('authAvatarFallback').style.display = 'none';
+                    if (img) { img.src = _headerAvatarSrc; img.style.display = 'block'; }
+                    const fb = document.getElementById('authAvatarFallback');
+                    if (fb) fb.style.display = 'none';
                 } else {
-                    document.getElementById('authAvatarFallback').textContent = firstName[0].toUpperCase();
+                    const fb = document.getElementById('authAvatarFallback');
+                    if (fb) fb.textContent = firstName[0].toUpperCase();
                 }
 
                 // Sync menu pill
-                const menuConnected = document.getElementById('menuAccountConnected');
-                const menuDisconnected = document.getElementById('menuAccountDisconnected');
-                if (menuConnected && menuDisconnected) {
-                    menuDisconnected.style.display = 'none';
-                    menuConnected.style.display = 'flex';
-                    document.getElementById('menuUsername').textContent = firstName;
-                    if (_headerAvatarSrc) {
-                        const mImg = document.getElementById('menuAvatarImg');
-                        mImg.src = _headerAvatarSrc;
-                        mImg.style.display = 'block';
-                        document.getElementById('menuAvatarFallback').style.display = 'none';
-                    } else {
-                        document.getElementById('menuAvatarFallback').textContent = firstName[0].toUpperCase();
-                    }
-                }
+                refreshMenuPill();
 
                 // Sync: charger les projets cloud et fusionner avec local
                 syncProjectsOnLogin(user);
 
                 // Sync thème, pseudo et tutoriel
                 syncPrefsOnLogin(user).then(() => {
-                    // Si pas de pseudo Firestore, afficher la notif avec ce qu'on a déjà
                     const prof = JSON.parse(localStorage.getItem('scrix_profile_' + user.uid) || '{}');
                     if (!prof.username) {
                         showNotification(`Bienvenue ${firstName} ! Projets synchronisés ☁️`, 'success');
@@ -8909,17 +8896,8 @@ ${js}
             } else {
                 // Déconnecté
                 if (signInBtn) signInBtn.style.display = 'flex';
-                userPill.style.display  = 'none';
-                // Reset menu pill
-                const menuConnected = document.getElementById('menuAccountConnected');
-                const menuDisconnected = document.getElementById('menuAccountDisconnected');
-                if (menuConnected && menuDisconnected) {
-                    menuConnected.style.display = 'none';
-                    menuDisconnected.style.display = 'flex';
-                }
-            }
-            } catch(e) {
-                console.error('[SCRIX] Erreur dans onFirebaseAuthChange:', e);
+                if (userPill) userPill.style.display = 'none';
+                refreshMenuPill();
             }
         };
 
@@ -8941,14 +8919,14 @@ ${js}
                 icon: '🚪',
                 title: 'Se déconnecter ?',
                 desc: 'Tu vas être déconnecté de ton compte SCRIX.',
-                okText: 'Se déconnecter',
+                okText: 'Oui, me déconnecter',
                 cancelText: 'Annuler',
                 danger: true
             }, function(confirmed) {
                 if (!confirmed) return;
                 window._fbFns.signOut(window._fbAuth).then(() => {
                     localStorage.removeItem('scrix_profile');
-                    // NE PAS supprimer scrix_projects — les garder en local
+                    localStorage.removeItem('scrix_projects');
                     loadProjectsList();
                     showNotification('Déconnecté', 'success');
                 });
@@ -9239,20 +9217,16 @@ ${js}
                 return;
             }
 
-            // Si pas connecté, afficher quand même les projets locaux
+            // Si pas connecté, afficher message
             if (!window._fbUser) {
-                const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
-                if (projects.length === 0) {
-                    projectsList.innerHTML = `
-                        <div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:60px 20px;">
-                            <div style="font-size:48px;margin-bottom:16px;">🔒</div>
-                            <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Connecte-toi pour sauvegarder</div>
-                            <div style="font-size:12px;margin-top:8px;opacity:0.6;">Tes projets sont synchronisés dans le cloud avec ton compte</div>
-                            <button onclick="openLoginModal()" style="margin-top:20px;padding:10px 24px;background:var(--primary-purple);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Se connecter</button>
-                        </div>`;
-                    return;
-                }
-                // Projets locaux dispo même sans connexion — on continue l'affichage
+                projectsList.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:60px 20px;">
+                        <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+                        <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Connecte-toi pour voir tes projets</div>
+                        <div style="font-size:12px;margin-top:8px;opacity:0.6;">Tes projets sont synchronisés dans le cloud avec ton compte</div>
+                        <button onclick="openLoginModal()" style="margin-top:20px;padding:10px 24px;background:var(--primary-purple);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Se connecter</button>
+                    </div>`;
+                return;
             }
 
             const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
