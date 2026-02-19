@@ -4293,6 +4293,19 @@
             border-left: 3px solid #ef4444 !important;
             animation: errorLineFlash 0.4s ease 3;
         }
+        /* Soulignements linter */
+        .scrix-underline-error {
+            text-decoration: underline wavy #f87171 !important;
+            text-underline-offset: 3px;
+        }
+        .scrix-underline-warning {
+            text-decoration: underline wavy #fbbf24 !important;
+            text-underline-offset: 3px;
+        }
+        .scrix-underline-info {
+            text-decoration: underline wavy #60a5fa !important;
+            text-underline-offset: 3px;
+        }
         @keyframes errorLineFlash {
             0%, 100% { background: rgba(239, 68, 68, 0.18); }
             50%       { background: rgba(239, 68, 68, 0.38); }
@@ -12282,6 +12295,10 @@ ${html}
                     dot.title = e.msg;
                     cm.setGutterMarker(lineNum, 'scrix-lint-gutter', dot);
                     cm._scrixLintMarkers.push(() => { try { cm.setGutterMarker(lineNum, 'scrix-lint-gutter', null); } catch(ex){} });
+                    // Soulignement de la ligne
+                    const cls = e.type==='error' ? 'scrix-underline-error' : e.type==='warning' ? 'scrix-underline-warning' : 'scrix-underline-info';
+                    cm.addLineClass(lineNum, 'text', cls);
+                    cm._scrixLintMarkers.push(() => { try { cm.removeLineClass(lineNum, 'text', cls); } catch(ex){} });
                 });
             }
         }
