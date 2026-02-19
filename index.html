@@ -5057,6 +5057,9 @@
             transform: translateY(0) scale(1);
         }
 
+        .menu-item-account { padding: 6px 10px; }
+        .menu-item-account #menuAccountConnected { width: 100%; }
+
         .menu-section {
             padding: 12px 8px;
         }
@@ -6115,9 +6118,19 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <div class="dropdown-menu" id="dropdownMenu">
         <div class="menu-section">
             <div class="menu-section-title">👤 Compte</div>
-            <button class="menu-item" onclick="toggleProfile(); closeMenu();">
-                <span class="menu-item-icon">👤</span>
-                <span class="menu-item-text" id="menuProfileLabel">Mon Profil</span>
+            <button class="menu-item menu-item-account" id="menuAccountBtn" onclick="toggleProfile(); closeMenu();">
+                <!-- Pas connecté -->
+                <span id="menuAccountDisconnected">
+                    <span class="menu-item-icon">👤</span>
+                    <span class="menu-item-text">Mon Profil</span>
+                </span>
+                <!-- Connecté : mini pill -->
+                <span id="menuAccountConnected" style="display:none; align-items:center; gap:9px; width:100%;">
+                    <div id="menuAvatarFallback" class="auth-avatar-fallback" style="width:26px;height:26px;font-size:11px;">?</div>
+                    <img id="menuAvatarImg" class="auth-avatar" src="" alt="" style="display:none;width:26px;height:26px;" onerror="this.style.display='none';document.getElementById('menuAvatarFallback').style.display='flex'"/>
+                    <span id="menuUsername" class="auth-username" style="font-size:13px;"></span>
+                    <div class="auth-sync-dot" style="margin-left:auto;"></div>
+                </span>
             </button>
         </div>
 
@@ -8833,6 +8846,23 @@ ${js}
                     document.getElementById('authAvatarFallback').textContent = firstName[0].toUpperCase();
                 }
 
+                // Sync menu pill
+                const menuConnected = document.getElementById('menuAccountConnected');
+                const menuDisconnected = document.getElementById('menuAccountDisconnected');
+                if (menuConnected && menuDisconnected) {
+                    menuDisconnected.style.display = 'none';
+                    menuConnected.style.display = 'flex';
+                    document.getElementById('menuUsername').textContent = firstName;
+                    if (_headerAvatarSrc) {
+                        const mImg = document.getElementById('menuAvatarImg');
+                        mImg.src = _headerAvatarSrc;
+                        mImg.style.display = 'block';
+                        document.getElementById('menuAvatarFallback').style.display = 'none';
+                    } else {
+                        document.getElementById('menuAvatarFallback').textContent = firstName[0].toUpperCase();
+                    }
+                }
+
                 // Sync: charger les projets cloud et fusionner avec local
                 syncProjectsOnLogin(user);
 
@@ -8848,6 +8878,13 @@ ${js}
                 // Déconnecté
                 if (signInBtn) signInBtn.style.display = 'flex';
                 userPill.style.display  = 'none';
+                // Reset menu pill
+                const menuConnected = document.getElementById('menuAccountConnected');
+                const menuDisconnected = document.getElementById('menuAccountDisconnected');
+                if (menuConnected && menuDisconnected) {
+                    menuConnected.style.display = 'none';
+                    menuDisconnected.style.display = 'flex';
+                }
             }
             } catch(e) {
                 console.error('[SCRIX] Erreur dans onFirebaseAuthChange:', e);
