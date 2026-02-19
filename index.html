@@ -6955,7 +6955,6 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
 
         // ===== SORT PROJECTS =====
         window._sortMode = 'date';
-        window._fbUser = undefined; // undefined = Firebase pas encore chargé, null = déconnecté
         document.querySelector('.project-name').value = 'Mon Projet';
         function sortProjects(mode) {
             window._sortMode = mode;
@@ -8919,7 +8918,7 @@ ${js}
                 icon: '🚪',
                 title: 'Se déconnecter ?',
                 desc: 'Tu vas être déconnecté de ton compte SCRIX.',
-                okText: 'Oui, me déconnecter',
+                okText: 'Se déconnecter',
                 cancelText: 'Annuler',
                 danger: true
             }, function(confirmed) {
@@ -9209,13 +9208,6 @@ ${js}
 
         function loadProjectsList() {
             const projectsList = document.getElementById('projectsList');
-
-            // Si Firebase pas encore chargé, attendre un peu
-            if (typeof window._fbUser === 'undefined') {
-                projectsList.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:40px;">Chargement...</div>`;
-                setTimeout(loadProjectsList, 600);
-                return;
-            }
 
             // Si pas connecté, afficher message
             if (!window._fbUser) {
@@ -9915,7 +9907,7 @@ ${js}
                         onblur="this.style.borderColor='var(--border-default)'"
                     />
                     <div class="confirm-btns">
-                        <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button>
+                        <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel">Annuler</button>
                         <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">💾 Sauvegarder</button>
                     </div>
                 </div>
