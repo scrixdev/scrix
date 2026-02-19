@@ -10554,28 +10554,27 @@ ${js}
             const nameEl = document.getElementById('cgName_' + index);
             if (!nameEl) return;
 
+            const oldName = game.name;
             const input = document.createElement('input');
-            input.value = game.name;
+            input.value = oldName;
             input.maxLength = 40;
-            input.style.cssText = 'background:rgba(124,58,237,0.15);border:1px solid var(--primary-purple);border-radius:6px;padding:2px 8px;color:var(--text-primary);font-family:var(--font-sans);font-size:13px;font-weight:700;width:100%;outline:none;';
+            input.style.cssText = 'background:rgba(124,58,237,0.2);border:1px solid var(--primary-purple);border-radius:6px;padding:3px 8px;color:var(--text-primary);font-family:inherit;font-size:13px;font-weight:700;width:100%;outline:none;text-align:center;';
             nameEl.replaceWith(input);
             input.focus();
             input.select();
 
             async function commit() {
-                const newName = input.value.trim();
-                if (newName && newName !== game.name) {
-                    games[index].name = newName;
-                    saveCustomGames(games);
-                    await syncCustomGamesToCloud();
-                    showNotification(`Renommé en "${newName}" ✅`, 'success');
-                }
+                const newName = input.value.trim() || oldName;
+                games[index].name = newName;
+                saveCustomGames(games);
+                await syncCustomGamesToCloud();
+                if (newName !== oldName) showNotification(`Renommé en "${newName}" ✅`, 'success');
                 renderCustomGameCards();
             }
             input.addEventListener('blur', commit);
             input.addEventListener('keydown', e => {
                 if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
-                if (e.key === 'Escape') { input.value = game.name; input.blur(); }
+                if (e.key === 'Escape') { input.value = oldName; input.blur(); }
             });
         }
 
@@ -10589,25 +10588,24 @@ ${js}
                 const safeName = String(game.name || 'Projet').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
                 const isValidThumb = game.thumbnail && /^data:image\/(jpeg|png|webp|gif);base64,/.test(game.thumbnail);
                 const thumbHtml = isValidThumb
-                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview"/>`
-                    : `<div style="font-size:36px;margin-bottom:10px;">${game.icon || '🎮'}</div>`;
+                    ? `<img class="custom-game-thumb" src="${game.thumbnail}" alt="preview" style="width:100%;height:90px;object-fit:cover;border-radius:10px;margin-bottom:8px;"/>`
+                    : `<div style="font-size:42px;margin-bottom:8px;">${game.icon || '🎮'}</div>`;
                 return `
-                <div class="game-card custom-game-card" onclick="launchCustomGame(${i})">
+                <div class="game-card custom-game-card" style="cursor:pointer;padding:16px;overflow:hidden;" onclick="launchCustomGame(${i})">
                     ${thumbHtml}
-                    <div id="cgName_${i}" class="custom-game-name-el" ondblclick="event.stopPropagation();renameCustomGame(${i})" title="Double-clic pour renommer">${safeName}</div>
-                    <div class="game-desc" style="font-size:11px;margin-top:2px;">Ton projet</div>
-                    <div class="custom-game-actions" onclick="event.stopPropagation()">
-                        <button class="custom-game-btn" onclick="renameCustomGame(${i})" title="Renommer">
+                    <div style="font-weight:700;font-size:14px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;margin-bottom:2px;" id="cgName_${i}">${safeName}</div>
+                    <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:10px;">Ton projet</div>
+                    <div style="display:flex;gap:6px;justify-content:center;" onclick="event.stopPropagation()">
+                        <button onclick="event.stopPropagation();renameCustomGame(${i})" title="Renommer" style="background:rgba(124,58,237,0.15);border:1px solid var(--border-subtle);color:var(--text-tertiary);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.18s;">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
-                        <button class="custom-game-btn danger" onclick="removeCustomGame(${i})" title="Supprimer">
+                        <button onclick="event.stopPropagation();removeCustomGame(${i})" title="Supprimer" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.18s;">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                         </button>
                     </div>
                 </div>`;
             }).join('');
 
-            // Restore saved grid size
             const savedSize = localStorage.getItem('scrix_games_size') || 'lg';
             setGamesSize(savedSize);
         }
