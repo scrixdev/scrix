@@ -6700,6 +6700,11 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <button class="projects-modal-close" onclick="toggleProjects()">✕</button>
             </div>
             <div class="projects-modal-body">
+                <div class="projects-sort-bar">
+                    <span class="projects-sort-label">Trier :</span>
+                    <button class="sort-btn active" id="sortDate" onclick="sortProjects('date')">Date</button>
+                    <button class="sort-btn" id="sortName" onclick="sortProjects('name')">Nom</button>
+                </div>
                 <div id="projectsList">
                     <p style="text-align: center; color: var(--text-tertiary); padding: 40px 20px;">
                         Aucun projet sauvegardé
@@ -7027,6 +7032,29 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             if (undoBtn) undoBtn.classList.toggle('has-history', hist.undo > 0);
             if (redoBtn) redoBtn.classList.toggle('has-history', hist.redo > 0);
         }
+
+        // ===== SORT PROJECTS =====
+        window._sortMode = 'date';
+        function sortProjects(mode) {
+            window._sortMode = mode;
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('sort' + mode.charAt(0).toUpperCase() + mode.slice(1))?.classList.add('active');
+            loadProjectsList();
+        }
+
+        // ===== DUPLICATE PROJECT =====
+        async function duplicateProject(realIndex) {
+            let projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
+            const original = projects[realIndex];
+            if (!original) return;
+            const copy = { ...original, name: original.name + ' (copie)', timestamp: Date.now(), _cloudId: 'proj_' + Date.now() };
+            projects.push(copy);
+            safeSetProjects(projects);
+            if (window._fbUser) await saveProjectToCloud(copy);
+            showNotification(`"${copy.name}" dupliqué ✅`, 'success');
+            loadProjectsList();
+        }
+
         function switchTab(language) {
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -7416,8 +7444,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                                 window.parent.scrixConsoleLog('error', ['\u274C ' + err.message], _ts);
                             }
                         }
-                    <\/script>
-                </body>
+                    <\/script></body>
                 </html>
             `;
 
@@ -7602,8 +7629,7 @@ ${css}
 ${html}
     <script>
 ${js}
-    <\/script>
-</body>
+    <\/script></body>
 </html>`;
 
             const blob = new Blob([fullCode], { type: 'text/html' });
@@ -9237,9 +9263,15 @@ ${js}
                 return;
             }
 
-            const reversed = [...projects].reverse();
+            let sorted = [...projects];
+            if (window._sortMode === 'name') {
+                sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            } else {
+                sorted.sort((a, b) => b.timestamp - a.timestamp);
+            }
+            const reversed = sorted;
             projectsList.innerHTML = reversed.map((project, displayIndex) => {
-                const realIndex = projects.length - 1 - displayIndex;
+                const realIndex = projects.indexOf(sorted[displayIndex]);
                 // Échapper le nom du projet pour éviter les injections XSS
                 const safeName = String(project.name || 'Sans titre').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
                 // Valider que le thumbnail est bien une image base64 (sécurité)
@@ -9264,6 +9296,11 @@ ${js}
                             <div class="project-card-date">${new Date(project.timestamp).toLocaleDateString('fr-FR')}</div>
                         </div>
                         <div class="project-card-actions" onclick="event.stopPropagation()">
+                            <button class="project-card-btn duplicate" onclick="duplicateProject(${realIndex})" title="Dupliquer">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--purple-light)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
                             <button class="project-card-btn" onclick="startRenameProject(${realIndex})" title="Renommer">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--purple-light)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -10821,8 +10858,7 @@ ${js}
 </head>
 <body>
 ${html}
-<script src="script.js"><\/script>
-</body>
+<script src="script.js"><\/script></body>
 </html>`;
 
             try {
@@ -11829,6 +11865,5 @@ self.addEventListener('fetch', e => {
                 msgEl.textContent = msgs[e.code] || 'Erreur : ' + e.message;
             }
         }
-    </script>
-</body>
+    </script></body>
 </html>
