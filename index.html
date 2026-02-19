@@ -1449,269 +1449,54 @@
             opacity: 0.8;
         }
 
-        .project-name-container {
-            position: relative;
-            min-width: 280px;
-        }
+        .project-name-container { position: relative; min-width: 280px; }
 
-        .project-name {
-            width: 100%;
-            height: 48px;
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            border-bottom: 2px solid rgba(50, 50, 50, 0.8);
-            outline: none;
-            padding: 0 1rem;
-            color: var(--purple-light);
-            font-size: 13px;
-            font-weight: 500;
-            font-family: var(--font-mono);
-            caret-color: var(--purple-light);
-            z-index: 10;
-            transition: background 0.3s ease, border-color 0.3s ease;
-            letter-spacing: 0.05em;
-        }
+        .project-name { width: 100%; height: 48px; background: rgba(0,0,0,0.6); border: none; border-bottom: 2px solid rgba(50,50,50,0.8); outline: none; padding: 0 1rem; color: var(--purple-light); font-size: 13px; font-weight: 500; font-family: var(--font-mono); caret-color: var(--purple-light); z-index: 10; transition: background 0.3s ease, border-color 0.3s ease; letter-spacing: 0.05em; }
 
-        .project-label {
-            position: absolute;
-            top: 0.9rem;
-            left: 1rem;
-            color: #888;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            z-index: 11;
-            font-size: 11px;
-            font-weight: 500;
-            font-family: var(--font-mono);
-        }
+        .project-label { position: absolute; top: 0.9rem; left: 1rem; color: #888; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.15em; pointer-events: none; transition: all 0.3s ease; z-index: 11; font-size: 11px; font-weight: 500; font-family: var(--font-mono); }
 
-        .project-name:focus + .project-label,
-        .project-name:not(:placeholder-shown) + .project-label {
-            top: -1.3rem;
-            left: 0;
-            font-size: 9px;
-            opacity: 1;
-            color: var(--purple-light);
-        }
+        .project-name:focus + .project-label, .project-name:not(:placeholder-shown) + .project-label { top: -1.3rem; left: 0; font-size: 9px; opacity: 1; color: var(--purple-light); }
 
-        .project-name:focus + .project-label::before,
-        .project-name:focus + .project-label::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+        .project-name:focus + .project-label::before, .project-name:focus + .project-label::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        .project-name:focus + .project-label::before {
-            color: var(--accent-pink);
-            animation: glitch-project 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-        }
+        .project-name:focus + .project-label::before { color: var(--accent-pink); animation: glitch-project 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both; }
 
-        .project-name:focus + .project-label::after {
-            color: var(--purple-light);
-            animation: glitch-project 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
-        }
+        .project-name:focus + .project-label::after { color: var(--purple-light); animation: glitch-project 0.4s cubic-bezier(0.25,0.46,0.45,0.94) reverse both; }
 
-        .project-border,
-        .project-scanline,
-        .project-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+        .project-border, .project-scanline, .project-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        .project-border {
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
+        .project-border { border: 1px solid rgba(167,139,250,0.2); opacity: 0.5; transition: all 0.3s ease; }
 
-        .project-corners {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+        .project-corners { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
-        .project-corners .corner {
-            position: absolute;
-            transition: all 0.3s ease;
-            opacity: 0.5;
-        }
+        .project-corners .corner { position: absolute; transition: all 0.3s ease; opacity: 0.5; }
 
-        .corner::before,
-        .corner::after {
-            content: '';
-            position: absolute;
-            background: var(--purple-light);
-            transition: all 0.3s ease;
-        }
+        .corner::before, .corner::after { content: ''; position: absolute; background: var(--purple-light); transition: all 0.3s ease; }
 
-        /* Coin haut-gauche */
-        .corner-tl {
-            top: -2px;
-            left: -2px;
-        }
-        .corner-tl::before {
-            width: 12px;
-            height: 2px;
-            top: 0;
-            left: 0;
-        }
-        .corner-tl::after {
-            width: 2px;
-            height: 12px;
-            top: 0;
-            left: 0;
-        }
+        .corner-tl { top:-2px; left:-2px; } .corner-tl::before { width:12px; height:2px; top:0; left:0; } .corner-tl::after { width:2px; height:12px; top:0; left:0; }
+        .corner-tr { top:-2px; right:-2px; } .corner-tr::before { width:12px; height:2px; top:0; right:0; } .corner-tr::after { width:2px; height:12px; top:0; right:0; }
+        .corner-bl { bottom:-2px; left:-2px; } .corner-bl::before { width:12px; height:2px; bottom:0; left:0; } .corner-bl::after { width:2px; height:12px; bottom:0; left:0; }
+        .corner-br { bottom:-2px; right:-2px; } .corner-br::before { width:12px; height:2px; bottom:0; right:0; } .corner-br::after { width:2px; height:12px; bottom:0; right:0; }
 
-        /* Coin haut-droite */
-        .corner-tr {
-            top: -2px;
-            right: -2px;
-        }
-        .corner-tr::before {
-            width: 12px;
-            height: 2px;
-            top: 0;
-            right: 0;
-        }
-        .corner-tr::after {
-            width: 2px;
-            height: 12px;
-            top: 0;
-            right: 0;
-        }
+        .project-glow { background: radial-gradient(ellipse at center, rgba(167,139,250,0.2) 0%, transparent 70%); opacity: 0; transition: opacity 0.4s ease; }
 
-        /* Coin bas-gauche */
-        .corner-bl {
-            bottom: -2px;
-            left: -2px;
-        }
-        .corner-bl::before {
-            width: 12px;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-        }
-        .corner-bl::after {
-            width: 2px;
-            height: 12px;
-            bottom: 0;
-            left: 0;
-        }
+        .project-scanline { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background: linear-gradient(to bottom, transparent 0%, rgba(167,139,250,0.1) 48%, rgba(167,139,250,0.3) 50%, rgba(167,139,250,0.1) 52%, transparent 100%); opacity:0; }
 
-        /* Coin bas-droite */
-        .corner-br {
-            bottom: -2px;
-            right: -2px;
-        }
-        .corner-br::before {
-            width: 12px;
-            height: 2px;
-            bottom: 0;
-            right: 0;
-        }
-        .corner-br::after {
-            width: 2px;
-            height: 12px;
-            bottom: 0;
-            right: 0;
-        }
+        .project-name:focus { border-color:transparent; background:rgba(0,0,0,0.8); }
+        .project-name:focus ~ .project-border { opacity:1; border-color:rgba(167,139,250,0.5); }
+        .project-name:focus ~ .project-corners .corner::before { width:20px; }
+        .project-name:focus ~ .project-corners .corner::after { height:20px; }
+        .project-name:focus ~ .project-corners .corner { opacity:1; }
+        .project-name:focus ~ .project-corners .corner-tl { top:-6px; left:-6px; }
+        .project-name:focus ~ .project-corners .corner-tr { top:-6px; right:-6px; }
+        .project-name:focus ~ .project-corners .corner-bl { bottom:-6px; left:-6px; }
+        .project-name:focus ~ .project-corners .corner-br { bottom:-6px; right:-6px; }
+        .project-name:focus ~ .project-glow { opacity:1; }
+        .project-name:focus ~ .project-scanline { animation: scan-project 4s linear infinite; }
 
-        .project-glow {
-            background: radial-gradient(ellipse at center, rgba(167, 139, 250, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
+        @keyframes glitch-project { 0% { transform:translate(0); clip-path:inset(0 0 0 0); } 20% { transform:translate(-0.2rem,0.1rem); clip-path:inset(50% 0 20% 0); } 40% { transform:translate(0.1rem,-0.1rem); clip-path:inset(20% 0 60% 0); } 60% { transform:translate(-0.15rem,0.1rem); clip-path:inset(80% 0 5% 0); } 80% { transform:translate(0.15rem,-0.15rem); clip-path:inset(30% 0 45% 0); } 100% { transform:translate(0); clip-path:inset(0 0 0 0); } }
 
-        .project-scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: linear-gradient(to bottom, transparent 0%, rgba(167, 139, 250, 0.1) 48%, rgba(167, 139, 250, 0.3) 50%, rgba(167, 139, 250, 0.1) 52%, transparent 100%);
-            opacity: 0;
-        }
-
-        .project-name:focus {
-            border-color: transparent;
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        .project-name:focus ~ .project-border {
-            opacity: 1;
-            border-color: rgba(167, 139, 250, 0.5);
-        }
-
-        .project-name:focus ~ .project-corners .corner::before {
-            width: 20px;
-        }
-
-        .project-name:focus ~ .project-corners .corner::after {
-            height: 20px;
-        }
-
-        .project-name:focus ~ .project-corners .corner {
-            opacity: 1;
-        }
-
-        /* Écarter les coins au focus */
-        .project-name:focus ~ .project-corners .corner-tl {
-            top: -6px;
-            left: -6px;
-        }
-
-        .project-name:focus ~ .project-corners .corner-tr {
-            top: -6px;
-            right: -6px;
-        }
-
-        .project-name:focus ~ .project-corners .corner-bl {
-            bottom: -6px;
-            left: -6px;
-        }
-
-        .project-name:focus ~ .project-corners .corner-br {
-            bottom: -6px;
-            right: -6px;
-        }
-
-        .project-name:focus ~ .project-glow {
-            opacity: 1;
-        }
-
-        .project-name:focus ~ .project-scanline {
-            animation: scan-project 4s linear infinite;
-        }
-
-        @keyframes glitch-project {
-            0% { transform: translate(0); clip-path: inset(0 0 0 0); }
-            20% { transform: translate(-0.2rem, 0.1rem); clip-path: inset(50% 0 20% 0); }
-            40% { transform: translate(0.1rem, -0.1rem); clip-path: inset(20% 0 60% 0); }
-            60% { transform: translate(-0.15rem, 0.1rem); clip-path: inset(80% 0 5% 0); }
-            80% { transform: translate(0.15rem, -0.15rem); clip-path: inset(30% 0 45% 0); }
-            100% { transform: translate(0); clip-path: inset(0 0 0 0); }
-        }
-
-        @keyframes scan-project {
-            0% { opacity: 0; transform: translateY(-100%); }
-            25% { opacity: 0.5; }
-            75% { opacity: 0.5; }
-            100% { opacity: 0; transform: translateY(100%); }
-        }
+        @keyframes scan-project { 0% { opacity:0; transform:translateY(-100%); } 25% { opacity:0.5; } 75% { opacity:0.5; } 100% { opacity:0; transform:translateY(100%); } }
 
         .header-actions {
             display: flex;
@@ -4085,6 +3870,94 @@
         }
 
         .projects-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            gap: 12px;
+        }
+
+        /* ===== SIZE SELECTOR BUTTONS ===== */
+        .projects-size-btns {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .proj-size-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .proj-size-btn:hover {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .proj-size-btn.active {
+            background: var(--primary-purple);
+            color: #fff;
+        }
+
+        /* Grid size variants */
+        #projectsList.size-xl {
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        #projectsList.size-xl .project-card-thumb { height: 200px; }
+
+        #projectsList.size-md {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        #projectsList.size-sm {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        #projectsList.size-sm .project-card-thumb { height: 90px; font-size: 20px; }
+        #projectsList.size-sm .project-card-name { font-size: 12px; }
+        #projectsList.size-sm .project-card-date { font-size: 10px; }
+        #projectsList.size-sm .project-card-body { padding: 8px 10px; }
+        #projectsList.size-sm .project-card-actions { gap: 3px; }
+        #projectsList.size-sm .project-card-btn { padding: 4px 8px; }
+
+        #projectsList.size-list {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        #projectsList.size-list .project-card {
+            flex-direction: row;
+            border-radius: 10px;
+        }
+        #projectsList.size-list .project-card-thumb {
+            width: 80px;
+            height: 56px;
+            flex-shrink: 0;
+            border-bottom: none;
+            border-right: 1px solid var(--border-subtle);
+            border-radius: 0;
+            font-size: 18px;
+        }
+        #projectsList.size-list .project-card-body {
+            flex: 1;
+            padding: 10px 14px;
+        }
+        #projectsList.size-list .project-card-name { font-size: 13px; margin-bottom: 1px; }
+        #projectsList.size-list .project-card-date { font-size: 11px; }
             background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
             padding: 24px 32px;
             display: flex;
@@ -4196,6 +4069,7 @@
             justify-content: space-between;
             gap: 8px;
             flex: 1;
+            background: var(--bg-tertiary);
         }
 
         .project-card-info {
@@ -4225,25 +4099,32 @@
         }
 
         .project-card-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
+            background: transparent;
+            border: 1px solid var(--border-default);
+            color: var(--text-tertiary);
+            padding: 6px 12px;
             border-radius: 7px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: var(--font-sans);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
-            opacity: 0.5;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card-btn:hover {
-            opacity: 1;
-            background: var(--surface-hover);
+            background: var(--surface-glass);
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+            transform: translateY(-1px);
         }
 
         .project-card-btn.danger:hover {
             background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.6);
+            color: #ef4444;
         }
 
         .delete-project-btn:hover svg {
@@ -5336,13 +5217,6 @@
             .tagline {
                 display: none;
             }
-            .project-name-container {
-                max-width: 120px;
-            }
-            .project-name {
-                font-size: 11px;
-                padding: 4px 8px;
-            }
             .header-actions {
                 gap: 6px;
             }
@@ -5678,6 +5552,7 @@
                         <div class="tagline">L'éditeur de code professionnel ultime</div>
                     </div>
                 </div>
+
                 <div class="project-name-container">
                     <input type="text" id="project-name-input" class="project-name" value="Mon Projet" placeholder="" maxlength="60">
                     <label for="project-name-input" class="project-label" data-text="PROJECT_NAME">PROJECT_NAME</label>
@@ -6697,15 +6572,25 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         <div class="projects-panel-inner">
             <div class="projects-modal-header">
                 <div class="projects-modal-title">📁 Mes Projets</div>
+                <div class="projects-size-btns">
+                    <button class="proj-size-btn" id="psize-xl" onclick="setProjectsSize('xl')" title="Très grandes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="9" height="9" rx="1.5"/><rect x="13" y="2" width="9" height="9" rx="1.5"/><rect x="2" y="13" width="9" height="9" rx="1.5"/><rect x="13" y="13" width="9" height="9" rx="1.5"/></svg>
+                    </button>
+                    <button class="proj-size-btn active" id="psize-md" onclick="setProjectsSize('md')" title="Moyennes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="2" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/><rect x="16" y="9" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/></svg>
+                    </button>
+                    <button class="proj-size-btn" id="psize-sm" onclick="setProjectsSize('sm')" title="Petites">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="1" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="6.5" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="12" width="4.5" height="4.5" rx="0.8"/><rect x="1" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="6.5" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="12" y="17.5" width="4.5" height="4.5" rx="0.8"/><rect x="17.5" y="17.5" width="4.5" height="4.5" rx="0.8"/></svg>
+                    </button>
+                    <button class="proj-size-btn" id="psize-list" onclick="setProjectsSize('list')" title="Liste">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
                 <button class="projects-modal-close" onclick="toggleProjects()">✕</button>
             </div>
             <div class="projects-modal-body">
-                <div class="projects-sort-bar">
-                    <span class="projects-sort-label">Trier :</span>
-                    <button class="sort-btn active" id="sortDate" onclick="sortProjects('date')">Date</button>
-                    <button class="sort-btn" id="sortName" onclick="sortProjects('name')">Nom</button>
-                </div>
-                <div id="projectsList">
+
+                <div id="projectsList" class="size-md">
                     <p style="text-align: center; color: var(--text-tertiary); padding: 40px 20px;">
                         Aucun projet sauvegardé
                     </p>
@@ -7035,6 +6920,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
 
         // ===== SORT PROJECTS =====
         window._sortMode = 'date';
+        document.querySelector('.project-name').value = 'Mon Projet';
         function sortProjects(mode) {
             window._sortMode = mode;
             document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
@@ -8805,6 +8691,9 @@ ${js}
         }
         function toggleProjects() {
             document.getElementById('projectsPanel').classList.toggle('active');
+            // Restaurer la taille sauvegardée
+            const savedSize = localStorage.getItem('scrix_proj_size') || 'md';
+            setProjectsSize(savedSize);
             loadProjectsList();
         }
 
@@ -9234,6 +9123,19 @@ ${js}
                 window._lastSavedCode = _getCurrentCodeSnapshot ? _getCurrentCodeSnapshot() : null;
                 loadProjectsList();
             });
+        }
+
+        function setProjectsSize(size) {
+            const list = document.getElementById('projectsList');
+            if (!list) return;
+            // Remove all size classes
+            list.classList.remove('size-xl', 'size-md', 'size-sm', 'size-list');
+            list.classList.add('size-' + size);
+            // Update active button
+            document.querySelectorAll('.proj-size-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('psize-' + size);
+            if (btn) btn.classList.add('active');
+            localStorage.setItem('scrix_proj_size', size);
         }
 
         function loadProjectsList() {
