@@ -11014,204 +11014,362 @@ ${js}
             startGame('memory');
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
-            
-            const symbols = ['🌸', '🎮', '⭐', '🎨', '🚀', '💎', '🔥', '🌈'];
-            
-            let cards = [...symbols, ...symbols];
-            for (let i = cards.length - 1; i > 0; i--) {
+
+            // Symbols avec couleurs associées
+            const CARDS_DATA = [
+                { sym: '🌸', color: '#f472b6' },
+                { sym: '🎮', color: '#818cf8' },
+                { sym: '⭐', color: '#fbbf24' },
+                { sym: '🎨', color: '#34d399' },
+                { sym: '🚀', color: '#60a5fa' },
+                { sym: '💎', color: '#a78bfa' },
+                { sym: '🔥', color: '#fb923c' },
+                { sym: '🌈', color: '#f87171' },
+            ];
+
+            let deck = [...CARDS_DATA, ...CARDS_DATA];
+            for (let i = deck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [cards[i], cards[j]] = [cards[j], cards[i]];
+                [deck[i], deck[j]] = [deck[j], deck[i]];
             }
-            
+
+            const COLS = 4, ROWS = 4, TOTAL = 16;
+            const GAP = 14;
+            const PAD_X = Math.floor(canvas.width * 0.04);
+            const PAD_Y = Math.floor(canvas.height * 0.05);
+            const cW = Math.floor((canvas.width  - PAD_X * 2 - GAP * (COLS - 1)) / COLS);
+            const cH = Math.floor((canvas.height - PAD_Y * 2 - GAP * (ROWS - 1)) / ROWS);
+
+            // État des cartes: flip (0=dos, 1=face), scale, glow, particles
+            let state = Array.from({length: TOTAL}, () => ({
+                flip: 0,        // 0→1 flip vers face, -1→0 flip vers dos
+                flipping: false,
+                matched: false,
+                matchScale: 1,
+                matchGlow: 0,
+                shake: 0,
+                shakeDir: 1,
+            }));
+
+            let particles = []; // particules de match
             let flipped = [];
             let matched = [];
             let score = 0;
-            let isAnimating = false;
-            const totalCards = 16;
+            let moves = 0;
+            let isLocked = false;
+            let bgStars = Array.from({length: 40}, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.3,
+                a: Math.random(),
+                speed: Math.random() * 0.008 + 0.003,
+            }));
 
-            // Calculer la taille des cartes pour remplir l'écran
-            const cols = 4, rows = 4;
-            const paddingH = Math.floor(canvas.width * 0.02);
-            const paddingV = Math.floor(canvas.height * 0.02);
-            const marginH = Math.floor(canvas.width * 0.05);
-            const marginV = Math.floor(canvas.height * 0.06);
-            const cardWidth = Math.floor((canvas.width - marginH * 2 - paddingH * (cols - 1)) / cols);
-            const cardHeight = Math.floor((canvas.height - marginV * 2 - paddingV * (rows - 1)) / rows);
-            const padding = Math.max(paddingH, paddingV);
-            const startX = marginH;
-            const startY = marginV;
-            
-            let cardStates = {};
-            let matchAnimations = {};
-            
-            for (let i = 0; i < totalCards; i++) {
-                cardStates[i] = {rotation: 0, isFlipping: false};
+            function getCardPos(i) {
+                const col = i % COLS, row = Math.floor(i / COLS);
+                return {
+                    x: PAD_X + col * (cW + GAP),
+                    y: PAD_Y + row * (cH + GAP),
+                };
+            }
+
+            // Flip animation fluide
+            function animFlip(i, toFront, onDone) {
+                const s = state[i];
+                s.flipping = true;
+                const start = s.flip;
+                const end = toFront ? 1 : 0;
+                const dur = 320;
+                const t0 = performance.now();
+                function step(t) {
+                    const p = Math.min((t - t0) / dur, 1);
+                    const ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
+                    s.flip = start + (end - start) * ease;
+                    if (p < 1) { requestAnimationFrame(step); }
+                    else { s.flip = end; s.flipping = false; if (onDone) onDone(); }
+                }
+                requestAnimationFrame(step);
+            }
+
+            // Animation match: scale bounce + glow
+            function animMatch(i) {
+                const s = state[i];
+                const dur = 500;
+                const t0 = performance.now();
+                function step(t) {
+                    const p = Math.min((t - t0) / dur, 1);
+                    s.matchScale = 1 + Math.sin(p * Math.PI) * 0.18;
+                    s.matchGlow  = Math.sin(p * Math.PI) * 40;
+                    if (p < 1) requestAnimationFrame(step);
+                    else { s.matchScale = 1; s.matchGlow = 0; }
+                }
+                requestAnimationFrame(step);
+            }
+
+            // Animation shake (mauvaise paire)
+            function animShake(i) {
+                const s = state[i];
+                const dur = 400;
+                const t0 = performance.now();
+                function step(t) {
+                    const p = Math.min((t - t0) / dur, 1);
+                    s.shake = Math.sin(p * Math.PI * 6) * 8 * (1 - p);
+                    if (p < 1) requestAnimationFrame(step);
+                    else s.shake = 0;
+                }
+                requestAnimationFrame(step);
+            }
+
+            // Spawn particules
+            function spawnParticles(i) {
+                const {x, y} = getCardPos(i);
+                const cx = x + cW/2, cy = y + cH/2;
+                const color = deck[i].color;
+                for (let k = 0; k < 18; k++) {
+                    const angle = (k / 18) * Math.PI * 2 + Math.random() * 0.4;
+                    const speed = 2.5 + Math.random() * 3;
+                    particles.push({
+                        x: cx, y: cy,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 1, decay: 0.025 + Math.random() * 0.02,
+                        r: 3 + Math.random() * 4,
+                        color,
+                    });
+                }
             }
 
             canvas.onclick = (e) => {
-                if (currentGame !== 'memory' || flipped.length >= 2 || isAnimating) return;
-                
+                if (currentGame !== 'memory' || isLocked) return;
                 const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const col = Math.floor((x - startX) / (cardWidth + paddingH));
-                const row = Math.floor((y - startY) / (cardHeight + paddingV));
-                const index = row * 4 + col;
-                
-                if (index >= 0 && index < totalCards && col >= 0 && col < 4 && row >= 0 && row < 4 && 
-                    !flipped.includes(index) && !matched.includes(index) &&
-                    !cardStates[index].isFlipping) {
-                    
-                    flipped.push(index);
-                    cardStates[index].isFlipping = true;
-                    flipToFront(index);
-                    
-                    if (flipped.length === 2) {
-                        isAnimating = true;
-                        setTimeout(() => {
-                            if (cards[flipped[0]] === cards[flipped[1]]) {
-                                matchAnimations[flipped[0]] = {rotation: 0, scale: 1};
-                                matchAnimations[flipped[1]] = {rotation: 0, scale: 1};
-                                matched.push(...flipped);
-                                score += 10;
-                                
-                                setTimeout(() => {
-                                    delete matchAnimations[flipped[0]];
-                                    delete matchAnimations[flipped[1]];
+                const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const my = (e.clientY - rect.top)  * (canvas.height / rect.height);
+                for (let i = 0; i < TOTAL; i++) {
+                    const {x, y} = getCardPos(i);
+                    if (mx >= x && mx <= x+cW && my >= y && my <= y+cH) {
+                        if (state[i].matched || flipped.includes(i) || state[i].flipping) return;
+                        flipped.push(i);
+                        animFlip(i, true);
+                        if (flipped.length === 2) {
+                            isLocked = true;
+                            moves++;
+                            const [a, b] = flipped;
+                            setTimeout(() => {
+                                if (deck[a].sym === deck[b].sym) {
+                                    // Match !
+                                    score += Math.max(10, 30 - moves);
+                                    state[a].matched = state[b].matched = true;
+                                    matched.push(a, b);
+                                    animMatch(a); animMatch(b);
+                                    spawnParticles(a); spawnParticles(b);
                                     flipped = [];
-                                    isAnimating = false;
-                                    
-                                    if (matched.length === totalCards) {
-                                        document.getElementById('gameInfo').textContent = `🎉 Gagné! Score: ${score} 🎉`;
+                                    isLocked = false;
+                                    if (matched.length === TOTAL) {
+                                        setTimeout(() => {
+                                            document.getElementById('gameInfo').textContent = `🎉 Gagné en ${moves} coups ! Score: ${score}`;
+                                        }, 600);
                                     }
-                                }, 1000);
-                            } else {
-                                setTimeout(() => {
-                                    flipToBack(flipped[0]);
-                                    flipToBack(flipped[1]);
-                                    setTimeout(() => { flipped = []; isAnimating = false; }, 500);
-                                }, 500);
-                            }
-                        }, 700);
+                                } else {
+                                    // Pas de match
+                                    animShake(a); animShake(b);
+                                    setTimeout(() => {
+                                        animFlip(a, false);
+                                        animFlip(b, false, () => { flipped = []; isLocked = false; });
+                                    }, 500);
+                                }
+                            }, 650);
+                        }
+                        return;
                     }
                 }
             };
 
-            function flipToFront(index) {
-                const animate = () => {
-                    if (cardStates[index].rotation < 180) {
-                        cardStates[index].rotation += 18;
-                        if (cardStates[index].rotation >= 180) { cardStates[index].rotation = 180; cardStates[index].isFlipping = false; }
-                        else requestAnimationFrame(animate);
-                    }
-                };
-                animate();
+            function roundRect(ctx, x, y, w, h, r) {
+                ctx.beginPath();
+                ctx.moveTo(x+r, y);
+                ctx.lineTo(x+w-r, y);
+                ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+                ctx.lineTo(x+w, y+h-r);
+                ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+                ctx.lineTo(x+r, y+h);
+                ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+                ctx.lineTo(x, y+r);
+                ctx.quadraticCurveTo(x, y, x+r, y);
+                ctx.closePath();
             }
 
-            function flipToBack(index) {
-                cardStates[index].isFlipping = true;
-                const animate = () => {
-                    if (cardStates[index].rotation > 0) {
-                        cardStates[index].rotation -= 18;
-                        if (cardStates[index].rotation <= 0) { cardStates[index].rotation = 0; cardStates[index].isFlipping = false; }
-                        else requestAnimationFrame(animate);
-                    }
-                };
-                animate();
+            function drawCardBack(x, y, w, h, alpha) {
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                // Fond dégradé
+                const g = ctx.createLinearGradient(x, y, x+w, y+h);
+                g.addColorStop(0, '#2e1065');
+                g.addColorStop(0.5, '#4c1d95');
+                g.addColorStop(1, '#1e1b4b');
+                ctx.fillStyle = g;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = 'rgba(124,58,237,0.4)';
+                roundRect(ctx, x, y, w, h, 14);
+                ctx.fill();
+                // Bordure
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = '#6d28d9';
+                ctx.lineWidth = 2;
+                roundRect(ctx, x, y, w, h, 14);
+                ctx.stroke();
+                // Motif losange décoratif
+                ctx.strokeStyle = 'rgba(167,139,250,0.25)';
+                ctx.lineWidth = 1;
+                const cx = x+w/2, cy = y+h/2;
+                const sz = Math.min(w,h)*0.32;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy-sz); ctx.lineTo(cx+sz, cy);
+                ctx.lineTo(cx, cy+sz); ctx.lineTo(cx-sz, cy);
+                ctx.closePath(); ctx.stroke();
+                const sz2 = sz * 0.62;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy-sz2); ctx.lineTo(cx+sz2, cy);
+                ctx.lineTo(cx, cy+sz2); ctx.lineTo(cx-sz2, cy);
+                ctx.closePath(); ctx.stroke();
+                // Symbole ?
+                ctx.font = `bold ${Math.floor(h*0.38)}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = 'rgba(167,139,250,0.6)';
+                ctx.fillText('?', cx, cy);
+                ctx.restore();
             }
 
-            function animate() {
-                if (currentGame !== 'memory') return;
-                for (let index in matchAnimations) {
-                    const anim = matchAnimations[index];
-                    if (anim.rotation < 720) { anim.rotation += 36; anim.scale = 1 + Math.sin(anim.rotation * Math.PI / 180) * 0.2; }
-                    else { anim.rotation = 720; anim.scale = 1; }
+            function drawCardFront(i, x, y, w, h, alpha) {
+                const card = deck[i];
+                const isMatched = state[i].matched;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                // Fond
+                const g = ctx.createLinearGradient(x, y, x+w, y+h);
+                if (isMatched) {
+                    g.addColorStop(0, '#064e3b');
+                    g.addColorStop(1, '#065f46');
+                    ctx.shadowBlur = state[i].matchGlow + 15;
+                    ctx.shadowColor = '#34d399';
+                } else {
+                    g.addColorStop(0, '#1e1b4b');
+                    g.addColorStop(1, '#312e81');
+                    ctx.shadowBlur = 0;
                 }
-                draw();
-                requestAnimationFrame(animate);
+                ctx.fillStyle = g;
+                roundRect(ctx, x, y, w, h, 14);
+                ctx.fill();
+                // Bordure
+                ctx.strokeStyle = isMatched ? '#34d399' : card.color;
+                ctx.lineWidth = isMatched ? 3 : 2.5;
+                ctx.shadowBlur = isMatched ? state[i].matchGlow : 8;
+                ctx.shadowColor = isMatched ? '#34d399' : card.color;
+                roundRect(ctx, x, y, w, h, 14);
+                ctx.stroke();
+                // Halo coloré en fond de l'emoji
+                if (!isMatched) {
+                    ctx.shadowBlur = 0;
+                    const radGrad = ctx.createRadialGradient(x+w/2, y+h/2, 0, x+w/2, y+h/2, w*0.4);
+                    radGrad.addColorStop(0, card.color + '33');
+                    radGrad.addColorStop(1, 'transparent');
+                    ctx.fillStyle = radGrad;
+                    roundRect(ctx, x, y, w, h, 14);
+                    ctx.fill();
+                }
+                // Emoji
+                ctx.shadowBlur = 0;
+                ctx.font = `${Math.floor(h * 0.48)}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = 'white';
+                ctx.fillText(card.sym, x+w/2, y+h/2);
+                // Checkmark si matched
+                if (isMatched) {
+                    ctx.font = `bold ${Math.floor(h*0.2)}px Arial`;
+                    ctx.fillStyle = '#34d399';
+                    ctx.fillText('✓', x+w-14, y+16);
+                }
+                ctx.restore();
             }
 
             function draw() {
-                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, '#1a0f2e');
-                gradient.addColorStop(1, '#2d1f4a');
-                ctx.fillStyle = gradient;
+                // BG
+                const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                bg.addColorStop(0, '#0f0a1e');
+                bg.addColorStop(0.5, '#1a0f2e');
+                bg.addColorStop(1, '#0d0520');
+                ctx.fillStyle = bg;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                for (let i = 0; i < totalCards; i++) {
-                    const col = i % 4;
-                    const row = Math.floor(i / 4);
-                    const x = col * (cardWidth + paddingH) + startX;
-                    const y = row * (cardHeight + paddingV) + startY;
-                    
-                    ctx.save();
-                    const centerX = x + cardWidth / 2;
-                    const centerY = y + cardHeight / 2;
-                    
-                    if (matchAnimations[i]) {
-                        const anim = matchAnimations[i];
-                        ctx.translate(centerX, centerY);
-                        ctx.rotate(anim.rotation * Math.PI / 180);
-                        ctx.scale(anim.scale, anim.scale);
-                        ctx.translate(-centerX, -centerY);
-                        ctx.shadowBlur = 30;
-                        ctx.shadowColor = '#10b981';
-                    }
-                    
-                    const rotation = cardStates[i].rotation;
-                    const scaleX = Math.abs(Math.cos(rotation * Math.PI / 180));
-                    const showFront = rotation > 90;
-                    
-                    ctx.translate(centerX, 0);
-                    ctx.scale(scaleX, 1);
-                    ctx.translate(-centerX, 0);
-                    
-                    if (matched.includes(i)) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; ctx.lineWidth = 3; }
-                    else if (showFront) { ctx.fillStyle = '#7c3aed'; ctx.strokeStyle = '#a78bfa'; ctx.lineWidth = 2.5; }
-                    else { ctx.fillStyle = '#2d1f4a'; ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 2; }
-                    
-                    roundRect(ctx, x, y, cardWidth, cardHeight, 12);
+
+                // Étoiles de fond
+                bgStars.forEach(s => {
+                    s.a += s.speed;
+                    const alpha = (Math.sin(s.a) + 1) / 2 * 0.5 + 0.1;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                    ctx.fillStyle = `rgba(167,139,250,${alpha})`;
                     ctx.fill();
-                    ctx.stroke();
-                    
-                    if (scaleX > 0.05) {
-                        const fontSize = Math.floor(cardHeight * 0.5);
-                        if ((showFront && !matched.includes(i)) || matched.includes(i)) {
-                            ctx.font = `${fontSize}px Arial`;
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = 'white';
-                            ctx.shadowBlur = 0;
-                            ctx.fillText(cards[i], x + cardWidth/2, y + cardHeight/2);
-                        } else if (!showFront) {
-                            ctx.font = `bold ${Math.floor(fontSize * 0.8)}px Arial`;
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = '#7c3aed';
-                            ctx.fillText('?', x + cardWidth/2, y + cardHeight/2);
-                        }
+                });
+
+                // Particules
+                particles = particles.filter(p => p.life > 0);
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    p.vy += 0.12;
+                    p.life -= p.decay;
+                    ctx.beginPath();
+                    const pr = Math.max(0, p.r * p.life); ctx.arc(p.x, p.y, pr, 0, Math.PI*2);
+                    ctx.fillStyle = p.color + Math.floor(p.life * 255).toString(16).padStart(2,'0');
+                    ctx.fill();
+                });
+
+                // Cartes
+                for (let i = 0; i < TOTAL; i++) {
+                    const s = state[i];
+                    const {x, y} = getCardPos(i);
+                    const cx = x + cW/2, cy = y + cH/2;
+                    const flip = s.flip; // 0 = dos, 1 = face
+                    const scaleX = Math.cos(flip * Math.PI); // 1→-1→1 mais on split en deux phases
+                    const absScale = Math.abs(scaleX);
+                    const showFront = flip >= 0.5;
+
+                    ctx.save();
+                    // Scale match bounce
+                    if (s.matchScale !== 1) {
+                        ctx.translate(cx + s.shake, cy);
+                        ctx.scale(s.matchScale, s.matchScale);
+                        ctx.translate(-cx, -cy);
+                    } else if (s.shake !== 0) {
+                        ctx.translate(s.shake, 0);
+                    }
+
+                    // Flip 3D simulé : on écrase horizontalement
+                    ctx.translate(cx + (s.shake && s.matchScale===1 ? 0 : 0), cy);
+                    ctx.scale(absScale, 1);
+                    ctx.translate(-cx, -cy);
+
+                    if (showFront) {
+                        const alpha2 = flip >= 0.5 ? (flip - 0.5) * 2 : 0;
+                        drawCardFront(i, x, y, cW, cH, Math.min(1, alpha2 * 1.4));
+                    } else {
+                        const alpha2 = flip <= 0.5 ? 1 - flip * 2 : 0;
+                        drawCardBack(x, y, cW, cH, Math.min(1, alpha2 * 1.4 + 0.3));
                     }
                     ctx.restore();
                 }
-                document.getElementById('gameInfo').textContent = `Score: ${score} | Paires: ${matched.length/2}/8`;
+
+                // HUD
+                document.getElementById('gameInfo').textContent =
+                    `Score: ${score} | Paires: ${matched.length/2}/8 | Coups: ${moves}`;
             }
-            
-            function roundRect(ctx, x, y, width, height, radius) {
-                ctx.beginPath();
-                ctx.moveTo(x + radius, y);
-                ctx.lineTo(x + width - radius, y);
-                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-                ctx.lineTo(x + width, y + height - radius);
-                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-                ctx.lineTo(x + radius, y + height);
-                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-                ctx.lineTo(x, y + radius);
-                ctx.quadraticCurveTo(x, y, x + radius, y);
-                ctx.closePath();
+
+            function loop() {
+                if (currentGame !== 'memory') return;
+                draw();
+                requestAnimationFrame(loop);
             }
-            
-            animate();
+            loop();
         }
 
         // ========== PONG GAME ==========
