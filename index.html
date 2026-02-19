@@ -10783,12 +10783,22 @@ ${js}
 
         async function removeCustomGame(index) {
             const games = getCustomGames();
-            const name = games[index] ? games[index].name : '';
-            games.splice(index, 1);
-            saveCustomGames(games);
-            await syncCustomGamesToCloud();
-            renderCustomGameCards();
-            if (name) showNotification(`"${name}" retiré des mini-jeux`, 'success');
+            const name = games[index] ? games[index].name : 'ce mini-jeu';
+            scrixConfirm({
+                icon: '🗑️',
+                title: 'Supprimer le mini-jeu',
+                desc: `Tu veux vraiment supprimer "${name}" ? Cette action est irréversible.`,
+                okText: 'Supprimer',
+                danger: true
+            }, async (confirmed) => {
+                if (!confirmed) return;
+                const g = getCustomGames();
+                g.splice(index, 1);
+                saveCustomGames(g);
+                await syncCustomGamesToCloud();
+                renderCustomGameCards();
+                showNotification(`"${name}" retiré des mini-jeux`, 'success');
+            });
         }
 
         function launchCustomGame(index) {
