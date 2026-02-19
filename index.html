@@ -126,7 +126,7 @@
             }
         });
 
-        console.debug('[SCRIX] Firebase initialisé');
+        console.log('[SCRIX] Firebase initialisé');
     </script>
     
     <!-- Pas de Pyodide - trop lourd et buggy -->
@@ -5396,243 +5396,6 @@
                 display: none;
             }
         }
-
-        /* ===== AI ASSISTANT PANEL ===== */
-        .ai-panel {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 420px;
-            height: 600px;
-            background: rgba(20, 12, 38, 0.98);
-            backdrop-filter: blur(40px);
-            border: 1.5px solid var(--border-default);
-            border-radius: 20px 20px 0 0;
-            box-shadow: -8px -8px 40px rgba(0,0,0,0.5), 0 0 30px var(--purple-glow);
-            z-index: 9998;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(110%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .ai-panel.active {
-            transform: translateY(0);
-        }
-        .ai-panel-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(124,58,237,0.08);
-            border-radius: 20px 20px 0 0;
-            flex-shrink: 0;
-        }
-        .ai-panel-title {
-            flex: 1;
-            font-size: 15px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--purple-light), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .ai-panel-badge {
-            font-size: 10px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-pink));
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .ai-close-btn {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .ai-close-btn:hover { background: var(--surface-hover); color: var(--text-primary); }
-        .ai-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .ai-msg {
-            max-width: 85%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.5;
-            animation: msgSlide 0.3s ease;
-        }
-        @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .ai-msg-user {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        .ai-msg-ai {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        .ai-msg-ai code {
-            background: rgba(0,0,0,0.4);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-        }
-        .ai-msg-ai pre {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-        .ai-thinking {
-            align-self: flex-start;
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            padding: 12px 16px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            border-bottom-left-radius: 4px;
-        }
-        .ai-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--purple-light);
-            border-radius: 50%;
-            animation: aiDot 1.2s ease-in-out infinite;
-        }
-        .ai-dot:nth-child(2) { animation-delay: 0.2s; }
-        .ai-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes aiDot {
-            0%,80%,100% { transform: scale(0.6); opacity: 0.4; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-        .ai-quick-actions {
-            padding: 10px 16px;
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            border-top: 1px solid var(--border-subtle);
-            flex-shrink: 0;
-        }
-        .ai-quick-btn {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            font-size: 11px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: var(--font-sans);
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-        .ai-quick-btn:hover {
-            background: var(--surface-hover);
-            border-color: var(--primary-purple);
-            color: var(--primary-purple);
-        }
-        .ai-input-area {
-            padding: 12px 16px;
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid var(--border-subtle);
-            flex-shrink: 0;
-            align-items: flex-end;
-        }
-        .ai-input {
-            flex: 1;
-            background: var(--bg-tertiary);
-            border: 1.5px solid var(--border-default);
-            border-radius: 12px;
-            padding: 10px 14px;
-            color: var(--text-primary);
-            font-size: 13px;
-            font-family: var(--font-sans);
-            outline: none;
-            resize: none;
-            max-height: 100px;
-            min-height: 40px;
-            transition: border-color 0.2s;
-        }
-        .ai-input:focus {
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
-        }
-        .ai-send-btn {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px var(--purple-glow);
-            flex-shrink: 0;
-        }
-        .ai-send-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px var(--purple-glow); }
-        .ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        /* AI Toggle button */
-        .ai-toggle-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-pink));
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9997;
-            box-shadow: 0 8px 24px var(--purple-glow), 0 0 0 0 rgba(124,58,237,0.4);
-            animation: aiPulse 3s ease-in-out infinite;
-            transition: transform 0.2s;
-        }
-        .ai-toggle-btn:hover { transform: scale(1.1); }
-        .ai-toggle-btn.hidden { display: none; }
-        @keyframes aiPulse {
-            0%,100% { box-shadow: 0 8px 24px var(--purple-glow), 0 0 0 0 rgba(124,58,237,0.4); }
-            50% { box-shadow: 0 8px 24px var(--purple-glow), 0 0 0 12px rgba(124,58,237,0); }
-        }
-
         /* ===== LINTER PANEL ===== */
         .linter-panel {
             background: #0b0718;
@@ -6914,39 +6677,6 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         </div>
     </div>
 
-    <!-- ===== AI ASSISTANT PANEL ===== -->
-    <div class="ai-panel" id="aiPanel">
-        <div class="ai-panel-header">
-            <span style="font-size:22px;">🤖</span>
-            <div class="ai-panel-title">Assistant SCRIX</div>
-            <span class="ai-panel-badge">IA</span>
-            <button class="ai-close-btn" onclick="toggleAI()">✕</button>
-        </div>
-        <div class="ai-messages" id="aiMessages">
-            <div class="ai-msg ai-msg-ai">
-                Salut ! Je suis ton assistant IA. Je peux t'aider à <strong>expliquer ton code</strong>, <strong>corriger des bugs</strong>, <strong>optimiser</strong>, ou <strong>générer du code</strong>. Comment puis-je t'aider ?
-            </div>
-        </div>
-        <div class="ai-quick-actions">
-            <button class="ai-quick-btn" onclick="aiQuick('explain')">💡 Expliquer</button>
-            <button class="ai-quick-btn" onclick="aiQuick('fix')">🔧 Corriger bugs</button>
-            <button class="ai-quick-btn" onclick="aiQuick('optimize')">⚡ Optimiser</button>
-            <button class="ai-quick-btn" onclick="aiQuick('comment')">📝 Commenter</button>
-            <button class="ai-quick-btn" onclick="aiQuick('convert')">🔄 Convertir JS→Python</button>
-        </div>
-        <div class="ai-input-area">
-            <textarea class="ai-input" id="aiInput" placeholder="Pose une question sur ton code... (max 500 car.)" rows="1"
-                maxlength="500" autocomplete="off" spellcheck="false"
-                onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendAI();}"
-                oninput="const c=document.getElementById('aiCharCount');if(c){const l=this.value.length;c.textContent=l>0?l+'/500 car.':'';c.style.color=l>450?'#ef4444':l>350?'#f59e0b':'#6b7280';}"></textarea>
-            <div id="aiCharCount" style="font-size:10px;color:#6b7280;text-align:right;padding:2px 6px 0 0;line-height:1.2;"></div>
-            <button class="ai-send-btn" id="aiSendBtn" onclick="sendAI()">➤</button>
-        </div>
-    </div>
-
-    <!-- AI Toggle Button -->
-    <button class="ai-toggle-btn" id="aiToggleBtn" onclick="toggleAI()" title="Assistant IA (Ctrl+I)">🤖</button>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify-html.min.js"></script>
@@ -7618,8 +7348,8 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                                     }
                                 } catch(ex) {}
                             }
-                            ['log','warn','error','info'].forEach(function(m) {
-                                var _o = console[m].bind(console);
+                            ['log','warn','error','info','debug'].forEach(function(m) {
+                                var _o = (console[m] || console.log).bind(console);
                                 console[m] = function() { _o.apply(console, arguments); _send(m, arguments); };
                             });
                             window.addEventListener('error', function(e) {
@@ -11004,144 +10734,6 @@ ${html}
         }
 
         // ===========================
-        // 🤖 AI ASSISTANT
-        // ===========================
-        let _aiOpen = false;
-
-        function toggleAI() {
-            _aiOpen = !_aiOpen;
-            const panel = document.getElementById('aiPanel');
-            const btn = document.getElementById('aiToggleBtn');
-            if (_aiOpen) {
-                panel.classList.add('active');
-                btn.classList.add('hidden');
-                document.getElementById('aiInput').focus();
-            } else {
-                panel.classList.remove('active');
-                btn.classList.remove('hidden');
-            }
-        }
-
-        function aiQuick(type) {
-            const prompts = {
-                explain: 'Explique ce code en français de façon claire et concise.',
-                fix: 'Identifie et corrige les bugs dans ce code. Explique chaque correction.',
-                optimize: 'Optimise ce code pour de meilleures performances. Explique les changements.',
-                comment: 'Ajoute des commentaires clairs et utiles à ce code.',
-                convert: 'Convertis le code JavaScript en Python équivalent.'
-            };
-            const input = document.getElementById('aiInput');
-            input.value = prompts[type] || '';
-            sendAI();
-        }
-
-        // ===== RATE LIMITING IA (max 10 requêtes par minute) =====
-        window._aiRateLimit = { calls: [], maxPerMinute: 10 };
-
-        async function sendAI() {
-            const input = document.getElementById('aiInput');
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            // Vérification rate limit
-            const now = Date.now();
-            window._aiRateLimit.calls = window._aiRateLimit.calls.filter(t => now - t < 60000);
-            if (window._aiRateLimit.calls.length >= window._aiRateLimit.maxPerMinute) {
-                const wait = Math.ceil((60000 - (now - window._aiRateLimit.calls[0])) / 1000);
-                showNotification(`⏳ Limite atteinte. Attends ${wait}s avant la prochaine question.`, 'warn');
-                return;
-            }
-            window._aiRateLimit.calls.push(now);
-
-            const sendBtn = document.getElementById('aiSendBtn');
-            const messages = document.getElementById('aiMessages');
-
-            // Get current code context
-            const activeTab = document.querySelector('.tab-btn.active');
-            const tabText = activeTab ? activeTab.textContent : 'html';
-            let code = '';
-            if (tabText.includes('HTML')) code = getEditorValue('htmlEditor');
-            else if (tabText.includes('CSS')) code = getEditorValue('cssEditor');
-            else if (tabText.includes('JS')) code = getEditorValue('jsEditor');
-            else if (tabText.includes('Python')) code = getEditorValue('pythonEditor');
-
-            // Add user message
-            const userDiv = document.createElement('div');
-            userDiv.className = 'ai-msg ai-msg-user';
-            userDiv.textContent = msg;
-            messages.appendChild(userDiv);
-            input.value = '';
-            sendBtn.disabled = true;
-            messages.scrollTop = messages.scrollHeight;
-
-            // Add thinking indicator
-            const thinking = document.createElement('div');
-            thinking.className = 'ai-thinking';
-            thinking.innerHTML = '<div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>';
-            messages.appendChild(thinking);
-            messages.scrollTop = messages.scrollHeight;
-
-            try {
-                const systemPrompt = `Tu es un expert en développement web (HTML, CSS, JavaScript) et Python. Tu aides les utilisateurs de SCRIX, un éditeur de code en ligne. Réponds toujours en français. Sois concis mais complet. Pour le code, utilise des balises \`\`\` appropriées. Voici le code actuel de l'utilisateur (onglet ${tabText}):\n\n\`\`\`\n${code.slice(0, 3000)}\n\`\`\``;
-
-                const response = await fetch('https://api.anthropic.com/v1/messages', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000,
-                        system: systemPrompt,
-                        messages: [{ role: 'user', content: msg }]
-                    })
-                });
-
-                const data = await response.json();
-                thinking.remove();
-
-                const aiText = data.content?.[0]?.text || 'Désolé, une erreur s\'est produite.';
-
-                const aiDiv = document.createElement('div');
-                aiDiv.className = 'ai-msg ai-msg-ai';
-                // Rendu markdown sécurisé avec DOMPurify (anti-XSS)
-                const rawHtml = aiText
-                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                    .replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
-                        `<pre><code class="lang-${lang}">${code.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')}</code></pre>`)
-                    .replace(/`([^`]+)`/g, '<code>$1</code>')
-                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\n/g, '<br>');
-                aiDiv.innerHTML = typeof DOMPurify !== 'undefined'
-                    ? DOMPurify.sanitize(rawHtml, { ALLOWED_TAGS: ['pre','code','strong','em','br','span'], ALLOWED_ATTR: ['class'] })
-                    : rawHtml;
-                messages.appendChild(aiDiv);
-
-                // Add "Apply to editor" button if code detected
-                if (aiText.includes('```')) {
-                    const applyBtn = document.createElement('button');
-                    applyBtn.className = 'ai-quick-btn';
-                    applyBtn.style.cssText = 'margin: 4px 0 0 0; background: rgba(124,58,237,0.15); border-color: var(--primary-purple); color: var(--primary-purple);';
-                    applyBtn.textContent = '📋 Copier le code';
-                    applyBtn.onclick = () => {
-                        const codeMatch = aiText.match(/```(?:\w*)\n?([\s\S]*?)```/);
-                        if (codeMatch) {
-                            navigator.clipboard.writeText(codeMatch[1].trim());
-                            showNotification('Code copié !', 'success');
-                        }
-                    };
-                    messages.appendChild(applyBtn);
-                }
-
-            } catch (err) {
-                thinking.remove();
-                const errDiv = document.createElement('div');
-                errDiv.className = 'ai-msg ai-msg-ai';
-                errDiv.textContent = '❌ Erreur de connexion à l\'IA. Vérifie ta connexion internet.';
-                messages.appendChild(errDiv);
-            }
-
-            sendBtn.disabled = false;
-            messages.scrollTop = messages.scrollHeight;
-        }
 
         // ============================================================
         // 🔬 SCRIX PROFESSIONAL LINTER ENGINE v2.0
@@ -11831,8 +11423,8 @@ self.addEventListener('fetch', e => {
                 const blob = new Blob([swCode], { type: 'application/javascript' });
                 const swUrl = URL.createObjectURL(blob);
                 navigator.serviceWorker.register(swUrl, { scope: '/' })
-                    .then(() => console.debug('[SCRIX] Service Worker enregistré (mode hors-ligne actif)'))
-                    .catch(e => console.debug('[SCRIX] SW non enregistré (normal en dev):', e.message));
+                    .then(() => console.log('[SCRIX] Service Worker enregistré (mode hors-ligne actif)'))
+                    .catch(() => { /* SW non disponible en contexte blob/iframe, normal */ });
             }
         });
 
@@ -11879,7 +11471,7 @@ self.addEventListener('fetch', e => {
         // ===========================
         document.addEventListener('keydown', (e) => {
             // Ctrl+I → AI
-            if (e.ctrlKey && e.key === 'i' && !e.shiftKey) { e.preventDefault(); toggleAI(); return; }
+            
             // Ctrl+E → Export
             if (e.ctrlKey && e.key === 'e') { e.preventDefault(); openExport(); return; }
             // Alt+1-4 → Switch tabs
