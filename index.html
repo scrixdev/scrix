@@ -5593,15 +5593,6 @@
                 </div>
             </div>
             <div class="header-actions">
-                <!-- Auth Google — avatar visible uniquement quand connecté -->
-                <div id="authContainer">
-                    <div class="auth-user-pill" id="authUserPill" style="display:none;" onclick="toggleProfile()">
-                        <div class="auth-avatar-fallback" id="authAvatarFallback">?</div>
-                        <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none;" onerror="this.style.display='none';document.getElementById('authAvatarFallback').style.display='flex'"/>
-                        <span class="auth-username" id="authUsername">...</span>
-                        <div class="auth-sync-dot"></div>
-                    </div>
-                </div>
                 <button class="btn btn-primary" id="runBtn" data-tooltip="Exécuter (Ctrl+S)" onclick="runCode()" aria-label="Exécuter le code (Ctrl+S)">
                     ▶️ Exécuter
                 </button>
@@ -8825,7 +8816,6 @@ ${js}
             try {
             const signInBtn = document.getElementById('authSignInBtn');
             const userPill   = document.getElementById('authUserPill');
-            if (!userPill) return;
 
             if (user) {
                 // Connecté
