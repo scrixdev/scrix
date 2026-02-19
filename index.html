@@ -7860,6 +7860,35 @@ ${js}
         // ========== NOUVELLES FONCTIONS ==========
 
         // Menu Hamburger
+        function refreshMenuPill() {
+            const user = window._fbUser;
+            const menuConnected = document.getElementById('menuAccountConnected');
+            const menuDisconnected = document.getElementById('menuAccountDisconnected');
+            if (!menuConnected || !menuDisconnected) return;
+            if (user) {
+                const _savedProf = JSON.parse(localStorage.getItem('scrix_profile_' + user.uid) || '{}');
+                const firstName = _savedProf.username || (user.displayName || 'User').split(' ')[0];
+                menuDisconnected.style.display = 'none';
+                menuConnected.style.display = 'flex';
+                document.getElementById('menuUsername').textContent = firstName;
+                const avatarSrc = _savedProf.customAvatar || user.photoURL || null;
+                const mImg = document.getElementById('menuAvatarImg');
+                const mFallback = document.getElementById('menuAvatarFallback');
+                if (avatarSrc) {
+                    mImg.src = avatarSrc;
+                    mImg.style.display = 'block';
+                    mFallback.style.display = 'none';
+                } else {
+                    mImg.style.display = 'none';
+                    mFallback.style.display = 'flex';
+                    mFallback.textContent = firstName[0].toUpperCase();
+                }
+            } else {
+                menuConnected.style.display = 'none';
+                menuDisconnected.style.display = 'flex';
+            }
+        }
+
         function toggleMenu() {
             // Fermer les paramètres si ouverts
             const settingsPanel = document.getElementById('settingsPanel');
@@ -7874,6 +7903,9 @@ ${js}
             menu.classList.toggle('active');
             menuBtn.classList.toggle('active');
             overlay.classList.toggle('active');
+
+            // Rafraîchir la pill compte à chaque ouverture
+            if (menu.classList.contains('active')) refreshMenuPill();
         }
 
         function closeMenu() {
