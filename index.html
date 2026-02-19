@@ -11034,11 +11034,17 @@ ${js}
             }
 
             const COLS = 4, ROWS = 4, TOTAL = 16;
-            const GAP = 14;
+            const GAP = 16;
             const PAD_X = Math.floor(canvas.width * 0.04);
             const PAD_Y = Math.floor(canvas.height * 0.05);
-            const cW = Math.floor((canvas.width  - PAD_X * 2 - GAP * (COLS - 1)) / COLS);
-            const cH = Math.floor((canvas.height - PAD_Y * 2 - GAP * (ROWS - 1)) / ROWS);
+            // Forcer des cartes carrées : prendre la plus petite dimension disponible
+            const maxCW = Math.floor((canvas.width  - PAD_X * 2 - GAP * (COLS - 1)) / COLS);
+            const maxCH = Math.floor((canvas.height - PAD_Y * 2 - GAP * (ROWS - 1)) / ROWS);
+            const cW = Math.min(maxCW, maxCH);
+            const cH = cW;
+            // Centrer la grille dans le canvas
+            const gridW = cW * COLS + GAP * (COLS - 1);
+            const gridH = cH * ROWS + GAP * (ROWS - 1);
 
             // État des cartes: flip (0=dos, 1=face), scale, glow, particles
             let state = Array.from({length: TOTAL}, () => ({
@@ -11065,11 +11071,14 @@ ${js}
                 speed: Math.random() * 0.008 + 0.003,
             }));
 
+            const offX = Math.floor((canvas.width  - gridW) / 2);
+            const offY = Math.floor((canvas.height - gridH) / 2);
+
             function getCardPos(i) {
                 const col = i % COLS, row = Math.floor(i / COLS);
                 return {
-                    x: PAD_X + col * (cW + GAP),
-                    y: PAD_Y + row * (cH + GAP),
+                    x: offX + col * (cW + GAP),
+                    y: offY + row * (cH + GAP),
                 };
             }
 
