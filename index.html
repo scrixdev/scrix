@@ -5593,6 +5593,15 @@
                 </div>
             </div>
             <div class="header-actions">
+                <!-- Éléments auth cachés — nécessaires pour le JS -->
+                <div id="authContainer" style="display:none;">
+                    <div class="auth-user-pill" id="authUserPill" style="display:none;">
+                        <div class="auth-avatar-fallback" id="authAvatarFallback">?</div>
+                        <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none;"/>
+                        <span class="auth-username" id="authUsername">...</span>
+                        <div class="auth-sync-dot"></div>
+                    </div>
+                </div>
                 <button class="btn btn-primary" id="runBtn" data-tooltip="Exécuter (Ctrl+S)" onclick="runCode()" aria-label="Exécuter le code (Ctrl+S)">
                     ▶️ Exécuter
                 </button>
@@ -8939,7 +8948,7 @@ ${js}
                 if (!confirmed) return;
                 window._fbFns.signOut(window._fbAuth).then(() => {
                     localStorage.removeItem('scrix_profile');
-                    localStorage.removeItem('scrix_projects');
+                    // NE PAS supprimer scrix_projects — les garder en local
                     loadProjectsList();
                     showNotification('Déconnecté', 'success');
                 });
@@ -9230,16 +9239,20 @@ ${js}
                 return;
             }
 
-            // Si pas connecté, afficher un message d'invite
+            // Si pas connecté, afficher quand même les projets locaux
             if (!window._fbUser) {
-                projectsList.innerHTML = `
-                    <div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:60px 20px;">
-                        <div style="font-size:48px;margin-bottom:16px;">🔒</div>
-                        <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Connecte-toi pour sauvegarder</div>
-                        <div style="font-size:12px;margin-top:8px;opacity:0.6;">Tes projets sont synchronisés dans le cloud avec ton compte</div>
-                        <button onclick="openLoginModal()" style="margin-top:20px;padding:10px 24px;background:var(--primary-purple);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Se connecter</button>
-                    </div>`;
-                return;
+                const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
+                if (projects.length === 0) {
+                    projectsList.innerHTML = `
+                        <div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:60px 20px;">
+                            <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+                            <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Connecte-toi pour sauvegarder</div>
+                            <div style="font-size:12px;margin-top:8px;opacity:0.6;">Tes projets sont synchronisés dans le cloud avec ton compte</div>
+                            <button onclick="openLoginModal()" style="margin-top:20px;padding:10px 24px;background:var(--primary-purple);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Se connecter</button>
+                        </div>`;
+                    return;
+                }
+                // Projets locaux dispo même sans connexion — on continue l'affichage
             }
 
             const projects = JSON.parse(localStorage.getItem('scrix_projects') || '[]');
