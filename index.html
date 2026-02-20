@@ -4966,70 +4966,85 @@
         /* ===== PROFILE PANEL ===== */
         .profile-panel {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%) scale(0.95);
-            width: 600px;
-            max-width: 95vw;
-            max-height: 92vh;
-            background: var(--bg-secondary);
-            border: 1.5px solid var(--border-default);
-            border-radius: 20px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(167,139,250,0.12);
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 96%;
+            max-width: 900px;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
             z-index: 10000;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            height: auto;
         }
         .profile-panel.active {
-            transform: translate(-50%, -50%) scale(1);
+            transform: translateX(0);
             opacity: 1;
             pointer-events: all;
         }
         .profile-panel-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 9999;
             display: none;
         }
         .profile-panel-overlay.active { display: block; }
 
+        /* ── HEADER PROFIL ── */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+            background: #1a1a1e;
+            gap: 12px;
+        }
+        .profile-header-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-sans);
+        }
         /* ── CLOSE BTN ── */
         .profile-close-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            z-index: 10;
             width: 32px;
             height: 32px;
-            border-radius: 50%;
-            background: rgba(30, 20, 50, 0.75);
-            backdrop-filter: blur(8px);
-            border: 1.5px solid rgba(255,255,255,0.15);
-            color: white;
-            font-size: 16px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-tertiary);
+            font-size: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            flex-shrink: 0;
         }
         .profile-close-btn:hover {
-            background: rgba(239,68,68,0.5);
-            border-color: rgba(239,68,68,0.6);
-            transform: rotate(90deg);
+            background: rgba(255,255,255,0.09);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.14);
         }
 
         /* ── BANNER ── */
         .profile-banner {
             width: 100%;
-            height: 210px;
+            height: 240px;
             background: linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #0f0829 100%);
             flex-shrink: 0;
             position: relative;
@@ -7762,8 +7777,14 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <!-- Profile Panel -->
     <div class="profile-panel-overlay" id="profilePanelOverlay" onclick="toggleProfile()"></div>
     <div class="profile-panel" id="profilePanel">
-        <!-- Bouton fermer -->
-        <button class="profile-close-btn" onclick="toggleProfile()">✕</button>
+        <!-- Header -->
+        <div class="profile-header">
+            <div class="profile-header-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Mon Profil
+            </div>
+            <button class="profile-close-btn" onclick="toggleProfile()">✕</button>
+        </div>
 
         <!-- VUE NON CONNECTÉ -->
         <div id="profileNotConnected">
