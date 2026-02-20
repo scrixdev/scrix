@@ -445,9 +445,7 @@
         }
 
         .confirm-icon {
-            font-size: 36px;
-            margin-bottom: 14px;
-            text-align: center;
+            display: none; /* replaced by inline icon div */
         }
 
         .confirm-title {
@@ -614,726 +612,171 @@
             color: #ef4444;
         }
 
-        /* ===== INTRO ANIMATION AMÉLIORÉE ===== */
-        .intro-screen {
+        /* ===== INTRO SCREEN ===== */
+        #intro {
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 30% 40%, #0d1b4a 0%, #020617 50%, #000010 100%);
             z-index: 99999;
+            background: #060612;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
-            animation: introFadeOut 0.8s ease 5s forwards;
             overflow: hidden;
         }
 
-        /* Nébuleuse en fond */
-        .intro-screen::before {
-            content: '';
+        #intro.hide {
+            animation: introOut 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes introOut {
+            0%   { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.04); visibility: hidden; pointer-events: none; }
+        }
+
+        /* Canvas plein fond pour particules */
+        #introCanvas {
             position: absolute;
-            width: 700px;
-            height: 700px;
-            background: 
-                radial-gradient(ellipse at 30% 50%, rgba(79, 142, 247, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Halo central */
+        .intro-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            filter: blur(30px);
-            animation: nebulaPulse 6s ease-in-out infinite;
+            background: radial-gradient(ellipse, rgba(79,142,247,0.07) 0%, transparent 70%);
+            animation: glowPulse 4s ease-in-out infinite;
             pointer-events: none;
         }
 
-        /* Deuxième couche nébuleuse */
-        .intro-screen::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 300px;
-            background: radial-gradient(ellipse, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
-            top: 10%;
-            right: 10%;
-            filter: blur(50px);
-            animation: nebulaDrift 8s ease-in-out infinite alternate;
-            pointer-events: none;
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50%       { transform: scale(1.15); opacity: 1; }
         }
 
-        @keyframes nebulaPulse {
-            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1.08) rotate(3deg); }
-        }
-
-        @keyframes nebulaDrift {
-            0% { transform: translate(0, 0); opacity: 0.4; }
-            100% { transform: translate(-30px, 20px); opacity: 0.8; }
-        }
-
-        @keyframes introFadeOut {
-            to { 
-                opacity: 0; 
-                visibility: hidden;
-                pointer-events: none;
-            }
-        }
-
-        /* Container principal */
-        .scrix-container {
+        /* Wrapper central */
+        .intro-center {
             position: relative;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            animation: containerEntry 1s ease-out;
-            z-index: 10;
+            gap: 28px;
         }
 
-        @keyframes containerEntry {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* MONOGRAMME + ANNEAU LUMINEUX */
-        .monogram {
-            position: relative;
-            width: 100px;
-            height: 100px;
+        /* Logo icon */
+        .intro-icon {
+            width: 88px;
+            height: 88px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #1a2a6c, #2a4aad, #4f8ef7);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(79, 142, 247, 0.15));
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 28px;
-            backdrop-filter: blur(20px) saturate(180%);
-            box-shadow: 
-                0 25px 50px -12px rgba(99, 102, 241, 0.25),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            animation: monogramEntry 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-                       float 6s ease-in-out infinite 1.5s;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            box-shadow:
+                0 0 0 1px rgba(79,142,247,0.3),
+                0 20px 60px rgba(79,142,247,0.35),
+                0 0 120px rgba(79,142,247,0.12),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            animation: iconEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
         }
 
-
-
-        /* ===== ÉTOILES FILANTES ===== */
-        .night {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform: rotateZ(45deg);
-            pointer-events: none;
-            z-index: 1;
+        @keyframes iconEntry {
+            from { opacity: 0; transform: scale(0.5) translateY(20px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .shooting_star {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            height: 2px;
-            background: linear-gradient(-45deg, rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
-            border-radius: 999px;
-            filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1));
-            animation: tail 2000ms ease-in-out infinite, shooting 2000ms ease-in-out infinite;
+        .intro-icon svg {
+            width: 52px;
+            height: 52px;
+            overflow: visible;
         }
 
-        .shooting_star::before, .shooting_star::after {
-            content: '';
-            position: absolute;
-            top: calc(50% - 1px);
-            right: 0;
-            height: 2px;
-            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
-            border-radius: 100%;
-            animation: shining 3000ms ease-in-out infinite;
-        }
-        .shooting_star::before { transform: translateX(50%) rotateZ(45deg); }
-        .shooting_star::after  { transform: translateX(50%) rotateZ(-45deg); }
-
-        .shooting_star:nth-child(1)  { top: 10vh; left: 10vw; animation-delay: 0ms; }
-        .shooting_star:nth-child(1)::before, .shooting_star:nth-child(1)::after { animation-delay: 0ms; }
-        .shooting_star:nth-child(2)  { top: 10vh; left: 50vw; animation-delay: 200ms; }
-        .shooting_star:nth-child(2)::before, .shooting_star:nth-child(2)::after { animation-delay: 200ms; }
-        .shooting_star:nth-child(3)  { top: 10vh; left: 90vw; animation-delay: 400ms; }
-        .shooting_star:nth-child(3)::before, .shooting_star:nth-child(3)::after { animation-delay: 400ms; }
-        .shooting_star:nth-child(4)  { top: 30vh; left: 20vw; animation-delay: 100ms; }
-        .shooting_star:nth-child(4)::before, .shooting_star:nth-child(4)::after { animation-delay: 100ms; }
-        .shooting_star:nth-child(5)  { top: 30vh; left: 60vw; animation-delay: 300ms; }
-        .shooting_star:nth-child(5)::before, .shooting_star:nth-child(5)::after { animation-delay: 300ms; }
-        .shooting_star:nth-child(6)  { top: 30vh; left: 90vw; animation-delay: 500ms; }
-        .shooting_star:nth-child(6)::before, .shooting_star:nth-child(6)::after { animation-delay: 500ms; }
-        .shooting_star:nth-child(7)  { top: 50vh; left: 10vw; animation-delay: 600ms; }
-        .shooting_star:nth-child(7)::before, .shooting_star:nth-child(7)::after { animation-delay: 600ms; }
-        .shooting_star:nth-child(8)  { top: 50vh; left: 40vw; animation-delay: 150ms; }
-        .shooting_star:nth-child(8)::before, .shooting_star:nth-child(8)::after { animation-delay: 150ms; }
-        .shooting_star:nth-child(9)  { top: 50vh; left: 70vw; animation-delay: 350ms; }
-        .shooting_star:nth-child(9)::before, .shooting_star:nth-child(9)::after { animation-delay: 350ms; }
-        .shooting_star:nth-child(10)  { top: 50vh; left: 95vw; animation-delay: 700ms; }
-        .shooting_star:nth-child(10)::before, .shooting_star:nth-child(10)::after { animation-delay: 700ms; }
-        .shooting_star:nth-child(11)  { top: 70vh; left: 20vw; animation-delay: 250ms; }
-        .shooting_star:nth-child(11)::before, .shooting_star:nth-child(11)::after { animation-delay: 250ms; }
-        .shooting_star:nth-child(12)  { top: 70vh; left: 55vw; animation-delay: 450ms; }
-        .shooting_star:nth-child(12)::before, .shooting_star:nth-child(12)::after { animation-delay: 450ms; }
-        .shooting_star:nth-child(13)  { top: 70vh; left: 85vw; animation-delay: 650ms; }
-        .shooting_star:nth-child(13)::before, .shooting_star:nth-child(13)::after { animation-delay: 650ms; }
-        .shooting_star:nth-child(14)  { top: 90vh; left: 10vw; animation-delay: 800ms; }
-        .shooting_star:nth-child(14)::before, .shooting_star:nth-child(14)::after { animation-delay: 800ms; }
-        .shooting_star:nth-child(15)  { top: 90vh; left: 40vw; animation-delay: 50ms; }
-        .shooting_star:nth-child(15)::before, .shooting_star:nth-child(15)::after { animation-delay: 50ms; }
-        .shooting_star:nth-child(16)  { top: 90vh; left: 70vw; animation-delay: 900ms; }
-        .shooting_star:nth-child(16)::before, .shooting_star:nth-child(16)::after { animation-delay: 900ms; }
-        .shooting_star:nth-child(17)  { top: 90vh; left: 95vw; animation-delay: 1100ms; }
-        .shooting_star:nth-child(17)::before, .shooting_star:nth-child(17)::after { animation-delay: 1100ms; }
-        .shooting_star:nth-child(18)  { top: 20vh; left: 35vw; animation-delay: 750ms; }
-        .shooting_star:nth-child(18)::before, .shooting_star:nth-child(18)::after { animation-delay: 750ms; }
-        .shooting_star:nth-child(19)  { top: 20vh; left: 75vw; animation-delay: 950ms; }
-        .shooting_star:nth-child(19)::before, .shooting_star:nth-child(19)::after { animation-delay: 950ms; }
-        .shooting_star:nth-child(20)  { top: 40vh; left: 15vw; animation-delay: 850ms; }
-        .shooting_star:nth-child(20)::before, .shooting_star:nth-child(20)::after { animation-delay: 850ms; }
-        .shooting_star:nth-child(21)  { top: 40vh; left: 50vw; animation-delay: 1000ms; }
-        .shooting_star:nth-child(21)::before, .shooting_star:nth-child(21)::after { animation-delay: 1000ms; }
-        .shooting_star:nth-child(22)  { top: 40vh; left: 80vw; animation-delay: 1150ms; }
-        .shooting_star:nth-child(22)::before, .shooting_star:nth-child(22)::after { animation-delay: 1150ms; }
-        .shooting_star:nth-child(23)  { top: 60vh; left: 30vw; animation-delay: 1050ms; }
-        .shooting_star:nth-child(23)::before, .shooting_star:nth-child(23)::after { animation-delay: 1050ms; }
-        .shooting_star:nth-child(24)  { top: 60vh; left: 65vw; animation-delay: 1200ms; }
-        .shooting_star:nth-child(24)::before, .shooting_star:nth-child(24)::after { animation-delay: 1200ms; }
-        .shooting_star:nth-child(25)  { top: 80vh; left: 45vw; animation-delay: 1300ms; }
-        .shooting_star:nth-child(25)::before, .shooting_star:nth-child(25)::after { animation-delay: 1300ms; }
-
-        @keyframes tail {
-            0%   { width: 0; }
-            30%  { width: 100px; }
-            100% { width: 0; }
-        }
-        @keyframes shining {
-            0%   { width: 0; }
-            50%  { width: 30px; }
-            100% { width: 0; }
-        }
-        @keyframes shooting {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(300px); }
-        }
-
-        .letter-s, .letter-x {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            position: absolute;
-            line-height: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .letter-s {
-            color: #ffffff;
-            text-shadow: 
-                0 2px 10px rgba(0, 0, 0, 0.3),
-                0 0 40px rgba(255, 255, 255, 0.1);
-            transform: translate(-4px, -4px);
-            z-index: 2;
-            animation: letterSEntry 0.8s ease-out 0.3s both;
-        }
-
-        .letter-x {
-            background: linear-gradient(135deg, #6366f1 0%, #4f8ef7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
-            transform: translate(4px, 4px);
-            z-index: 1;
-            opacity: 0.95;
-            animation: letterXEntry 0.8s ease-out 0.5s both;
-        }
-
-        .fusion {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            z-index: 3;
-            box-shadow: 
-                0 0 0 4px rgba(99, 102, 241, 0.3),
-                0 0 0 8px rgba(99, 102, 241, 0.1),
-                0 0 40px rgba(255, 255, 255, 0.9),
-                inset 0 0 10px rgba(99, 102, 241, 0.5);
-            animation: 
-                fusionEntry 0.6s ease-out 0.9s both,
-                fusionPulse 3s ease-in-out infinite 1.5s;
-        }
-
-        .fusion::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: haloExpand 3s ease-out infinite;
-            pointer-events: none;
-        }
-
-        .full-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            color: #f8fafc;
+        /* SCRIX wordmark */
+        .intro-wordmark {
             position: relative;
-            margin-top: 8px;
             display: flex;
+            gap: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1;
         }
 
-        .sc, .ri, .x-letter {
+        .intro-wordmark .wl {
             display: inline-block;
             opacity: 0;
-            transform: translateY(20px);
-            animation: textReveal 0.6s ease-out forwards;
+            transform: translateY(30px) rotateX(-90deg);
+            color: #f0f4ff;
+            animation: letterReveal 0.5s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
         }
 
-        .sc { animation-delay: 1.1s; }
-        .ri { animation-delay: 1.2s; color: #a78bfa; }
-        .x-letter { 
-            animation-delay: 1.3s; 
-            background: linear-gradient(135deg, #6366f1, #4f8ef7);
+        .intro-wordmark .wl:nth-child(1) { animation-delay: 0.55s; }
+        .intro-wordmark .wl:nth-child(2) { animation-delay: 0.65s; }
+        .intro-wordmark .wl:nth-child(3) { animation-delay: 0.75s; color: #7eb3ff; }
+        .intro-wordmark .wl:nth-child(4) { animation-delay: 0.85s; color: #7eb3ff; }
+        .intro-wordmark .wl:nth-child(5) {
+            animation-delay: 0.95s;
+            background: linear-gradient(135deg, #4f8ef7, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-left: 2px;
-            font-weight: 800;
         }
 
-        .underline-container {
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 2px;
-            overflow: hidden;
+        @keyframes letterReveal {
+            to { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
 
-        .underline {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, #4f8ef7 20%, #6366f1 80%, transparent);
-            transform: scaleX(0);
-            transform-origin: center;
-            animation: drawLine 1.5s ease-out 1.5s forwards;
-            box-shadow: 0 0 10px rgba(79, 142, 247, 0.5);
-        }
-
-        /* TAGLINE ANIMÉE */
-        .tagline-intro {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.7rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: #64748b;
-            font-weight: 600;
-            margin-top: 8px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 2s forwards;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Effet scan sur tagline */
-        .tagline-intro::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(79,142,247,0.4), transparent);
-            animation: taglineScan 2s ease-out 2.5s forwards;
-        }
-
-        .tagline-intro::after {
-            content: '|';
-            position: absolute;
-            right: -12px;
-            color: #6366f1;
-            animation: blink 2s infinite;
-            opacity: 0;
-            animation-delay: 2.5s;
-        }
-
-        @keyframes taglineScan {
-            0% { left: -100%; }
-            100% { left: 200%; }
-        }
-
-        /* ANIMATIONS */
-        @keyframes monogramEntry {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            70% { transform: scale(1.1) rotate(10deg); }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        @keyframes letterSEntry {
-            from { opacity: 0; transform: translate(-15px, -15px); }
-            to { opacity: 1; transform: translate(-4px, -4px); }
-        }
-
-        @keyframes letterXEntry {
-            from { opacity: 0; transform: translate(15px, 15px); }
-            to { opacity: 1; transform: translate(4px, 4px); }
-        }
-
-        @keyframes fusionEntry {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes fusionPulse {
-            0%, 100% { 
-                box-shadow: 
-                    0 0 0 4px rgba(99, 102, 241, 0.3),
-                    0 0 0 8px rgba(99, 102, 241, 0.1),
-                    0 0 40px rgba(255, 255, 255, 0.9);
-            }
-            50% { 
-                box-shadow: 
-                    0 0 0 6px rgba(99, 102, 241, 0.2),
-                    0 0 0 12px rgba(99, 102, 241, 0.05),
-                    0 0 60px rgba(255, 255, 255, 1);
-            }
-        }
-
-        @keyframes haloExpand {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-        }
-
-        @keyframes textReveal {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes drawLine {
-            to { transform: scaleX(1); }
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* ÉTOILES / PARTICULES */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: particleFloat 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        /* Petites étoiles */
-        .particle:nth-child(1)  { width: 2px; height: 2px; background: #fff; top: 15%; left: 12%; animation-delay: 0s; animation-duration: 4s; }
-        .particle:nth-child(2)  { width: 3px; height: 3px; background: #7eb3ff; top: 25%; left: 75%; animation-delay: 0.5s; animation-duration: 3.5s; }
-        .particle:nth-child(3)  { width: 2px; height: 2px; background: #fff; top: 70%; left: 20%; animation-delay: 1s; animation-duration: 5s; }
-        .particle:nth-child(4)  { width: 4px; height: 4px; background: #a78bfa; top: 80%; left: 80%; animation-delay: 0.3s; animation-duration: 4.5s; }
-        .particle:nth-child(5)  { width: 2px; height: 2px; background: #fff; top: 10%; left: 50%; animation-delay: 1.5s; animation-duration: 3s; }
-        .particle:nth-child(6)  { width: 3px; height: 3px; background: #60a5fa; top: 45%; left: 8%; animation-delay: 0.8s; animation-duration: 6s; }
-        .particle:nth-child(7)  { width: 2px; height: 2px; background: #fff; top: 55%; left: 90%; animation-delay: 2s; animation-duration: 4s; }
-        .particle:nth-child(8)  { width: 5px; height: 5px; background: rgba(79,142,247,0.6); top: 35%; left: 88%; animation-delay: 0.2s; animation-duration: 5.5s; box-shadow: 0 0 6px #4f8ef7; }
-        .particle:nth-child(9)  { width: 2px; height: 2px; background: #fff; top: 90%; left: 40%; animation-delay: 1.2s; animation-duration: 3.8s; }
-        .particle:nth-child(10) { width: 3px; height: 3px; background: #e0f2fe; top: 5%; left: 30%; animation-delay: 0.7s; animation-duration: 4.2s; }
-        .particle:nth-child(11) { width: 2px; height: 2px; background: #fff; top: 60%; left: 60%; animation-delay: 1.8s; animation-duration: 3.2s; }
-        .particle:nth-child(12) { width: 4px; height: 4px; background: rgba(167,139,250,0.7); top: 20%; left: 40%; animation-delay: 0.4s; animation-duration: 5s; box-shadow: 0 0 8px #a78bfa; }
-
-        @keyframes particleFloat {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
-            50% { transform: translateY(-15px) scale(1.3); opacity: 1; }
-        }
-        .intro-screen {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            animation: introFadeOut 0.8s ease 2.5s forwards;
-        }
-
-        /* Cercle lumineux derrière */
-        .intro-screen::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        @keyframes introFadeOut {
-            to { 
-                opacity: 0; 
-                visibility: hidden;
-                pointer-events: none;
-            }
-        }
-
-        /* Logo animé SCRIX */
-
-        .scrix-brand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            animation: slideUpFade 0.8s ease 0.3s both;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .logo-mark {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #6366f1, #4f8ef7);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 
-                0 10px 40px rgba(99, 102, 241, 0.6),
-                0 0 100px rgba(79, 142, 247, 0.3),
-                inset 0 2px 0 rgba(255,255,255,0.3);
-            animation: introScale 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .x-shape {
-            width: 40px;
-            height: 40px;
-            position: relative;
-        }
-        
-        .x-shape::before,
-        .x-shape::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 5px;
-            background: white;
-            top: 50%;
-            left: 0;
-            border-radius: 3px;
-        }
-        
-        .x-shape::before { transform: rotate(45deg); }
-        .x-shape::after { transform: rotate(-45deg); }
-        
-        .wordmark {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: white;
-            margin-top: 0.5rem;
-        }
-        
+        /* Tagline */
         .intro-tagline {
             font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            color: #64748b;
-            letter-spacing: 0.3em;
+            font-size: 0.7rem;
+            letter-spacing: 0.45em;
             text-transform: uppercase;
-        }
-
-        .intro-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #6366f1 0%, #4f8ef7 100%);
-            border-radius: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            box-shadow: 
-                0 0 60px rgba(99, 102, 241, 0.6),
-                0 0 100px rgba(79, 142, 247, 0.3),
-                inset 0 2px 0 rgba(255,255,255,0.3);
-            animation: 
-                introScale 1s cubic-bezier(0.34, 1.56, 0.64, 1),
-                float 3s ease-in-out infinite 1s;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes introScale {
-            0% { 
-                transform: scale(0) rotate(-180deg); 
-                opacity: 0; 
-            }
-            100% { 
-                transform: scale(1) rotate(0deg); 
-                opacity: 1; 
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Texte principal */
-        .scrix-logo-v3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 5rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 0.05em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .scrix-logo-v3 .letter {
-            color: #f8fafc;
-            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
-            animation: letterPop 0.5s ease both;
-        }
-
-        .scrix-logo-v3 .letter:nth-child(1) { animation-delay: 0.1s; }
-        .scrix-logo-v3 .letter:nth-child(2) { animation-delay: 0.2s; }
-        .scrix-logo-v3 .letter:nth-child(3) { animation-delay: 0.3s; }
-        .scrix-logo-v3 .letter:nth-child(4) { animation-delay: 0.4s; }
-        .scrix-logo-v3 .letter:nth-child(5) { animation-delay: 0.5s; }
-
-        .scrix-logo-v3 .highlight {
-            background: linear-gradient(135deg, #6366f1, #4f8ef7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .cursor {
-            width: 4px;
-            height: 0.8em;
-            background: #4f8ef7;
-            margin-left: 5px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes letterPop {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-
-        .intro-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 700;
-            background: linear-gradient(to right, #ffffff 0%, #a78bfa 50%, #4f8ef7 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: 
-                slideUpFade 0.8s ease 0.3s both,
-                shine 3s linear infinite 1.5s;
-            position: relative;
-            z-index: 1;
-            letter-spacing: -0.02em;
-        }
-
-        @keyframes slideUpFade {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* Sous-titre */
-        .intro-subtitle {
-            color: #64748b;
-            font-size: clamp(0.875rem, 2vw, 1.125rem);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            color: #3d5a8a;
             font-weight: 600;
-            animation: slideUpFade 0.8s ease 0.5s both;
-            position: relative;
-            z-index: 1;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 1.3s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* Barre de progression */
-        .progress-container {
-            width: 200px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
+        .intro-progress-wrap {
+            width: 180px;
+            height: 2px;
+            background: rgba(255,255,255,0.06);
             border-radius: 2px;
             overflow: hidden;
-            margin-top: 1rem;
-            position: relative;
-            z-index: 1;
+            opacity: 0;
+            animation: fadeUp 0.5s ease 1.5s forwards;
         }
 
-        .progress-bar {
+        .intro-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #6366f1, #4f8ef7);
             width: 0%;
-            animation: fillProgress 2.5s ease-out forwards;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            border-radius: 2px;
+            background: linear-gradient(90deg, #4f8ef7, #818cf8, #4f8ef7);
+            background-size: 200% 100%;
+            animation:
+                progressFill 2.2s cubic-bezier(0.25, 1, 0.5, 1) 1.6s forwards,
+                progressShine 1.5s linear 1.6s infinite;
+            box-shadow: 0 0 12px rgba(79,142,247,0.6);
         }
 
-        @keyframes fillProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        @keyframes progressFill {
+            to { width: 100%; }
         }
 
-        /* Particules décoratives */
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            animation: particleFloat 3s ease-in-out infinite;
-        }
-
-        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 60%; right: 20%; animation-delay: 0.5s; }
-        .particle:nth-child(3) { bottom: 30%; left: 30%; animation-delay: 1s; }
-
-        @keyframes particleFloat {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { transform: translateY(-20px) scale(1.5); opacity: 1; }
+        @keyframes progressShine {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         * {
@@ -6499,64 +5942,42 @@
     <a href="#main-editor" class="skip-link" style="position:absolute;top:-50px;left:8px;background:var(--primary-purple);color:white;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:700;z-index:99999;transition:top 0.2s;" onfocus="this.style.top='8px'" onblur="this.style.top='-50px'">Aller au contenu</a>
     <!-- ===== INTRO ===== -->
     <div class="intro-screen" id="intro">
-        <div class="night">
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-            <div class="shooting_star"></div>
-        </div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        
-        <div class="scrix-container">
-            <div class="monogram">
-                <span class="letter-s">S</span>
-                <div class="fusion"></div>
-                <span class="letter-x">X</span>
+        <canvas id="introCanvas"></canvas>
+        <div class="intro-glow"></div>
+
+        <div class="intro-center">
+            <!-- Icône logo -->
+            <div class="intro-icon">
+                <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- S -->
+                    <text x="9" y="32" font-family="Space Grotesk, Arial, sans-serif" font-size="30" font-weight="800" fill="white" opacity="1">S</text>
+                    <!-- X en bleu superposé décalé -->
+                    <text x="17" y="36" font-family="Space Grotesk, Arial, sans-serif" font-size="30" font-weight="800" fill="url(#introGrad)" opacity="0.9">X</text>
+                    <defs>
+                        <linearGradient id="introGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="100%" stop-color="#4f8ef7"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
-            
-            <div class="full-name">
-                <span class="sc">SC</span>
-                <span class="ri">RI</span>
-                <span class="x-letter">X</span>
+
+            <!-- Wordmark -->
+            <div class="intro-wordmark" aria-label="SCRIX">
+                <span class="wl">S</span>
+                <span class="wl">C</span>
+                <span class="wl">R</span>
+                <span class="wl">I</span>
+                <span class="wl">X</span>
             </div>
-            
-            <div class="underline-container">
-                <div class="underline"></div>
+
+            <!-- Tagline -->
+            <div class="intro-tagline">Professional Code Editor</div>
+
+            <!-- Progress bar -->
+            <div class="intro-progress-wrap">
+                <div class="intro-progress-bar"></div>
             </div>
-            
-            <div class="tagline-intro">Professional Code Editor</div>
         </div>
     </div>
 
@@ -11176,11 +10597,25 @@ ${js}
         });
 
         // ===== CUSTOM CONFIRM =====
+        // ===== SVG ICONS pour les modals =====
+        const MODAL_ICONS = {
+            trash: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
+            save:  `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+            warn:  `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+            info:  `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+            edit:  `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+        };
+        function getModalIcon(icon, danger) {
+            const svg = MODAL_ICONS[icon] || MODAL_ICONS.warn;
+            const color = danger ? '#ef4444' : icon === 'trash' ? '#ef4444' : icon === 'save' ? 'var(--primary-purple)' : icon === 'edit' ? 'var(--primary-purple)' : '#f59e0b';
+            const bg    = danger ? 'rgba(239,68,68,0.12)' : icon === 'trash' ? 'rgba(239,68,68,0.12)' : icon === 'save' ? 'rgba(79,142,247,0.12)' : icon === 'edit' ? 'rgba(79,142,247,0.12)' : 'rgba(245,158,11,0.12)';
+            return `<div style="width:60px;height:60px;border-radius:16px;background:${bg};display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:${color}">${svg}</div>`;
+        }
+
         function scrixConfirm({ icon = 'warn', title = 'Confirmation', desc = '', okText = 'Confirmer', cancelText = 'Annuler', danger = false } = {}, callback) {
             const existing = document.getElementById('scrixConfirmModal');
             if (existing) existing.remove();
 
-            // Échapper les champs pour éviter les injections XSS
             const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
             const modal = document.createElement('div');
@@ -11190,7 +10625,7 @@ ${js}
             modal.setAttribute('aria-modal', 'true');
             modal.innerHTML = `
                 <div class="confirm-card">
-                    <div class="confirm-icon">${esc(icon)}</div>
+                    ${getModalIcon(icon, danger)}
                     <div class="confirm-title">${esc(title)}</div>
                     ${desc ? `<div class="confirm-desc">${esc(desc)}</div>` : ''}
                     <div class="confirm-btns">
@@ -11211,17 +10646,15 @@ ${js}
             document.getElementById('scrixConfirmOk').onclick = () => close(true);
             document.getElementById('scrixConfirmCancel').onclick = () => close(false);
 
-            // Fermer avec Escape
             const onKey = (e) => { if (e.key === 'Escape') { close(false); document.removeEventListener('keydown', onKey); } };
             document.addEventListener('keydown', onKey);
         }
 
         // ===== CUSTOM PROMPT =====
-        function scrixPrompt({ icon = '✏️', title = '', desc = '', placeholder = '', defaultValue = '' } = {}, callback) {
+        function scrixPrompt({ icon = 'edit', title = '', desc = '', placeholder = '', defaultValue = '' } = {}, callback) {
             const existing = document.getElementById('scrixPromptModal');
             if (existing) existing.remove();
 
-            // Échapper les champs pour éviter les injections XSS
             const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
             const modal = document.createElement('div');
@@ -11231,7 +10664,7 @@ ${js}
             modal.setAttribute('aria-modal', 'true');
             modal.innerHTML = `
                 <div class="confirm-card">
-                    <div class="confirm-icon">${esc(icon)}</div>
+                    ${getModalIcon(icon, false)}
                     <div class="confirm-title">${esc(title)}</div>
                     ${desc ? `<div class="confirm-desc">${esc(desc)}</div>` : ''}
                     <input id="scrixPromptInput" type="text"
@@ -12536,25 +11969,149 @@ ${js}
             document.getElementById('gameInfo').textContent = 'Tapez un nombre et appuyez sur ENTRÉE';
         }
 
-        // ===== SCRIPT INTRO =====
-        // Supprime l'intro du DOM après l'animation
-        setTimeout(() => {
-            const intro = document.getElementById('intro');
-            if (intro) {
-                intro.style.display = 'none';
-            }
-        }, 5800);
+        // ===== INTRO CANVAS PARTICLES =====
+        (function initIntro() {
+            const canvas = document.getElementById('introCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
 
-        // Optionnel : permettre de skipper l'intro en cliquant
-        const introElement = document.getElementById('intro');
-        if (introElement) {
-            introElement.addEventListener('click', function() {
-                this.style.animation = 'introFadeOut 0.5s ease forwards';
-                setTimeout(() => {
-                    this.style.display = 'none';
-                }, 500);
+            function resize() {
+                canvas.width  = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Particles
+            const PARTICLE_COUNT = 120;
+            const particles = [];
+
+            function randBetween(a, b) { return a + Math.random() * (b - a); }
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: randBetween(0.5, 2.2),
+                    alpha: randBetween(0.1, 0.8),
+                    speed: randBetween(0.1, 0.45),
+                    drift: randBetween(-0.15, 0.15),
+                    twinkleSpeed: randBetween(0.005, 0.025),
+                    twinklePhase: Math.random() * Math.PI * 2,
+                    color: Math.random() < 0.3
+                        ? `rgba(126,179,255,`   // bleu
+                        : Math.random() < 0.5
+                            ? `rgba(129,140,248,` // violet
+                            : `rgba(240,244,255,` // blanc
+                });
+            }
+
+            // Shooting stars
+            const shoots = [];
+            function spawnShoot() {
+                shoots.push({
+                    x: randBetween(-200, window.innerWidth * 0.7),
+                    y: randBetween(-50, window.innerHeight * 0.5),
+                    len: randBetween(120, 280),
+                    speed: randBetween(8, 18),
+                    alpha: 0,
+                    life: 0,
+                    maxLife: randBetween(55, 90),
+                    angle: Math.PI / 4 + randBetween(-0.2, 0.2),
+                });
+            }
+
+            // Spawn shooting stars at random intervals
+            let lastShoot = 0;
+            let nextShootIn = randBetween(400, 900);
+
+            let frame = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                frame++;
+
+                // Draw particles
+                for (const p of particles) {
+                    p.twinklePhase += p.twinkleSpeed;
+                    const a = p.alpha * (0.5 + 0.5 * Math.sin(p.twinklePhase));
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + a + ')';
+                    ctx.fill();
+                    p.y -= p.speed;
+                    p.x += p.drift;
+                    if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+                    if (p.x < -5) p.x = canvas.width + 5;
+                    if (p.x > canvas.width + 5) p.x = -5;
+                }
+
+                // Spawn shooting stars
+                if (frame - lastShoot > nextShootIn / 16.6) {
+                    spawnShoot();
+                    lastShoot = frame;
+                    nextShootIn = randBetween(300, 900);
+                }
+
+                // Draw shooting stars
+                for (let i = shoots.length - 1; i >= 0; i--) {
+                    const s = shoots[i];
+                    s.life++;
+                    s.x += Math.cos(s.angle) * s.speed;
+                    s.y += Math.sin(s.angle) * s.speed;
+
+                    // Fade in then out
+                    s.alpha = s.life < 10
+                        ? s.life / 10
+                        : s.life > s.maxLife - 15
+                            ? (s.maxLife - s.life) / 15
+                            : 1;
+
+                    const tailX = s.x - Math.cos(s.angle) * s.len;
+                    const tailY = s.y - Math.sin(s.angle) * s.len;
+
+                    const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+                    grad.addColorStop(0, `rgba(79,142,247,0)`);
+                    grad.addColorStop(0.6, `rgba(160,200,255,${s.alpha * 0.5})`);
+                    grad.addColorStop(1, `rgba(255,255,255,${s.alpha})`);
+
+                    ctx.beginPath();
+                    ctx.moveTo(tailX, tailY);
+                    ctx.lineTo(s.x, s.y);
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+
+                    // Head glow
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${s.alpha * 0.9})`;
+                    ctx.fill();
+
+                    if (s.life >= s.maxLife) shoots.splice(i, 1);
+                }
+            }
+
+            animate();
+
+            // Close intro after progress bar completes (~3.8s) + fade
+            const INTRO_DURATION = 3800;
+            const FADE_DURATION  = 900;
+
+            setTimeout(() => {
+                const intro = document.getElementById('intro');
+                if (intro) {
+                    intro.classList.add('hide');
+                    setTimeout(() => { intro.style.display = 'none'; }, FADE_DURATION);
+                }
+            }, INTRO_DURATION);
+
+            // Click to skip
+            document.getElementById('intro').addEventListener('click', function() {
+                this.classList.add('hide');
+                setTimeout(() => { this.style.display = 'none'; }, FADE_DURATION);
             });
-        }
+        })();
 
         // ===== CODEMIRROR INIT =====
         window._cmEditors = {};
