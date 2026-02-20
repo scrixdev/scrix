@@ -133,10 +133,10 @@
     <style>
         :root {
             /* SCRIX — Nextmove-style Dark Professional Palette */
-            --primary-purple: #d946a8;
-            --purple-dark: #be185d;
-            --purple-light: #f0abcb;
-            --purple-glow: rgba(217, 70, 168, 0.35);
+            --primary-purple: #4f8ef7;
+            --purple-dark: #1a3a8f;
+            --purple-light: #7eb3ff;
+            --purple-glow: rgba(79, 142, 247, 0.35);
             
             /* Deep charcoal backgrounds — inspired by Nextmove */
             --bg-primary: #111112;
@@ -156,15 +156,15 @@
             --text-tertiary: #71717a;
             
             /* Accent Colors */
-            --accent-pink: #ec4899;
+            --accent-pink: #7eb3ff;
             --accent-blue: #60a5fa;
             --accent-green: #34d399;
             --accent-amber: #fbbf24;
             --accent-red: #f87171;
             
-            /* Active nav gradient — Nextmove pink glow */
-            --nav-active-bg: linear-gradient(90deg, rgba(30, 25, 35, 0.95) 0%, rgba(100, 20, 60, 0.6) 70%, rgba(180, 30, 90, 0.9) 100%);
-            --nav-active-accent: linear-gradient(180deg, #e879a8 0%, #be185d 100%);
+            /* Active nav gradient — Space blue glow */
+            --nav-active-bg: linear-gradient(90deg, rgba(10, 15, 40, 0.95) 0%, rgba(20, 40, 100, 0.6) 70%, rgba(30, 70, 180, 0.9) 100%);
+            --nav-active-accent: linear-gradient(180deg, #7eb3ff 0%, #1a3a8f 100%);
             
             /* Code Editor Colors */
             --editor-html: #f87060;
@@ -414,7 +414,7 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .preview-dark   { background: linear-gradient(135deg, #111112 50%, #d946a8 100%); }
+        .preview-dark   { background: linear-gradient(135deg, #111112 50%, #4f8ef7 100%); }
         .preview-neo    { background: linear-gradient(135deg, #07000f 30%, #ff00ff 60%, #00ffff 100%); animation: neonHue 3s linear infinite; }
         .preview-cyber  { background: linear-gradient(135deg, #0a0008 50%, #ffd700 100%); }
         .preview-term   { background: linear-gradient(135deg, #020d02 50%, #00ff41 100%); }
@@ -618,7 +618,7 @@
         .intro-screen {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            background: radial-gradient(ellipse at 30% 40%, #0d1b4a 0%, #020617 50%, #000010 100%);
             z-index: 99999;
             display: flex;
             flex-direction: column;
@@ -626,24 +626,47 @@
             justify-content: center;
             gap: 2rem;
             animation: introFadeOut 0.8s ease 5s forwards;
+            overflow: hidden;
         }
 
-        /* Cercle lumineux derrière */
+        /* Nébuleuse en fond */
         .intro-screen::before {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: 
+                radial-gradient(ellipse at 30% 50%, rgba(79, 142, 247, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
             border-radius: 50%;
-            filter: blur(40px);
-            animation: pulse 4s ease-in-out infinite;
+            filter: blur(30px);
+            animation: nebulaPulse 6s ease-in-out infinite;
             pointer-events: none;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+        /* Deuxième couche nébuleuse */
+        .intro-screen::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+            top: 10%;
+            right: 10%;
+            filter: blur(50px);
+            animation: nebulaDrift 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes nebulaPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.08) rotate(3deg); }
+        }
+
+        @keyframes nebulaDrift {
+            0% { transform: translate(0, 0); opacity: 0.4; }
+            100% { transform: translate(-30px, 20px); opacity: 0.8; }
         }
 
         @keyframes introFadeOut {
@@ -662,6 +685,7 @@
             align-items: center;
             gap: 12px;
             animation: containerEntry 1s ease-out;
+            z-index: 10;
         }
 
         @keyframes containerEntry {
@@ -669,7 +693,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* MONOGRAMME AMÉLIORÉ */
+        /* MONOGRAMME + ANNEAU LUMINEUX */
         .monogram {
             position: relative;
             width: 100px;
@@ -677,7 +701,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.15));
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(79, 142, 247, 0.15));
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 28px;
             backdrop-filter: blur(20px) saturate(180%);
@@ -689,6 +713,138 @@
                        float 6s ease-in-out infinite 1.5s;
             transform-style: preserve-3d;
             perspective: 1000px;
+        }
+
+
+
+        /* ===== ÉTOILES FILANTES ===== */
+        .night {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotateZ(45deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shooting_star {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 2px;
+            background: linear-gradient(-45deg, rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1));
+            animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite;
+        }
+
+        .shooting_star::before, .shooting_star::after {
+            content: '';
+            position: absolute;
+            top: calc(50% - 1px);
+            right: 0;
+            height: 2px;
+            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(95, 145, 255, 1), rgba(0, 0, 255, 0));
+            border-radius: 100%;
+            animation: shining 3000ms ease-in-out infinite;
+        }
+        .shooting_star::before { transform: translateX(50%) rotateZ(45deg); }
+        .shooting_star::after  { transform: translateX(50%) rotateZ(-45deg); }
+
+        .shooting_star:nth-child(1)  { top: calc(50% - 150px); left: calc(50% - 280px); animation-delay: 1200ms; }
+        .shooting_star:nth-child(1)::before, .shooting_star:nth-child(1)::after { animation-delay: 1200ms; }
+        .shooting_star:nth-child(2)  { top: calc(50% - 30px);  left: calc(50% - 190px); animation-delay: 6800ms; }
+        .shooting_star:nth-child(2)::before, .shooting_star:nth-child(2)::after { animation-delay: 6800ms; }
+        .shooting_star:nth-child(3)  { top: calc(50% + 120px); left: calc(50% - 50px);  animation-delay: 4300ms; }
+        .shooting_star:nth-child(3)::before, .shooting_star:nth-child(3)::after { animation-delay: 4300ms; }
+        .shooting_star:nth-child(4)  { top: calc(50% - 180px); left: calc(50% - 100px); animation-delay: 9100ms; }
+        .shooting_star:nth-child(4)::before, .shooting_star:nth-child(4)::after { animation-delay: 9100ms; }
+        .shooting_star:nth-child(5)  { top: calc(50% + 60px);  left: calc(50% - 250px); animation-delay: 2700ms; }
+        .shooting_star:nth-child(5)::before, .shooting_star:nth-child(5)::after { animation-delay: 2700ms; }
+        .shooting_star:nth-child(6)  { top: calc(50% - 90px);  left: calc(50% - 140px); animation-delay: 7500ms; }
+        .shooting_star:nth-child(6)::before, .shooting_star:nth-child(6)::after { animation-delay: 7500ms; }
+        .shooting_star:nth-child(7)  { top: calc(50% + 170px); left: calc(50% - 210px); animation-delay: 500ms; }
+        .shooting_star:nth-child(7)::before, .shooting_star:nth-child(7)::after { animation-delay: 500ms; }
+        .shooting_star:nth-child(8)  { top: calc(50% - 60px);  left: calc(50% - 300px); animation-delay: 3900ms; }
+        .shooting_star:nth-child(8)::before, .shooting_star:nth-child(8)::after { animation-delay: 3900ms; }
+        .shooting_star:nth-child(9)  { top: calc(50% + 30px);  left: calc(50% - 80px);  animation-delay: 8200ms; }
+        .shooting_star:nth-child(9)::before, .shooting_star:nth-child(9)::after { animation-delay: 8200ms; }
+        .shooting_star:nth-child(10) { top: calc(50% - 130px); left: calc(50% - 170px); animation-delay: 5600ms; }
+        .shooting_star:nth-child(10)::before, .shooting_star:nth-child(10)::after { animation-delay: 5600ms; }
+        .shooting_star:nth-child(11) { top: calc(50% + 90px);  left: calc(50% - 130px); animation-delay: 1900ms; }
+        .shooting_star:nth-child(11)::before, .shooting_star:nth-child(11)::after { animation-delay: 1900ms; }
+        .shooting_star:nth-child(12) { top: calc(50% - 200px); left: calc(50% - 60px);  animation-delay: 6100ms; }
+        .shooting_star:nth-child(12)::before, .shooting_star:nth-child(12)::after { animation-delay: 6100ms; }
+        .shooting_star:nth-child(13) { top: calc(50% + 140px); left: calc(50% - 270px); animation-delay: 3200ms; }
+        .shooting_star:nth-child(13)::before, .shooting_star:nth-child(13)::after { animation-delay: 3200ms; }
+        .shooting_star:nth-child(14) { top: calc(50% - 20px);  left: calc(50% - 220px); animation-delay: 8700ms; }
+        .shooting_star:nth-child(14)::before, .shooting_star:nth-child(14)::after { animation-delay: 8700ms; }
+        .shooting_star:nth-child(15) { top: calc(50% + 200px); left: calc(50% - 40px);  animation-delay: 4800ms; }
+        .shooting_star:nth-child(15)::before, .shooting_star:nth-child(15)::after { animation-delay: 4800ms; }
+        .shooting_star:nth-child(16) { top: calc(50% - 110px); left: calc(50% - 310px); animation-delay: 700ms; }
+        .shooting_star:nth-child(16)::before, .shooting_star:nth-child(16)::after { animation-delay: 700ms; }
+        .shooting_star:nth-child(17) { top: calc(50% + 50px);  left: calc(50% - 160px); animation-delay: 9500ms; }
+        .shooting_star:nth-child(17)::before, .shooting_star:nth-child(17)::after { animation-delay: 9500ms; }
+        .shooting_star:nth-child(18) { top: calc(50% - 70px);  left: calc(50% - 240px); animation-delay: 2100ms; }
+        .shooting_star:nth-child(18)::before, .shooting_star:nth-child(18)::after { animation-delay: 2100ms; }
+        .shooting_star:nth-child(19) { top: calc(50% + 110px); left: calc(50% - 90px);  animation-delay: 5300ms; }
+        .shooting_star:nth-child(19)::before, .shooting_star:nth-child(19)::after { animation-delay: 5300ms; }
+        .shooting_star:nth-child(20) { top: calc(50% - 160px); left: calc(50% - 200px); animation-delay: 7800ms; }
+        .shooting_star:nth-child(20)::before, .shooting_star:nth-child(20)::after { animation-delay: 7800ms; }
+        .shooting_star:nth-child(21) { top: calc(50% - 220px); left: calc(50% - 350px); animation-delay: 350ms; }
+        .shooting_star:nth-child(21)::before, .shooting_star:nth-child(21)::after { animation-delay: 350ms; }
+        .shooting_star:nth-child(22) { top: calc(50% + 230px); left: calc(50% - 180px); animation-delay: 4100ms; }
+        .shooting_star:nth-child(22)::before, .shooting_star:nth-child(22)::after { animation-delay: 4100ms; }
+        .shooting_star:nth-child(23) { top: calc(50% - 50px);  left: calc(50% - 400px); animation-delay: 6500ms; }
+        .shooting_star:nth-child(23)::before, .shooting_star:nth-child(23)::after { animation-delay: 6500ms; }
+        .shooting_star:nth-child(24) { top: calc(50% + 180px); left: calc(50% - 320px); animation-delay: 9800ms; }
+        .shooting_star:nth-child(24)::before, .shooting_star:nth-child(24)::after { animation-delay: 9800ms; }
+        .shooting_star:nth-child(25) { top: calc(50% - 300px); left: calc(50% - 120px); animation-delay: 2400ms; }
+        .shooting_star:nth-child(25)::before, .shooting_star:nth-child(25)::after { animation-delay: 2400ms; }
+        .shooting_star:nth-child(26) { top: calc(50% + 10px);  left: calc(50% - 440px); animation-delay: 7100ms; }
+        .shooting_star:nth-child(26)::before, .shooting_star:nth-child(26)::after { animation-delay: 7100ms; }
+        .shooting_star:nth-child(27) { top: calc(50% - 260px); left: calc(50% - 260px); animation-delay: 1600ms; }
+        .shooting_star:nth-child(27)::before, .shooting_star:nth-child(27)::after { animation-delay: 1600ms; }
+        .shooting_star:nth-child(28) { top: calc(50% + 260px); left: calc(50% - 70px);  animation-delay: 5100ms; }
+        .shooting_star:nth-child(28)::before, .shooting_star:nth-child(28)::after { animation-delay: 5100ms; }
+        .shooting_star:nth-child(29) { top: calc(50% - 10px);  left: calc(50% - 360px); animation-delay: 8900ms; }
+        .shooting_star:nth-child(29)::before, .shooting_star:nth-child(29)::after { animation-delay: 8900ms; }
+        .shooting_star:nth-child(30) { top: calc(50% - 340px); left: calc(50% - 30px);  animation-delay: 3600ms; }
+        .shooting_star:nth-child(30)::before, .shooting_star:nth-child(30)::after { animation-delay: 3600ms; }
+        .shooting_star:nth-child(31) { top: calc(50% + 80px);  left: calc(50% - 480px); animation-delay: 600ms; }
+        .shooting_star:nth-child(31)::before, .shooting_star:nth-child(31)::after { animation-delay: 600ms; }
+        .shooting_star:nth-child(32) { top: calc(50% - 190px); left: calc(50% - 380px); animation-delay: 4700ms; }
+        .shooting_star:nth-child(32)::before, .shooting_star:nth-child(32)::after { animation-delay: 4700ms; }
+        .shooting_star:nth-child(33) { top: calc(50% + 300px); left: calc(50% - 230px); animation-delay: 9200ms; }
+        .shooting_star:nth-child(33)::before, .shooting_star:nth-child(33)::after { animation-delay: 9200ms; }
+        .shooting_star:nth-child(34) { top: calc(50% - 120px); left: calc(50% - 500px); animation-delay: 2900ms; }
+        .shooting_star:nth-child(34)::before, .shooting_star:nth-child(34)::after { animation-delay: 2900ms; }
+        .shooting_star:nth-child(35) { top: calc(50% + 150px); left: calc(50% - 420px); animation-delay: 7300ms; }
+        .shooting_star:nth-child(35)::before, .shooting_star:nth-child(35)::after { animation-delay: 7300ms; }
+        .shooting_star:nth-child(36) { top: calc(50% - 380px); left: calc(50% - 150px); animation-delay: 1100ms; }
+        .shooting_star:nth-child(36)::before, .shooting_star:nth-child(36)::after { animation-delay: 1100ms; }
+        .shooting_star:nth-child(37) { top: calc(50% + 40px);  left: calc(50% - 550px); animation-delay: 5800ms; }
+        .shooting_star:nth-child(37)::before, .shooting_star:nth-child(37)::after { animation-delay: 5800ms; }
+        .shooting_star:nth-child(38) { top: calc(50% - 240px); left: calc(50% - 460px); animation-delay: 8400ms; }
+        .shooting_star:nth-child(38)::before, .shooting_star:nth-child(38)::after { animation-delay: 8400ms; }
+        .shooting_star:nth-child(39) { top: calc(50% + 350px); left: calc(50% - 110px); animation-delay: 3300ms; }
+        .shooting_star:nth-child(39)::before, .shooting_star:nth-child(39)::after { animation-delay: 3300ms; }
+        .shooting_star:nth-child(40) { top: calc(50% - 420px); left: calc(50% - 290px); animation-delay: 6300ms; }
+        .shooting_star:nth-child(40)::before, .shooting_star:nth-child(40)::after { animation-delay: 6300ms; }
+
+        @keyframes tail {
+            0%   { width: 0; }
+            30%  { width: 100px; }
+            100% { width: 0; }
+        }
+        @keyframes shining {
+            0%   { width: 0; }
+            50%  { width: 30px; }
+            100% { width: 0; }
+        }
+        @keyframes shooting {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(300px); }
         }
 
         .letter-s, .letter-x {
@@ -711,7 +867,7 @@
         }
 
         .letter-x {
-            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #4f8ef7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
@@ -721,7 +877,6 @@
             animation: letterXEntry 0.8s ease-out 0.5s both;
         }
 
-        /* Point central fusionné - CŒUR DU LOGO */
         .fusion {
             position: absolute;
             width: 16px;
@@ -739,7 +894,6 @@
                 fusionPulse 3s ease-in-out infinite 1.5s;
         }
 
-        /* Effet de halo autour du point */
         .fusion::after {
             content: '';
             position: absolute;
@@ -754,7 +908,6 @@
             pointer-events: none;
         }
 
-        /* NOM COMPLET - SCRI X */
         .full-name {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2.25rem;
@@ -777,14 +930,13 @@
         .ri { animation-delay: 1.2s; color: #a78bfa; }
         .x-letter { 
             animation-delay: 1.3s; 
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #6366f1, #4f8ef7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-left: 2px;
             font-weight: 800;
         }
 
-        /* Underline animé qui se dessine */
         .underline-container {
             position: absolute;
             bottom: -6px;
@@ -798,14 +950,14 @@
         .underline {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, #ec4899 20%, #6366f1 80%, transparent);
+            background: linear-gradient(90deg, transparent, #4f8ef7 20%, #6366f1 80%, transparent);
             transform: scaleX(0);
             transform-origin: center;
             animation: drawLine 1.5s ease-out 1.5s forwards;
-            box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+            box-shadow: 0 0 10px rgba(79, 142, 247, 0.5);
         }
 
-        /* TAGLINE AMÉLIORÉE */
+        /* TAGLINE ANIMÉE */
         .tagline-intro {
             font-family: 'Inter', sans-serif;
             font-size: 0.7rem;
@@ -817,9 +969,21 @@
             opacity: 0;
             animation: fadeIn 1s ease-out 2s forwards;
             position: relative;
+            overflow: hidden;
         }
 
-        /* Effet de clignotement subtil sur le tagline */
+        /* Effet scan sur tagline */
+        .tagline-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79,142,247,0.4), transparent);
+            animation: taglineScan 2s ease-out 2.5s forwards;
+        }
+
         .tagline-intro::after {
             content: '|';
             position: absolute;
@@ -828,6 +992,11 @@
             animation: blink 2s infinite;
             opacity: 0;
             animation-delay: 2.5s;
+        }
+
+        @keyframes taglineScan {
+            0% { left: -100%; }
+            100% { left: 200%; }
         }
 
         /* ANIMATIONS */
@@ -874,10 +1043,7 @@
         }
 
         @keyframes textReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes drawLine {
@@ -898,23 +1064,31 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Particules décoratives */
+        /* ÉTOILES / PARTICULES */
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255,255,255,0.5);
             border-radius: 50%;
             animation: particleFloat 3s ease-in-out infinite;
+            pointer-events: none;
         }
 
-        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 60%; right: 20%; animation-delay: 0.5s; }
-        .particle:nth-child(3) { bottom: 30%; left: 30%; animation-delay: 1s; }
+        /* Petites étoiles */
+        .particle:nth-child(1)  { width: 2px; height: 2px; background: #fff; top: 15%; left: 12%; animation-delay: 0s; animation-duration: 4s; }
+        .particle:nth-child(2)  { width: 3px; height: 3px; background: #7eb3ff; top: 25%; left: 75%; animation-delay: 0.5s; animation-duration: 3.5s; }
+        .particle:nth-child(3)  { width: 2px; height: 2px; background: #fff; top: 70%; left: 20%; animation-delay: 1s; animation-duration: 5s; }
+        .particle:nth-child(4)  { width: 4px; height: 4px; background: #a78bfa; top: 80%; left: 80%; animation-delay: 0.3s; animation-duration: 4.5s; }
+        .particle:nth-child(5)  { width: 2px; height: 2px; background: #fff; top: 10%; left: 50%; animation-delay: 1.5s; animation-duration: 3s; }
+        .particle:nth-child(6)  { width: 3px; height: 3px; background: #60a5fa; top: 45%; left: 8%; animation-delay: 0.8s; animation-duration: 6s; }
+        .particle:nth-child(7)  { width: 2px; height: 2px; background: #fff; top: 55%; left: 90%; animation-delay: 2s; animation-duration: 4s; }
+        .particle:nth-child(8)  { width: 5px; height: 5px; background: rgba(79,142,247,0.6); top: 35%; left: 88%; animation-delay: 0.2s; animation-duration: 5.5s; box-shadow: 0 0 6px #4f8ef7; }
+        .particle:nth-child(9)  { width: 2px; height: 2px; background: #fff; top: 90%; left: 40%; animation-delay: 1.2s; animation-duration: 3.8s; }
+        .particle:nth-child(10) { width: 3px; height: 3px; background: #e0f2fe; top: 5%; left: 30%; animation-delay: 0.7s; animation-duration: 4.2s; }
+        .particle:nth-child(11) { width: 2px; height: 2px; background: #fff; top: 60%; left: 60%; animation-delay: 1.8s; animation-duration: 3.2s; }
+        .particle:nth-child(12) { width: 4px; height: 4px; background: rgba(167,139,250,0.7); top: 20%; left: 40%; animation-delay: 0.4s; animation-duration: 5s; box-shadow: 0 0 8px #a78bfa; }
 
         @keyframes particleFloat {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { transform: translateY(-20px) scale(1.5); opacity: 1; }
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+            50% { transform: translateY(-15px) scale(1.3); opacity: 1; }
         }
         .intro-screen {
             position: fixed;
@@ -968,7 +1142,7 @@
         .logo-mark {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #6366f1, #4f8ef7);
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -976,7 +1150,7 @@
             position: relative;
             box-shadow: 
                 0 10px 40px rgba(99, 102, 241, 0.6),
-                0 0 100px rgba(236, 72, 153, 0.3),
+                0 0 100px rgba(79, 142, 247, 0.3),
                 inset 0 2px 0 rgba(255,255,255,0.3);
             animation: introScale 1s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -1022,7 +1196,7 @@
         .intro-logo {
             width: 120px;
             height: 120px;
-            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #4f8ef7 100%);
             border-radius: 32px;
             display: flex;
             align-items: center;
@@ -1030,7 +1204,7 @@
             font-size: 64px;
             box-shadow: 
                 0 0 60px rgba(99, 102, 241, 0.6),
-                0 0 100px rgba(236, 72, 153, 0.3),
+                0 0 100px rgba(79, 142, 247, 0.3),
                 inset 0 2px 0 rgba(255,255,255,0.3);
             animation: 
                 introScale 1s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -1080,7 +1254,7 @@
         .scrix-logo-v3 .letter:nth-child(5) { animation-delay: 0.5s; }
 
         .scrix-logo-v3 .highlight {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #6366f1, #4f8ef7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1088,7 +1262,7 @@
         .cursor {
             width: 4px;
             height: 0.8em;
-            background: #ec4899;
+            background: #4f8ef7;
             margin-left: 5px;
             animation: blink 1s infinite;
         }
@@ -1107,7 +1281,7 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 700;
-            background: linear-gradient(to right, #ffffff 0%, #a78bfa 50%, #ec4899 100%);
+            background: linear-gradient(to right, #ffffff 0%, #a78bfa 50%, #4f8ef7 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1160,7 +1334,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #6366f1, #ec4899);
+            background: linear-gradient(90deg, #6366f1, #4f8ef7);
             width: 0%;
             animation: fillProgress 2.5s ease-out forwards;
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
@@ -1250,7 +1424,7 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 0%, rgba(217, 70, 168, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 20% 0%, rgba(79, 142, 247, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 80% 100%, rgba(190, 24, 93, 0.04) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
@@ -1315,13 +1489,13 @@
             width: 36px;
             height: 36px;
             background: linear-gradient(135deg, #2a1a2e 0%, #1e1020 100%);
-            border: 1px solid rgba(217, 70, 168, 0.3);
+            border: 1px solid rgba(79, 142, 247, 0.3);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: 0 4px 16px rgba(217, 70, 168, 0.2);
+            box-shadow: 0 4px 16px rgba(79, 142, 247, 0.2);
         }
 
         .logo-icon .mini-s,
@@ -1341,7 +1515,7 @@
         }
 
         .logo-icon .mini-x {
-            background: linear-gradient(135deg, #e879a8, #be185d);
+            background: linear-gradient(135deg, #7eb3ff, #1a3a8f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transform: translate(2px, 2px);
@@ -1391,7 +1565,7 @@
         .logo-text .letter:nth-child(5) { animation-delay: 3.6s; }
 
         .logo-text .highlight {
-            background: linear-gradient(135deg, #e879a8, #be185d);
+            background: linear-gradient(135deg, #7eb3ff, #1a3a8f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1414,7 +1588,7 @@
 
         .project-name { width: 100%; height: 48px; background: rgba(0,0,0,0.6); border: none; border-bottom: 2px solid rgba(50,50,50,0.8); outline: none; padding: 0 1rem; color: var(--text-secondary); font-size: 13px; font-weight: 500; font-family: var(--font-mono); caret-color: var(--text-secondary); z-index: 10; transition: background 0.3s ease, border-color 0.3s ease; letter-spacing: 0.05em; }
 
-        .project-label { position: absolute; top: 0.9rem; left: 1rem; color: #888; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.15em; pointer-events: none; transition: all 0.3s ease; z-index: 11; font-size: 11px; font-weight: 500; font-family: var(--font-mono); }
+        .project-label { position: absolute; top: 0.9rem; left: 1rem; color: #7eb3ff; opacity: 1; text-transform: uppercase; letter-spacing: 0.15em; pointer-events: none; transition: all 0.3s ease; z-index: 11; font-size: 11px; font-weight: 600; font-family: var(--font-mono); }
 
         .project-name:focus + .project-label, .project-name:not(:placeholder-shown) + .project-label { top: -1.3rem; left: 0; font-size: 9px; opacity: 1; color: var(--text-secondary); }
 
@@ -1507,15 +1681,15 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c2185b, #880e4f);
+            background: linear-gradient(135deg, #4f8ef7, #1a3a8f);
             color: white;
-            border: 1px solid rgba(217, 70, 168, 0.4);
-            box-shadow: 0 2px 12px rgba(194, 24, 91, 0.35);
+            border: 1px solid rgba(79, 142, 247, 0.6);
+            box-shadow: 0 2px 12px rgba(79, 142, 247, 0.4);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #d81b60, #ad1457);
-            box-shadow: 0 4px 20px rgba(194, 24, 91, 0.5);
+            background: linear-gradient(135deg, #7eb3ff, #2a5abf);
+            box-shadow: 0 4px 20px rgba(79, 142, 247, 0.6);
             color: white;
         }
 
@@ -1734,7 +1908,7 @@
         }
         .resizer:hover,
         .resizer.dragging {
-            background: rgba(217, 70, 168, 0.15);
+            background: rgba(79, 142, 247, 0.15);
         }
         .resizer:hover::after,
         .resizer.dragging::after {
@@ -1804,7 +1978,7 @@
         }
 
         .tab-btn.active {
-            background: rgba(217, 70, 168, 0.08);
+            background: rgba(79, 142, 247, 0.08);
             color: var(--text-primary);
             border-bottom-color: var(--tab-color);
         }
@@ -1967,7 +2141,7 @@
         }
 
         textarea::selection {
-            background: rgba(217, 70, 168, 0.35);
+            background: rgba(79, 142, 247, 0.35);
             color: var(--text-primary);
         }
 
@@ -2252,7 +2426,7 @@
         }
 
         .setting-input:focus, .setting-select:focus {
-            border-color: rgba(217, 70, 168, 0.5);
+            border-color: rgba(79, 142, 247, 0.5);
             background: rgba(255,255,255,0.07);
         }
 
@@ -2484,8 +2658,8 @@
         #gamesMenu { align-items: stretch; }
 
         .game-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(79,142,247,0.04);
+            border: 1px solid rgba(79,142,247,0.25);
             border-radius: 12px;
             padding: 0;
             text-align: center;
@@ -2508,16 +2682,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(217,70,168,0.08), transparent);
+            background: linear-gradient(135deg, rgba(79,142,247,0.08), transparent);
             opacity: 0;
             transition: opacity 0.2s;
         }
 
         .game-card:hover {
-            border-color: rgba(217,70,168,0.4);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(79,142,247,0.7);
+            background: rgba(79,142,247,0.1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
 
         .game-card:hover::before {
@@ -3003,7 +3177,7 @@
         #gameCanvas {
             border: 3px solid var(--primary-purple);
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(217, 70, 168, 0.45);
+            box-shadow: 0 10px 40px rgba(79, 142, 247, 0.45);
         }
 
         .game-controls {
@@ -3208,7 +3382,7 @@
             box-shadow: 
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(217, 70, 168, 0.25);
+                0 0 30px rgba(79, 142, 247, 0.25);
             font-weight: 600;
             font-size: 14px;
             z-index: 100000;
@@ -3346,11 +3520,11 @@
         }
 
         .notification.info {
-            border-color: rgba(217, 70, 168, 0.35);
+            border-color: rgba(79, 142, 247, 0.35);
             box-shadow: 
-                0 0 0 1px rgba(217, 70, 168, 0.2),
+                0 0 0 1px rgba(79, 142, 247, 0.2),
                 0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 40px rgba(217, 70, 168, 0.35);
+                0 0 40px rgba(79, 142, 247, 0.35);
         }
 
         .notification.info .notification-icon {
@@ -3499,8 +3673,8 @@
         }
 
         .template-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(79,142,247,0.05);
+            border: 1px solid rgba(79,142,247,0.25);
             border-radius: 12px;
             padding: 0;
             cursor: pointer;
@@ -3516,9 +3690,9 @@
 
         .template-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(217,70,168,0.4);
-            background: rgba(255,255,255,0.05);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border-color: rgba(79,142,247,0.7);
+            background: rgba(79,142,247,0.1);
+            box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
 
         .template-icon {
@@ -4294,8 +4468,8 @@
             display: inline-block;
             margin-left: 10px;
             padding: 1px 8px;
-            background: rgba(217, 70, 168, 0.2);
-            border: 1px solid rgba(217, 70, 168, 0.45);
+            background: rgba(79, 142, 247, 0.2);
+            border: 1px solid rgba(79, 142, 247, 0.45);
             border-radius: 4px;
             font-size: 10px;
             color: #a78bfa;
@@ -4305,10 +4479,10 @@
             vertical-align: middle;
         }
         .console-line-badge:hover {
-            background: rgba(217, 70, 168, 0.45);
+            background: rgba(79, 142, 247, 0.45);
             color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 8px rgba(217, 70, 168, 0.35);
+            box-shadow: 0 0 8px rgba(79, 142, 247, 0.35);
         }
 
         /* Ligne d'erreur surlignée dans CodeMirror */
@@ -4594,8 +4768,8 @@
         }
 
         .project-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(79,142,247,0.04);
+            border: 1px solid rgba(79,142,247,0.25);
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -4606,16 +4780,16 @@
         }
 
         .project-card:hover {
-            border-color: rgba(217, 70, 168, 0.4);
-            background: rgba(255,255,255,0.05);
+            border-color: rgba(79, 142, 247, 0.7);
+            background: rgba(79,142,247,0.1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
 
         .project-card-thumb {
             width: 100%;
             height: 130px;
-            background: rgba(217, 70, 168, 0.06);
+            background: rgba(79, 142, 247, 0.06);
             border-bottom: 1px solid rgba(255,255,255,0.07);
             display: flex;
             align-items: center;
@@ -5430,7 +5604,7 @@
 
         .export-option:hover {
             background: rgba(255,255,255,0.06);
-            border-color: rgba(217,70,168,0.4);
+            border-color: rgba(79,142,247,0.4);
             transform: translateX(4px);
         }
 
@@ -5505,7 +5679,7 @@
 
         .snippet-item:hover {
             background: rgba(255,255,255,0.06);
-            border-color: rgba(217,70,168,0.4);
+            border-color: rgba(79,142,247,0.4);
         }
 
         .snippet-title {
@@ -5648,12 +5822,12 @@
             width: 28px;
             height: 28px;
             background: linear-gradient(135deg, #2a1a2e, #1e1020);
-            border: 1px solid rgba(217, 70, 168, 0.35);
+            border: 1px solid rgba(79, 142, 247, 0.35);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 10px rgba(217,70,168,0.2);
+            box-shadow: 0 2px 10px rgba(79,142,247,0.2);
         }
         .sidebar-brand-icon svg { width: 14px; height: 14px; }
         .sidebar-brand-name {
@@ -5702,14 +5876,14 @@
         .sidebar-ws-avatar {
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #3a1a3a, #2a1020);
+            background: linear-gradient(135deg, #1a3a8f, #0d1a3a);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 13px;
             font-weight: 700;
-            color: var(--text-secondary);
+            color: #7eb3ff;
             flex-shrink: 0;
             font-family: var(--font-sans);
         }
@@ -5773,15 +5947,14 @@
             color: var(--text-secondary);
         }
 
-        /* Active/hover gradient — Nextmove exact:
-           dark blue-grey fills 70% left, pink/magenta only right 30% */
+        /* Active/hover gradient — Space blue */
         .menu-item.nav-lit .menu-item-inner {
             background: linear-gradient(90deg,
-                #232830 0%,
-                #232830 45%,
-                #4a1535 72%,
-                #8b0f46 88%,
-                #b8125a 100%
+                #0d1a3a 0%,
+                #0d1a3a 45%,
+                #1a3a8f 72%,
+                #2a5abf 88%,
+                #4f8ef7 100%
             );
             color: #ffffff;
             border-radius: 10px;
@@ -5813,13 +5986,14 @@
         }
 
         .menu-item-shortcut {
-            font-size: 10px;
-            color: var(--text-tertiary);
-            background: rgba(255,255,255,0.07);
+            font-size: 11px;
+            color: #7eb3ff;
+            background: rgba(79,142,247,0.15);
             padding: 3px 7px;
             border-radius: 5px;
             font-family: var(--font-mono);
-            border: 1px solid rgba(255,255,255,0.07);
+            border: 1px solid rgba(79,142,247,0.4);
+            font-weight: 600;
         }
 
         .menu-divider {
@@ -6143,7 +6317,7 @@
 
         /* ===== EXPORT ZIP OPTION ===== */
         .export-option-zip {
-            background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(236,72,153,0.08));
+            background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(79,142,247,0.08));
             border-color: var(--primary-purple) !important;
         }
 
@@ -6232,13 +6406,64 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#d946a8">
+    <meta name="theme-color" content="#4f8ef7">
 </head>
 <body>
     <!-- ✅ Skip to content - accessibilité -->
     <a href="#main-editor" class="skip-link" style="position:absolute;top:-50px;left:8px;background:var(--primary-purple);color:white;padding:8px 16px;border-radius:8px;text-decoration:none;font-weight:700;z-index:99999;transition:top 0.2s;" onfocus="this.style.top='8px'" onblur="this.style.top='-50px'">Aller au contenu</a>
     <!-- ===== INTRO ===== -->
     <div class="intro-screen" id="intro">
+        <div class="night">
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+            <div class="shooting_star"></div>
+        </div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
@@ -6517,7 +6742,7 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-const COLORS = ['#d946a8', '#a78bfa', '#ec4899', '#3b82f6', '#10b981'];
+const COLORS = ['#4f8ef7', '#a78bfa', '#4f8ef7', '#3b82f6', '#10b981'];
 const particles = [];
 
 class Particle {
@@ -6811,7 +7036,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         <div class="sidebar-header">
             <div class="sidebar-brand">
                 <div class="sidebar-brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#e879a8">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#7eb3ff">
                         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                     </svg>
                 </div>
@@ -9066,7 +9291,7 @@ ${js}
                         text: shareUrl,
                         width: 200,
                         height: 200,
-                        colorDark: '#d946a8',
+                        colorDark: '#4f8ef7',
                         colorLight: '#ffffff',
                         correctLevel: QRCode.CorrectLevel.L // Use Low correction for longer URLs
                     });
@@ -11452,18 +11677,18 @@ ${js}
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 // Draw snake
-                ctx.fillStyle = '#d946a8';
+                ctx.fillStyle = '#4f8ef7';
                 snake.forEach((segment, index) => {
                     if (index === 0) {
                         ctx.fillStyle = '#a78bfa'; // Head color
                     } else {
-                        ctx.fillStyle = '#d946a8';
+                        ctx.fillStyle = '#4f8ef7';
                     }
                     ctx.fillRect(segment.x * gridSize + 1, segment.y * gridSize + 1, gridSize - 2, gridSize - 2);
                 });
                 
                 // Draw food
-                ctx.fillStyle = '#ec4899';
+                ctx.fillStyle = '#4f8ef7';
                 ctx.fillRect(food.x * gridSize + 1, food.y * gridSize + 1, gridSize - 2, gridSize - 2);
 
                 document.getElementById('gameInfo').textContent = `Score: ${score}`;
@@ -11890,10 +12115,10 @@ ${js}
                 ctx.fillStyle = '#000';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#d946a8';
+                ctx.fillStyle = '#4f8ef7';
                 ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
                 
-                ctx.fillStyle = '#ec4899';
+                ctx.fillStyle = '#4f8ef7';
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
                 ctx.fill();
@@ -12005,7 +12230,7 @@ ${js}
                         if (bricks[c][r].status === 1) {
                             const brickX = brickOffsetLeft + c * (brickWidth + brickPadding);
                             const brickY = brickOffsetTop + r * (brickHeight + brickPadding);
-                            const colors = ['#d946a8', '#a78bfa', '#ec4899', '#f59e0b', '#10b981'];
+                            const colors = ['#4f8ef7', '#a78bfa', '#4f8ef7', '#f59e0b', '#10b981'];
                             ctx.fillStyle = colors[r];
                             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
                         }
@@ -12013,13 +12238,13 @@ ${js}
                 }
                 
                 // Draw paddle
-                ctx.fillStyle = '#d946a8';
+                ctx.fillStyle = '#4f8ef7';
                 ctx.beginPath();
                 ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 6);
                 ctx.fill();
                 
                 // Draw ball
-                ctx.fillStyle = '#ec4899';
+                ctx.fillStyle = '#4f8ef7';
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
                 ctx.fill();
@@ -12072,7 +12297,7 @@ ${js}
                 ctx.beginPath();
                 ctx.roundRect(boxX, boxY, boxW, boxH, 12);
                 ctx.fill();
-                ctx.strokeStyle = inputActive ? '#d946a8' : '#4a5568';
+                ctx.strokeStyle = inputActive ? '#4f8ef7' : '#4a5568';
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 
@@ -12083,7 +12308,7 @@ ${js}
                 ctx.fillText(currentInput || '—', cx, boxY + boxH / 2);
                 
                 // Message
-                ctx.fillStyle = gameWon ? '#10b981' : '#ec4899';
+                ctx.fillStyle = gameWon ? '#10b981' : '#4f8ef7';
                 ctx.font = `bold ${Math.floor(canvas.height * 0.05)}px Arial`;
                 ctx.textBaseline = 'middle';
                 ctx.fillText(message, cx, cy + canvas.height * 0.06);
