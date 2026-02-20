@@ -1962,6 +1962,15 @@
 
         .tab-icon {
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .tab-icon svg {
+            width: 16px;
+            height: 16px;
+            display: block;
         }
 
         /* Editor Container */
@@ -6604,7 +6613,7 @@
                     ▶️ Exécuter
                 </button>
                 <button class="btn" data-tooltip="Tout effacer" onclick="clearAll()">
-                    🗑️
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 </button>
                 <button class="btn" data-tooltip="Paramètres" onclick="toggleSettings()">
                     ⚙️
@@ -6626,12 +6635,12 @@
 
                 <div class="preview-header">
                     <div class="preview-title">
-                        <div class="preview-icon">👁️‍🗨️</div>
+                        <div class="preview-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
                         RÉSULTAT EN TEMPS RÉEL
                     </div>
                     <div class="preview-controls">
-                        <button class="control-btn" onclick="runCode()">🔄 Rafraîchir</button>
-                        <button class="control-btn" onclick="toggleConsole()">💻 Console</button>
+                        <button class="control-btn" onclick="runCode()">Rafraîchir</button>
+                        <button class="control-btn" onclick="toggleConsole()">Console</button>
                         <button class="control-btn" onclick="openFullscreen()">⛶ Plein écran</button>
                         <button class="control-btn" id="previewToggleBtn" onclick="togglePreviewAndHeader()">
                             <span id="previewToggleIcon">▼</span>
@@ -6692,19 +6701,53 @@
                 <div class="language-tabs">
                     <div class="tabs-left">
                         <button class="tab-btn html-tab active" onclick="switchTab('html')">
-                            <span class="tab-icon">📄</span>
+                            <span class="tab-icon">
+                                <svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M107.6 471l-33-370.4h362.8l-33 370.2L255.7 512z" fill="#e44d26"/>
+                                    <path d="M256 480.5V131H365.4l-28.2 316.3z" fill="#f16529"/>
+                                    <path d="M142.1 176.3h113.9v45.4h-63.5l4.2 47h59.3v45.3H154.5l-12.4-137.7zm12.4 150.6h45.5l3.2 36.3 52.8 14.3v47.4l-96.9-26.9-4.6-71.1z" fill="#ebebeb"/>
+                                    <path d="M369.6 176.3H255.8v45.4h109.6l-4.2 47H255.8v45.3h99.5l-12.5 133-99 27.4V423l52.6-14.2 3.4-37.8H255.8v-45.3h108.5l12.4-149.4z" fill="#fff"/>
+                                </svg>
+                            </span>
                             HTML
                         </button>
                         <button class="tab-btn css-tab" onclick="switchTab('css')">
-                            <span class="tab-icon">🎨</span>
+                            <span class="tab-icon">
+                                <svg width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M107.6 471l-33-370.4h362.8l-33 370.2L255.7 512z" fill="#264de4"/>
+                                    <path d="M256 480.5V131H365.4l-28.2 316.3z" fill="#2965f1"/>
+                                    <path d="M142.1 176.3h113.9v45.4H175.5l4.2 47h76.3v45.3H154.5l-12.4-137.7zm12.4 150.6h45.4l3.2 36.4 52.9 14.3v47.4l-97-26.9-4.5-71.2z" fill="#ebebeb"/>
+                                    <path d="M369.6 176.3H255.8v45.4h109.6l-4.2 47H255.8v45.3h99.5l-12.5 133-99 27.4V423l52.6-14.2 3.4-37.8H255.8v-45.3h108.5l12.4-149.4z" fill="#fff"/>
+                                </svg>
+                            </span>
                             CSS
                         </button>
                         <button class="tab-btn js-tab" onclick="switchTab('js')">
-                            <span class="tab-icon">⚡</span>
+                            <span class="tab-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="16" height="16" rx="2.5" fill="#f7df1e"/>
+                                    <text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="bold" fill="#323330">JS</text>
+                                </svg>
+                            </span>
                             JavaScript
                         </button>
                         <button class="tab-btn python-tab" onclick="switchTab('python')">
-                            <span class="tab-icon">🐍</span>
+                            <span class="tab-icon">
+                                <svg width="16" height="16" viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="pyTop" x1="12.959%" y1="12.039%" x2="79.639%" y2="78.201%">
+                                            <stop offset="0%" stop-color="#387EB8"/>
+                                            <stop offset="100%" stop-color="#366994"/>
+                                        </linearGradient>
+                                        <linearGradient id="pyBot" x1="19.128%" y1="20.579%" x2="90.742%" y2="88.429%">
+                                            <stop offset="0%" stop-color="#FFE052"/>
+                                            <stop offset="100%" stop-color="#FFC331"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.97c0 65.614 36.335 63.304 36.335 63.304h21.681v-30.432s-1.168-36.335 35.754-36.335h61.588s34.606.557 34.606-33.449V33.195S195.883.072 126.916.072zm-34.217 19.96a11.13 11.13 0 0 1 11.13 11.13 11.13 11.13 0 0 1-11.13 11.13 11.13 11.13 0 0 1-11.13-11.13 11.13 11.13 0 0 1 11.13-11.13z" fill="url(#pyTop)"/>
+                                    <path d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.91c0-65.614-36.335-63.304-36.335-63.304h-21.681v30.432s1.168 36.335-35.754 36.335H99.169s-34.606-.557-34.606 33.449v56.913s-5.248 33.072 64.194 33.072zm34.218-19.96a11.13 11.13 0 0 1-11.13-11.13 11.13 11.13 0 0 1 11.13-11.13 11.13 11.13 0 0 1 11.13 11.13 11.13 11.13 0 0 1-11.13 11.13z" fill="url(#pyBot)"/>
+                                </svg>
+                            </span>
                             Python
                         </button>
                     </div>
@@ -6904,7 +6947,7 @@ canvas.addEventListener('click', e => {
                     <div class="editor-content" id="python-editor">
                         <div class="editor-toolbar">
                             <button class="toolbar-btn undo-btn" id="undoBtn_python" onclick="editorUndo('python')" title="Annuler (Ctrl+Z)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13C5 7 10 4 16 6a9 9 0 0 1 5 8"/></svg></button><button class="toolbar-btn redo-btn" id="redoBtn_python" onclick="editorRedo('python')" title="Rétablir (Ctrl+Y)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13C19 7 14 4 8 6a9 9 0 0 0-5 8"/></svg></button>
-                            <button class="toolbar-btn" onclick="runPython()">▶️ Run</button>
+                            <button class="toolbar-btn" onclick="runPython()">Run</button>
                             <button class="toolbar-btn" onclick="copyCode('python')">Copier</button>
                             <button class="toolbar-btn" onclick="toggleFindReplace('python')">Rechercher (Ctrl+F)</button>
                         </div>
@@ -6981,7 +7024,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <!-- Python Output -->
                 <div class="python-output" id="pythonOutput">
                     <div class="python-output-header">
-                        <span>🐍 SORTIE PYTHON</span>
+                        <span>SORTIE PYTHON</span>
                         <button class="python-close-btn" onclick="closePythonOutput()">✕ Fermer</button>
                     </div>
                     <div class="python-result" id="pythonResult"></div>
@@ -6991,7 +7034,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             <!-- Console Panel -->
             <div class="console-panel" id="consolePanel">
                 <div class="console-header">
-                    <span class="console-title">💻 CONSOLE JAVASCRIPT</span>
+                    <span class="console-title">CONSOLE JAVASCRIPT</span>
                     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
                         <div class="console-filters">
                             <button class="console-filter-btn active" data-filter="all" onclick="filterConsole('all')">Tout</button>
@@ -6999,16 +7042,16 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                             <button class="console-filter-btn" data-filter="warn" onclick="filterConsole('warn')">⚠</button>
                             <button class="console-filter-btn" data-filter="error" onclick="filterConsole('error')">✖</button>
                         </div>
-                        <button class="python-close-btn" onclick="clearConsole()">🗑️ Effacer</button>
+                        <button class="python-close-btn" onclick="clearConsole()">Effacer</button>
                         <button class="python-close-btn" onclick="toggleConsole()">✕ Fermer</button>
                     </div>
                 </div>
                 <div class="console-content" id="consoleContent">
-                    <div class="console-log" data-placeholder>✅ Console prête...</div>
+                    <div class="console-log" data-placeholder>Console prête</div>
                 </div>
             </div>
             <!-- Hint tactile mobile -->
-            <div class="mobile-hint">💡 Glisse vers le haut pour agrandir l'éditeur • Ctrl+S pour exécuter</div>
+            <div class="mobile-hint">Glisse vers le haut pour agrandir l'éditeur • Ctrl+S pour exécuter</div>
         </div>
 
     </div>
@@ -7347,27 +7390,27 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             </div>
             <div class="templates-grid">
                 <div class="template-card" onclick="loadTemplate('glitchInput')">
-                    <div class="template-icon">🔍</div>
+                    <div class="template-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
                     <div class="template-name">Glitch Input</div>
                     <div class="template-desc">Barre de recherche holographique</div>
                 </div>
                 <div class="template-card" onclick="loadTemplate('flipCard')">
-                    <div class="template-icon">💳</div>
+                    <div class="template-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
                     <div class="template-name">Flip Card</div>
                     <div class="template-desc">Carte bancaire 3D animée</div>
                 </div>
                 <div class="template-card" onclick="loadTemplate('starButton')">
-                    <div class="template-icon">⭐</div>
+                    <div class="template-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
                     <div class="template-name">Star Button</div>
                     <div class="template-desc">Bouton avec étoiles magiques</div>
                 </div>
                 <div class="template-card" onclick="loadTemplate('borderButton')">
-                    <div class="template-icon">✨</div>
+                    <div class="template-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg></div>
                     <div class="template-name">Border Button</div>
                     <div class="template-desc">Bouton bordures animées</div>
                 </div>
                 <div class="template-card" onclick="loadTemplate('input3D')">
-                    <div class="template-icon">🎯</div>
+                    <div class="template-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                     <div class="template-name">3D Input</div>
                     <div class="template-desc">Champ de saisie néomorphique</div>
                 </div>
@@ -7392,8 +7435,8 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <div class="share-url" id="shareUrl">Le lien sera généré ici...</div>
                 <div id="qrcode"></div>
                 <div style="display: flex; gap: 10px; margin-top: 16px;">
-                    <button class="btn btn-primary" style="flex: 1;" onclick="copyShareUrl()">📋 Copier le lien</button>
-                    <button class="btn" style="flex: 1;" onclick="downloadQR()">📥 Télécharger QR</button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="copyShareUrl()">Copier le lien</button>
+                    <button class="btn" style="flex: 1;" onclick="downloadQR()">Télécharger QR</button>
                 </div>
             </div>
         </div>
@@ -7468,7 +7511,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <!-- Fullscreen Game Overlay -->
     <div class="game-fullscreen-overlay" id="gameFullscreenOverlay">
         <div class="game-fullscreen-topbar" id="gameTopbar">
-            <div class="game-fullscreen-title" id="gameFullscreenTitle">🎮 Jeu</div>
+            <div class="game-fullscreen-title" id="gameFullscreenTitle">Jeu</div>
             <div class="game-fullscreen-actions">
                 <button class="game-fs-btn" onclick="restartCurrentGame()" title="Recommencer">🔄 Restart</button>
                 <button class="game-fs-btn danger" onclick="closeFullscreenGame()">✕ Quitter</button>
@@ -7615,35 +7658,35 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             </div>
             <div style="padding: 12px 0 20px;">
             <div class="export-option export-option-zip" onclick="exportAsZip()">
-                <div class="export-icon">📦</div>
+                <div class="export-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="4"/></svg></div>
                 <div class="export-info">
                     <h3>Export ZIP</h3>
                     <p>index.html + style.css + script.js dans un ZIP</p>
                 </div>
             </div>
             <div class="export-option" onclick="exportAsHTML()">
-                <div class="export-icon">🌐</div>
+                <div class="export-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
                 <div class="export-info">
                     <h3>HTML Complet</h3>
                     <p>Télécharger en un seul fichier HTML</p>
                 </div>
             </div>
             <div class="export-option" onclick="exportSeparate()">
-                <div class="export-icon">📁</div>
+                <div class="export-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
                 <div class="export-info">
                     <h3>Fichiers séparés</h3>
                     <p>HTML, CSS et JS dans des fichiers distincts</p>
                 </div>
             </div>
             <div class="export-option" onclick="exportToCodePen()">
-                <div class="export-icon">✏️</div>
+                <div class="export-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
                 <div class="export-info">
                     <h3>CodePen</h3>
                     <p>Ouvrir dans CodePen</p>
                 </div>
             </div>
             <div class="export-option" onclick="exportToJSFiddle()">
-                <div class="export-icon">🎻</div>
+                <div class="export-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
                 <div class="export-info">
                     <h3>JSFiddle</h3>
                     <p>Ouvrir dans JSFiddle</p>
@@ -7687,7 +7730,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 </div>
             </div>
             <div class="tutorial-step" id="step4">
-                <h2 style="font-size: 28px; margin-bottom: 20px;">🚀 Prêt à coder!</h2>
+                <h2 style="font-size: 28px; margin-bottom: 20px;">Prêt à coder !</h2>
                 <p style="font-size: 16px; margin-bottom: 20px; color: var(--text-secondary);">
                     Utilisez Ctrl+/ pour voir tous les raccourcis clavier. Bon codage! 🌸
                 </p>
@@ -7709,7 +7752,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 </div>
                 <div class="tutorial-buttons">
                     <button class="btn" onclick="prevTutorialStep()">← Précédent</button>
-                    <button class="btn btn-primary" onclick="closeTutorial(); openLoginModal();">C'est parti! 🎉</button>
+                    <button class="btn btn-primary" onclick="closeTutorial(); openLoginModal();">C'est parti !</button>
                 </div>
             </div>
         </div>
@@ -7890,7 +7933,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             if (c.error > 0) badges += ' <span style="background:#ef4444;color:#fff;border-radius:4px;padding:1px 6px;font-size:10px;">' + c.error + ' erreur' + (c.error > 1 ? 's' : '') + '</span>';
             if (c.warn > 0) badges += ' <span style="background:#f59e0b;color:#000;border-radius:4px;padding:1px 6px;font-size:10px;">' + c.warn + ' warn</span>';
             if (c.log > 0) badges += ' <span style="background:rgba(167,139,250,0.2);color:#a78bfa;border-radius:4px;padding:1px 6px;font-size:10px;">' + c.log + ' log</span>';
-            titleEl.innerHTML = '💻 CONSOLE JAVASCRIPT' + badges;
+            titleEl.innerHTML = 'CONSOLE JAVASCRIPT' + badges;
 
             // Alerte visuelle sur le bouton Console si erreur
             const consoleBtn = document.querySelector('.control-btn[onclick="toggleConsole()"]');
@@ -7898,15 +7941,15 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 if (c.error > 0) {
                     consoleBtn.style.color = '#ef4444';
                     consoleBtn.style.borderColor = '#ef4444';
-                    consoleBtn.textContent = '💻 Console (' + c.error + ' ❌)';
+                    consoleBtn.textContent = 'Console (' + c.error + ' err)';
                 } else if (c.warn > 0) {
                     consoleBtn.style.color = '#f59e0b';
                     consoleBtn.style.borderColor = '#f59e0b';
-                    consoleBtn.textContent = '💻 Console (' + c.warn + ' ⚠️)';
+                    consoleBtn.textContent = 'Console (' + c.warn + ' warn)';
                 } else {
                     consoleBtn.style.color = '';
                     consoleBtn.style.borderColor = '';
-                    consoleBtn.textContent = '💻 Console';
+                    consoleBtn.textContent = 'Console';
                 }
             }
         }
@@ -8169,7 +8212,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             projects.push(copy);
             safeSetProjects(projects);
             if (window._fbUser) await saveProjectToCloud(copy);
-            showNotification(`"${copy.name}" dupliqué ✅`, 'success');
+            showNotification(`"${copy.name}" dupliqué`, 'success');
             loadProjectsList();
         }
 
@@ -8719,7 +8762,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         // Clear all
         function clearAll() {
             scrixConfirm({
-                icon: '🗑️',
+                icon: 'trash',
                 title: 'Tout effacer ?',
                 desc: 'Cette action supprimera tout le code dans les éditeurs.',
                 okText: 'Effacer',
@@ -8834,7 +8877,7 @@ ${js}
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(code)
                     .then(() => {
-                        showNotification(`Code ${type.toUpperCase()} copié ! 📋`, 'success');
+                        showNotification(`Code ${type.toUpperCase()} copié`, 'success');
                     })
                     .catch(err => {
                         console.error('Erreur clipboard API:', err);
@@ -8843,7 +8886,7 @@ ${js}
                         try {
                             const successful = document.execCommand('copy');
                             if (successful) {
-                                showNotification(`Code ${type.toUpperCase()} copié ! 📋`, 'success');
+                                showNotification(`Code ${type.toUpperCase()} copié`, 'success');
                             } else {
                                 showNotification('Impossible de copier le code', 'error');
                             }
@@ -8857,7 +8900,7 @@ ${js}
                 try {
                     const successful = document.execCommand('copy');
                     if (successful) {
-                        showNotification(`Code ${type.toUpperCase()} copié ! 📋`, 'success');
+                        showNotification(`Code ${type.toUpperCase()} copié`, 'success');
                     } else {
                         showNotification('Impossible de copier le code', 'error');
                     }
@@ -8990,10 +9033,10 @@ ${js}
             
             // Icônes selon le type
             const icons = {
-                success: '✅',
-                error: '❌',
-                info: '💡',
-                warn: '⚠️'
+                success: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+                error: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+                info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+                warn: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
             };
             
             // Titres selon le type
@@ -9244,7 +9287,7 @@ ${js}
                             localStorage.removeItem('scrix_autosave');
                             localStorage.setItem('scrix_autosave', JSON.stringify(code));
                         } catch(e2) {
-                            showNotification('⚠️ Autosave impossible : espace local plein. Sauvegarde manuelle recommandée.', 'error');
+                            showNotification('Autosave impossible : espace local plein. Sauvegarde manuelle recommandée.', 'error');
                         }
                     }
                 }
@@ -9345,10 +9388,22 @@ ${js}
             
             // Clear previous QR code and generate new one using API
             const qrcodeDiv = document.getElementById('qrcode');
-            qrcodeDiv.innerHTML = '<div style="color: var(--text-tertiary); text-align: center;">Génération du QR code...</div>';
+            qrcodeDiv.innerHTML = '<div style="color: var(--text-tertiary); text-align: center; padding: 20px; font-size: 13px;">Génération du QR code...</div>';
+            
+            // Check URL length - QR codes have data limits
+            const MAX_QR_URL_LENGTH = 800; // practical limit for reliable scanning
+            
+            if (shareUrl.length > MAX_QR_URL_LENGTH) {
+                qrcodeDiv.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="color: var(--text-secondary); margin-bottom: 8px; font-size: 13px; font-weight: 600;">URL trop longue pour un QR code lisible</div>
+                        <div style="color: var(--text-tertiary); font-size: 12px; line-height: 1.5;">Votre projet contient trop de code pour être encodé dans un QR code.<br>Utilisez le bouton "Copier le lien" à la place.</div>
+                    </div>`;
+                return;
+            }
             
             // Use QR Server API which handles long URLs better
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareUrl)}&color=7c3aed&bgcolor=ffffff`;
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareUrl)}&color=4f8ef7&bgcolor=111112&qzone=2&format=png`;
             
             // Create image element for QR code
             const img = document.createElement('img');
@@ -9358,6 +9413,7 @@ ${js}
             img.style.margin = '0 auto';
             img.style.maxWidth = '200px';
             img.style.height = 'auto';
+            img.style.borderRadius = '8px';
             
             img.onload = () => {
                 qrcodeDiv.innerHTML = '';
@@ -9373,14 +9429,14 @@ ${js}
                         width: 200,
                         height: 200,
                         colorDark: '#4f8ef7',
-                        colorLight: '#ffffff',
+                        colorLight: '#111112',
                         correctLevel: QRCode.CorrectLevel.L // Use Low correction for longer URLs
                     });
                 } catch (e) {
                     qrcodeDiv.innerHTML = `
                         <div style="text-align: center; padding: 20px;">
-                            <p style="color: var(--text-tertiary); margin-bottom: 10px;">⚠️ URL trop longue pour le QR code</p>
-                            <p style="color: var(--text-secondary); font-size: 12px;">Utilisez le bouton "Copier le lien" à la place</p>
+                            <div style="color: var(--text-secondary); margin-bottom: 8px; font-size: 13px; font-weight: 600;">QR code indisponible</div>
+                            <div style="color: var(--text-tertiary); font-size: 12px;">Utilisez le bouton "Copier le lien" à la place</div>
                         </div>
                     `;
                 }
@@ -9398,7 +9454,7 @@ ${js}
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(url)
                     .then(() => {
-                        showNotification('Lien copié dans le presse-papier ! 📋', 'success');
+                        showNotification('Lien copié dans le presse-papier', 'success');
                     })
                     .catch(err => {
                         console.error('Erreur clipboard API:', err);
@@ -9428,7 +9484,7 @@ ${js}
                 // Try to copy
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showNotification('Lien copié dans le presse-papier ! 📋', 'success');
+                    showNotification('Lien copié dans le presse-papier', 'success');
                 } else {
                     showNotification('Impossible de copier le lien', 'error');
                 }
@@ -9458,7 +9514,7 @@ ${js}
                         a.click();
                         document.body.removeChild(a);
                         window.URL.revokeObjectURL(url);
-                        showNotification('QR Code téléchargé ! 📥', 'success');
+                        showNotification('QR Code téléchargé', 'success');
                     })
                     .catch(() => {
                         // Fallback: utiliser directement le src
@@ -9469,7 +9525,7 @@ ${js}
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
-                        showNotification('QR Code téléchargé ! 📥', 'success');
+                        showNotification('QR Code téléchargé', 'success');
                     });
             } else if (canvas) {
                 // Si on a un canvas (de QRCode.js)
@@ -9480,7 +9536,7 @@ ${js}
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                showNotification('QR Code téléchargé ! 📥', 'success');
+                showNotification('QR Code téléchargé', 'success');
             } else {
                 showNotification('Aucun QR Code à télécharger', 'error');
             }
@@ -10032,17 +10088,17 @@ ${js}
                     return p;
                 });
                 localStorage.setItem('scrix_projects', JSON.stringify(stripped));
-                showNotification('⚠️ Espace local plein — thumbnails anciens supprimés. Connecte-toi pour le cloud !', 'warn');
+                showNotification('Espace local plein — thumbnails anciens supprimés. Connecte-toi pour le cloud !', 'warn');
                 return true;
             } catch(e2) {}
             // Dernier recours : ne garder que les 5 derniers projets sans thumbnails
             try {
                 const minimal = projects.slice(-5).map(p => ({ ...p, thumbnail: null }));
                 localStorage.setItem('scrix_projects', JSON.stringify(minimal));
-                showNotification('⚠️ Espace local critique — seuls les 5 derniers projets conservés.', 'error');
+                showNotification('Espace local critique — seuls les 5 derniers projets conservés.', 'error');
                 return true;
             } catch(e3) {
-                showNotification('❌ Impossible de sauvegarder : espace local plein. Connecte-toi pour utiliser le cloud.', 'error');
+                showNotification('Impossible de sauvegarder : espace local plein. Connecte-toi pour utiliser le cloud.', 'error');
                 return false;
             }
         }
@@ -10179,7 +10235,7 @@ ${js}
                 syncPrefsOnLogin(user).then(() => {
                     const prof = JSON.parse(localStorage.getItem('scrix_profile_' + user.uid) || '{}');
                     if (!prof.username) {
-                        showNotification(`Bienvenue ${firstName} ! Projets synchronisés ☁️`, 'success');
+                        showNotification(`Bienvenue ${firstName} — Projets synchronisés`, 'success');
                     }
                 });
             } else {
@@ -10310,7 +10366,7 @@ ${js}
                         if (label) label.textContent = merged.username;
                         const fallback = document.getElementById('authAvatarFallback');
                         if (fallback && fallback.style.display !== 'none') fallback.textContent = merged.username[0].toUpperCase();
-                        showNotification(`Bienvenue ${merged.username} ! Projets synchronisés ☁️`, 'success');
+                        showNotification(`Bienvenue ${merged.username} — Projets synchronisés`, 'success');
                     }
                 } else {
                     // Uploader les prefs locales + profil
@@ -10373,13 +10429,13 @@ ${js}
         async function saveCurrentProject() {
             // Bloquer si pas connecté
             if (!window._fbUser) {
-                showNotification('🔒 Connecte-toi avec Google pour sauvegarder un projet', 'error');
+                showNotification('Connecte-toi avec Google pour sauvegarder un projet', 'error');
                 setTimeout(() => openLoginModal(), 800);
                 return;
             }
 
             scrixPrompt({
-                icon: '💾',
+                icon: 'save',
                 title: 'Sauvegarder le projet',
                 desc: 'Donne un nom à ton projet',
                 placeholder: 'Ex: Mon super projet',
@@ -10420,7 +10476,7 @@ ${js}
                             safeSetProjects(projects);
                             if (window._fbUser) {
                                 await saveProjectToCloud(projects[existingIndex]);
-                                showNotification(`"${projectName}" mis à jour ☁️`, 'success');
+                                showNotification(`"${projectName}" mis à jour`, 'success');
                             } else {
                                 showNotification(`"${projectName}" mis à jour localement`, 'success');
                             }
@@ -10442,7 +10498,7 @@ ${js}
                             safeSetProjects(projects);
                             if (window._fbUser) {
                                 await saveProjectToCloud(newProject);
-                                showNotification(`"${copyName}" sauvegardé ☁️`, 'success');
+                                showNotification(`"${copyName}" sauvegardé`, 'success');
                             } else {
                                 showNotification(`"${copyName}" sauvegardé localement`, 'success');
                             }
@@ -10475,7 +10531,7 @@ ${js}
 
                 if (window._fbUser) {
                     await saveProjectToCloud(project);
-                    showNotification(`"${projectName}" sauvegardé ☁️`, 'success');
+                    showNotification(`"${projectName}" sauvegardé`, 'success');
                 } else {
                     showNotification(`"${projectName}" sauvegardé localement`, 'success');
                 }
@@ -10504,7 +10560,7 @@ ${js}
             if (!window._fbUser) {
                 projectsList.innerHTML = `
                     <div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:60px 20px;">
-                        <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+                        <div style="font-size:48px;margin-bottom:16px;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
                         <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Connecte-toi pour voir tes projets</div>
                         <div style="font-size:12px;margin-top:8px;opacity:0.6;">Tes projets sont synchronisés dans le cloud avec ton compte</div>
                         <button onclick="openLoginModal()" style="margin-top:20px;padding:10px 24px;background:var(--primary-purple);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Se connecter</button>
@@ -10613,7 +10669,7 @@ ${js}
                             { thumbnail: ev.target.result }, { merge: true });
                     }
                     loadProjectsList();
-                    showNotification('Image mise à jour ✅', 'success');
+                    showNotification('Image mise à jour', 'success');
                 };
                 reader.readAsDataURL(file);
             };
@@ -10687,7 +10743,7 @@ ${js}
             const safeProjectName = String(projectName).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
             scrixConfirm({
-                icon: '🗑️',
+                icon: 'trash',
                 title: 'Supprimer ce projet ?',
                 desc: `"${safeProjectName}" sera définitivement supprimé.`,
                 okText: 'Supprimer',
@@ -10833,7 +10889,7 @@ ${js}
                                 { customBanner: compressed },
                                 { merge: true }
                             );
-                            showNotification('Bannière mise à jour ✨', 'success');
+                            showNotification('Bannière mise à jour', 'success');
                         } catch(e) {
                             console.warn('Erreur Firebase bannière:', e);
                             showNotification('Erreur de sauvegarde cloud', 'error');
@@ -10906,7 +10962,7 @@ ${js}
                             await setDoc(doc(window._fbDb, 'users', window._fbUser.uid, 'prefs', 'main'), { customAvatar: resized }, { merge: true });
                         } catch(e) {}
                     }
-                    showNotification('Photo de profil mise à jour ✨', 'success');
+                    showNotification('Photo de profil mise à jour', 'success');
                 };
                 img.src = dataUrl;
             };
@@ -10922,7 +10978,7 @@ ${js}
                 const localKey = 'scrix_profile_' + user.uid;
                 const savedProfile = JSON.parse(localStorage.getItem(localKey) || '{}');
 
-                // ✅ Charger depuis Firebase (source de vérité = synchro tous appareils)
+                // Charger depuis Firebase (source de vérité = synchro tous appareils)
                 let cloudData = {};
                 if (window._fbDb && window._fbFns) {
                     try {
@@ -11009,7 +11065,7 @@ ${js}
             const label = document.getElementById('menuProfileLabel');
             if (label && username) label.textContent = username;
 
-            showNotification('Profil sauvegardé ✨', 'success');
+            showNotification('Profil sauvegardé', 'success');
         }
 
         // Mettre à jour le panel profil quand l'auth change
@@ -11120,7 +11176,7 @@ ${js}
         });
 
         // ===== CUSTOM CONFIRM =====
-        function scrixConfirm({ icon = '⚠️', title = 'Confirmation', desc = '', okText = 'Confirmer', cancelText = 'Annuler', danger = false } = {}, callback) {
+        function scrixConfirm({ icon = 'warn', title = 'Confirmation', desc = '', okText = 'Confirmer', cancelText = 'Annuler', danger = false } = {}, callback) {
             const existing = document.getElementById('scrixConfirmModal');
             if (existing) existing.remove();
 
@@ -11199,7 +11255,7 @@ ${js}
                     />
                     <div class="confirm-btns">
                         <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel">Annuler</button>
-                        <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">💾 Sauvegarder</button>
+                        <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">Sauvegarder</button>
                     </div>
                 </div>
             `;
@@ -11251,8 +11307,8 @@ ${js}
                     <div class="restore-desc">Tu avais du code en cours la dernière fois.<br>Tu veux le récupérer ?</div>
                     <div class="restore-project-name">📄 ${safeProjectName}</div>
                     <div class="restore-btns">
-                        <button class="restore-btn restore-btn-clear" onclick="dismissRestore()">🗑️ Effacer</button>
-                        <button class="restore-btn restore-btn-load" onclick="confirmRestore()">✅ Charger</button>
+                        <button class="restore-btn restore-btn-clear" onclick="dismissRestore()">Effacer</button>
+                        <button class="restore-btn restore-btn-load" onclick="confirmRestore()">Charger</button>
                     </div>
                 </div>
             `;
@@ -11406,7 +11462,7 @@ ${js}
                 games[index].name = newName;
                 saveCustomGames(games);
                 await syncCustomGamesToCloud();
-                if (newName !== oldName) showNotification(`Renommé en "${newName}" ✅`, 'success');
+                if (newName !== oldName) showNotification(`Renommé en "${newName}"`, 'success');
                 renderCustomGameCards();
             }
             input.addEventListener('blur', commit);
@@ -11532,7 +11588,7 @@ ${js}
 
         function openProjectSelector() {
             if (!window._fbUser) {
-                showNotification('🔒 Connecte-toi pour ajouter tes projets', 'error');
+                showNotification('Connecte-toi pour ajouter tes projets', 'error');
                 setTimeout(() => openLoginModal(), 800);
                 return;
             }
@@ -11589,14 +11645,14 @@ ${js}
             await syncCustomGamesToCloud();
             closeProjectSelector();
             renderCustomGameCards();
-            showNotification(`"${proj.name}" ajouté aux mini-jeux 🎮`, 'success');
+            showNotification(`"${proj.name}" ajouté aux mini-jeux`, 'success');
         }
 
         async function removeCustomGame(index) {
             const games = getCustomGames();
             const name = games[index] ? games[index].name : 'ce mini-jeu';
             scrixConfirm({
-                icon: '🗑️',
+                icon: 'trash',
                 title: 'Supprimer le mini-jeu',
                 desc: `Tu veux vraiment supprimer "${name}" ? Cette action est irréversible.`,
                 okText: 'Supprimer',
@@ -12631,7 +12687,7 @@ ${html}
 </html>`;
 
             try {
-                showNotification('⏳ Création du ZIP...', 'info');
+                showNotification('Création du ZIP...', 'info');
                 const zip = new JSZip();
                 zip.file('index.html', fullHTML);
                 zip.file('style.css', css);
@@ -12645,7 +12701,7 @@ ${html}
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
-                showNotification('📦 ZIP téléchargé !', 'success');
+                showNotification('ZIP téléchargé', 'success');
                 closeExport();
             } catch(e) {
                 console.error('Export ZIP error:', e);
@@ -13569,7 +13625,7 @@ self.addEventListener('fetch', e => {
                 const cred = await createUserWithEmailAndPassword(window._fbAuth, email, password);
                 await updateProfile(cred.user, { displayName: username });
                 closeLoginModalDirect();
-                showNotification('Compte créé ! Bienvenue ' + username + ' 🎉', 'success');
+                showNotification('Compte créé. Bienvenue ' + username, 'success');
             } catch(e) {
                 const msgs = {
                     'auth/email-already-in-use': 'Cet email est déjà utilisé.',
