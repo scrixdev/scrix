@@ -2943,6 +2943,14 @@
         #gamesMenu .project-card {
             aspect-ratio: 1;
             height: auto;
+            background: rgba(79,142,247,0.04);
+            border: 1px solid rgba(79,142,247,0.25);
+            border-radius: 12px;
+        }
+        #gamesMenu .project-card:hover {
+            border-color: rgba(79,142,247,0.7);
+            background: rgba(79,142,247,0.1);
+            box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
         #gamesMenu .project-card .project-card-thumb {
             height: 110px;
@@ -3051,12 +3059,12 @@
             opacity: 1;
         }
         .add-game-card {
-            border: 2px dashed var(--border-default);
+            border: 2px dashed rgba(79,142,247,0.4);
             background: transparent;
         }
         .add-game-card:hover {
-            border-color: var(--primary-purple);
-            background: var(--surface-glass);
+            border-color: rgba(79,142,247,0.8);
+            background: rgba(79,142,247,0.05);
             transform: translateY(-4px);
         }
         .add-game-icon {
