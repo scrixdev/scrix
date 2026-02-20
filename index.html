@@ -2953,12 +2953,13 @@
             box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
         #gamesMenu .project-card .project-card-thumb {
-            height: 110px;
-            flex-shrink: 0;
+            flex: 1;
+            min-height: 0;
+            flex-shrink: 1;
         }
         #gamesMenu .project-card .project-card-body {
             padding: 8px 10px;
-            flex: 1;
+            flex-shrink: 0;
         }
         #gamesMenu .project-card .project-card-name {
             font-size: 13px;
@@ -2973,21 +2974,38 @@
         #gamesMenu .project-card .project-card-actions {
             gap: 3px;
         }
-        /* Ajustements par taille de grille */
+        /* Ajustements par taille de grille — on supprime les hauteurs fixes et on laisse aspect-ratio:1 faire le travail */
         #gamesMenu.gsize-md .project-card {
-            height: 150px;
+            aspect-ratio: 1;
+            height: auto;
         }
         #gamesMenu.gsize-md .project-card .project-card-thumb {
-            height: 85px;
+            height: auto;
         }
         #gamesMenu.gsize-sm .project-card {
-            height: 110px;
+            aspect-ratio: 1;
+            height: auto;
         }
         #gamesMenu.gsize-sm .project-card .project-card-thumb {
-            height: 55px;
+            height: auto;
         }
         #gamesMenu.gsize-sm .project-card .project-card-body {
-            padding: 5px 8px;
+            padding: 4px 6px;
+        }
+        #gamesMenu.gsize-sm .project-card .project-card-name {
+            font-size: 11px;
+        }
+        #gamesMenu.gsize-sm .project-card .project-card-date {
+            font-size: 10px;
+        }
+        /* add-game-card : même taille que les autres cartes selon la grille */
+        #gamesMenu.gsize-md .add-game-card {
+            aspect-ratio: 1;
+            height: auto;
+        }
+        #gamesMenu.gsize-sm .add-game-card {
+            aspect-ratio: 1;
+            height: auto;
         }
 
         /* Custom game card actions (like project cards) */
