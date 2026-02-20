@@ -132,43 +132,48 @@
     <!-- Pas de Pyodide - trop lourd et buggy -->
     <style>
         :root {
-            /* SCRIX Color Palette */
-            --primary-purple: #7c3aed;
-            --purple-dark: #5b21b6;
-            --purple-light: #a78bfa;
-            --purple-glow: rgba(124, 58, 237, 0.4);
+            /* SCRIX — Nextmove-style Dark Professional Palette */
+            --primary-purple: #d946a8;
+            --purple-dark: #be185d;
+            --purple-light: #f0abcb;
+            --purple-glow: rgba(217, 70, 168, 0.35);
             
-            --bg-primary: #1a0f2e;
-            --bg-secondary: #241838;
-            --bg-tertiary: #2d1f4a;
-            --bg-elevated: #3d2f5a;
+            /* Deep charcoal backgrounds — inspired by Nextmove */
+            --bg-primary: #111112;
+            --bg-secondary: #161618;
+            --bg-tertiary: #1c1c1f;
+            --bg-elevated: #242428;
             
-            --surface-glass: rgba(124, 58, 237, 0.1);
-            --surface-hover: rgba(167, 139, 250, 0.15);
+            --surface-glass: rgba(255, 255, 255, 0.04);
+            --surface-hover: rgba(255, 255, 255, 0.07);
             
-            --border-subtle: rgba(167, 139, 250, 0.2);
-            --border-default: rgba(167, 139, 250, 0.3);
-            --border-strong: rgba(167, 139, 250, 0.5);
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-default: rgba(255, 255, 255, 0.1);
+            --border-strong: rgba(255, 255, 255, 0.2);
             
-            --text-primary: #f3f4f6;
-            --text-secondary: #d1d5db;
-            --text-tertiary: #9ca3af;
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
             
             /* Accent Colors */
             --accent-pink: #ec4899;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-amber: #f59e0b;
-            --accent-red: #ef4444;
+            --accent-blue: #60a5fa;
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            
+            /* Active nav gradient — Nextmove pink glow */
+            --nav-active-bg: linear-gradient(90deg, rgba(30, 25, 35, 0.95) 0%, rgba(100, 20, 60, 0.6) 70%, rgba(180, 30, 90, 0.9) 100%);
+            --nav-active-accent: linear-gradient(180deg, #e879a8 0%, #be185d 100%);
             
             /* Code Editor Colors */
-            --editor-html: #e34c26;
-            --editor-css: #3b82f6;
-            --editor-js: #f7df1e;
-            --editor-python: #3776ab;
+            --editor-html: #f87060;
+            --editor-css: #60a5fa;
+            --editor-js: #fde68a;
+            --editor-python: #7dd3fc;
             
             /* Typography */
-            --font-display: 'Playfair Display', Georgia, serif;
+            --font-display: 'DM Sans', -apple-system, sans-serif;
             --font-sans: 'DM Sans', -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
@@ -409,7 +414,7 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .preview-dark   { background: linear-gradient(135deg, #1a0f2e 50%, #7c3aed 100%); }
+        .preview-dark   { background: linear-gradient(135deg, #111112 50%, #d946a8 100%); }
         .preview-neo    { background: linear-gradient(135deg, #07000f 30%, #ff00ff 60%, #00ffff 100%); animation: neonHue 3s linear infinite; }
         .preview-cyber  { background: linear-gradient(135deg, #0a0008 50%, #ffd700 100%); }
         .preview-term   { background: linear-gradient(135deg, #020d02 50%, #00ff41 100%); }
@@ -565,7 +570,7 @@
             padding: 4px 14px;
             font-family: var(--font-mono);
             font-size: 13px;
-            color: var(--purple-light);
+            color: var(--text-secondary);
             margin-bottom: 28px;
         }
 
@@ -1229,14 +1234,14 @@
 
         body {
             font-family: var(--font-sans);
-            background: linear-gradient(135deg, #1a0f2e 0%, #2d1f4a 50%, #3d2f5a 100%);
+            background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
             height: 100vh;
             position: relative;
         }
 
-        /* Animated Background */
+        /* Subtle dark ambient */
         body::before {
             content: '';
             position: fixed;
@@ -1245,12 +1250,10 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(167, 139, 250, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 20% 0%, rgba(217, 70, 168, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 100%, rgba(190, 24, 93, 0.04) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
-            animation: bgPulse 15s ease-in-out infinite;
         }
 
         @keyframes bgPulse {
@@ -1258,25 +1261,9 @@
             50% { opacity: 0.8; }
         }
 
-        /* Floating particles effect */
+        /* No floating particles - cleaner look */
         body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(167, 139, 250, 0.3), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(124, 58, 237, 0.3), transparent),
-                radial-gradient(1px 1px at 50% 50%, rgba(236, 72, 153, 0.3), transparent),
-                radial-gradient(1px 1px at 80% 10%, rgba(167, 139, 250, 0.3), transparent);
-            background-size: 200px 200px, 150px 150px, 250px 250px, 180px 180px;
-            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-            animation: particleFloat 20s linear infinite;
+            content: none;
         }
 
         @keyframes particleFloat {
@@ -1294,11 +1281,9 @@
 
         /* Premium Header */
         .header {
-            background: rgba(26, 15, 46, 0.8);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border-bottom: 2px solid var(--border-subtle);
-            padding: 18px 32px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 14px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1312,16 +1297,14 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 2px;
+            height: 1px;
             background: linear-gradient(90deg, 
-                transparent, 
-                var(--primary-purple) 20%, 
-                var(--accent-pink) 50%,
-                var(--primary-purple) 80%,
-                transparent
+                transparent 0%,
+                rgba(217, 70, 168, 0.5) 30%, 
+                rgba(236, 72, 153, 0.8) 50%,
+                rgba(217, 70, 168, 0.5) 70%,
+                transparent 100%
             );
-            opacity: 0.6;
-            animation: headerFlow 8s ease-in-out infinite;
         }
 
         @keyframes headerFlow {
@@ -1343,21 +1326,16 @@
         }
 
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.15));
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            backdrop-filter: blur(20px) saturate(180%);
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #2a1a2e 0%, #1e1020 100%);
+            border: 1px solid rgba(217, 70, 168, 0.3);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: 
-                0 8px 32px var(--purple-glow),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            animation: iconGlow 3s ease-in-out infinite;
+            box-shadow: 0 4px 16px rgba(217, 70, 168, 0.2);
         }
 
         .logo-icon .mini-s,
@@ -1377,7 +1355,7 @@
         }
 
         .logo-icon .mini-x {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #e879a8, #be185d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transform: translate(2px, 2px);
@@ -1407,19 +1385,16 @@
         }
 
         .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 22px;
             font-weight: 700;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.08em;
             display: flex;
-            gap: 0.05em;
+            gap: 0.02em;
         }
 
         .logo-text .letter {
-            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
             animation: headerLetterPop 0.5s ease both;
         }
 
@@ -1430,7 +1405,7 @@
         .logo-text .letter:nth-child(5) { animation-delay: 3.6s; }
 
         .logo-text .highlight {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #e879a8, #be185d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1441,27 +1416,27 @@
         }
 
         .tagline {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-tertiary);
-            font-weight: 500;
-            letter-spacing: 1px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         .project-name-container { position: relative; min-width: 280px; }
 
-        .project-name { width: 100%; height: 48px; background: rgba(0,0,0,0.6); border: none; border-bottom: 2px solid rgba(50,50,50,0.8); outline: none; padding: 0 1rem; color: var(--purple-light); font-size: 13px; font-weight: 500; font-family: var(--font-mono); caret-color: var(--purple-light); z-index: 10; transition: background 0.3s ease, border-color 0.3s ease; letter-spacing: 0.05em; }
+        .project-name { width: 100%; height: 48px; background: rgba(0,0,0,0.6); border: none; border-bottom: 2px solid rgba(50,50,50,0.8); outline: none; padding: 0 1rem; color: var(--text-secondary); font-size: 13px; font-weight: 500; font-family: var(--font-mono); caret-color: var(--text-secondary); z-index: 10; transition: background 0.3s ease, border-color 0.3s ease; letter-spacing: 0.05em; }
 
         .project-label { position: absolute; top: 0.9rem; left: 1rem; color: #888; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.15em; pointer-events: none; transition: all 0.3s ease; z-index: 11; font-size: 11px; font-weight: 500; font-family: var(--font-mono); }
 
-        .project-name:focus + .project-label, .project-name:not(:placeholder-shown) + .project-label { top: -1.3rem; left: 0; font-size: 9px; opacity: 1; color: var(--purple-light); }
+        .project-name:focus + .project-label, .project-name:not(:placeholder-shown) + .project-label { top: -1.3rem; left: 0; font-size: 9px; opacity: 1; color: var(--text-secondary); }
 
         .project-name:focus + .project-label::before, .project-name:focus + .project-label::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         .project-name:focus + .project-label::before { color: var(--accent-pink); animation: glitch-project 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both; }
 
-        .project-name:focus + .project-label::after { color: var(--purple-light); animation: glitch-project 0.4s cubic-bezier(0.25,0.46,0.45,0.94) reverse both; }
+        .project-name:focus + .project-label::after { color: var(--text-secondary); animation: glitch-project 0.4s cubic-bezier(0.25,0.46,0.45,0.94) reverse both; }
 
         .project-border, .project-scanline, .project-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
@@ -1506,21 +1481,20 @@
 
         .btn {
             background: var(--surface-glass);
-            color: var(--text-primary);
+            color: var(--text-secondary);
             border: 1px solid var(--border-default);
-            padding: 11px 22px;
-            border-radius: 11px;
+            padding: 9px 18px;
+            border-radius: 9px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 500;
             font-family: var(--font-sans);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .btn::before {
@@ -1530,14 +1504,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
+            background: var(--surface-hover);
             border-color: var(--border-strong);
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+            color: var(--text-primary);
         }
 
         .btn:hover::before {
@@ -1549,31 +1523,28 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 4px 20px var(--purple-glow);
+            background: linear-gradient(135deg, #c2185b, #880e4f);
+            color: white;
+            border: 1px solid rgba(217, 70, 168, 0.4);
+            box-shadow: 0 2px 12px rgba(194, 24, 91, 0.35);
         }
 
         .btn-primary:hover {
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                0 8px 32px var(--purple-glow);
+            background: linear-gradient(135deg, #d81b60, #ad1457);
+            box-shadow: 0 4px 20px rgba(194, 24, 91, 0.5);
+            color: white;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, var(--accent-green), #059669);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 4px 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            box-shadow: 0 2px 12px rgba(5, 150, 105, 0.3);
         }
 
         .btn-success:hover {
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                0 8px 32px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.45);
+            color: white;
         }
 
         .container {
@@ -1649,10 +1620,8 @@
         }
 
         .preview-header {
-            background: rgba(26, 15, 46, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 14px 24px;
+            background: var(--bg-secondary);
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1781,7 +1750,7 @@
         }
         .resizer:hover,
         .resizer.dragging {
-            background: rgba(124, 58, 237, 0.25);
+            background: rgba(217, 70, 168, 0.15);
         }
         .resizer:hover::after,
         .resizer.dragging::after {
@@ -1792,13 +1761,11 @@
 
         /* Language Tabs */
         .language-tabs {
-            background: rgba(26, 15, 46, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-subtle);
-            padding: 6px 24px 0;
+            padding: 6px 20px 0;
             display: flex;
-            gap: 8px;
+            gap: 4px;
             align-items: center;
             justify-content: space-between;
         }
@@ -1853,7 +1820,7 @@
         }
 
         .tab-btn.active {
-            background: var(--surface-glass);
+            background: rgba(217, 70, 168, 0.08);
             color: var(--text-primary);
             border-bottom-color: var(--tab-color);
         }
@@ -1886,8 +1853,7 @@
         }
 
         .editor-toolbar {
-            background: rgba(26, 15, 46, 0.6);
-            backdrop-filter: blur(20px);
+            background: var(--bg-secondary);
             padding: 6px 20px;
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
@@ -2017,7 +1983,7 @@
         }
 
         textarea::selection {
-            background: rgba(124, 58, 237, 0.4);
+            background: rgba(217, 70, 168, 0.35);
             color: var(--text-primary);
         }
 
@@ -2166,164 +2132,188 @@
         .settings-panel {
             position: fixed;
             top: 0;
-            right: -400px;
-            width: 400px;
+            right: 0;
+            width: 280px;
             height: 100vh;
-            background: rgba(26, 15, 46, 0.98);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border-left: 2px solid var(--border-default);
-            box-shadow: -10px 0 60px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            z-index: 99999;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            transform: translateX(100%);
         }
+        .settings-panel::-webkit-scrollbar { display: none; }
 
         .settings-panel.active {
-            right: 0;
+            transform: translateX(0);
         }
 
         .settings-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border-subtle);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
             position: sticky;
             top: 0;
-            background: rgba(26, 15, 46, 0.98);
-            backdrop-filter: blur(40px);
+            background: #1a1a1e;
             z-index: 10;
+            flex-shrink: 0;
         }
 
         .settings-title {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple-light), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.03em;
+            font-family: var(--font-sans);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .close-settings {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-default);
-            color: var(--text-primary);
-            padding: 8px 16px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 8px;
+            color: var(--text-tertiary);
             cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
 
         .close-settings:hover {
-            background: var(--surface-hover);
-            transform: rotate(90deg);
+            background: rgba(255,255,255,0.09);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.14);
         }
 
         .settings-content {
-            padding: 24px;
+            padding: 10px 12px;
+            flex: 1;
         }
 
         .settings-section {
-            margin-bottom: 32px;
+            margin-bottom: 8px;
         }
 
         .settings-section-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary-purple);
+            font-size: 10px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 16px;
+            letter-spacing: 1.2px;
+            color: var(--text-tertiary);
+            padding: 8px 10px 4px;
         }
 
         .setting-item {
-            margin-bottom: 20px;
+            margin: 2px 0;
         }
 
         .setting-label {
             display: block;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            padding: 6px 10px 4px;
         }
 
         .setting-input {
             width: 100%;
-            background: var(--surface-glass);
-            border: 1px solid var(--border-default);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 12px;
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             font-family: var(--font-sans);
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
 
         /* FIX: Style pour les menus déroulants (select) - CORRIGÉ ✅ */
         .setting-select {
             width: 100%;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-default);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 12px;
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             font-family: var(--font-sans);
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.2s;
             cursor: pointer;
+            box-sizing: border-box;
         }
 
         /* Style des options du menu déroulant */
         .setting-select option {
-            background: var(--bg-primary);
+            background: #1a1a1e;
             color: var(--text-primary);
             padding: 10px;
         }
 
         .setting-input:focus, .setting-select:focus {
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+            border-color: rgba(217, 70, 168, 0.5);
+            background: rgba(255,255,255,0.07);
         }
 
         .setting-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: var(--surface-glass);
-            border: 1px solid var(--border-default);
+            width: 100%;
+            background: transparent;
+            border: none;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.15s;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
         }
 
         .setting-toggle:hover {
-            background: var(--surface-hover);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
         }
 
         .toggle-switch {
-            width: 50px;
-            height: 26px;
-            background: var(--bg-tertiary);
-            border-radius: 13px;
+            width: 40px;
+            height: 22px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 11px;
             position: relative;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
 
         .toggle-switch::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             background: var(--text-tertiary);
             border-radius: 50%;
             top: 3px;
             left: 3px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .setting-toggle.active .toggle-switch {
@@ -2331,13 +2321,13 @@
         }
 
         .setting-toggle.active .toggle-switch::after {
-            left: 27px;
+            left: 21px;
             background: white;
         }
 
         /* Status Bar */
         .status-bar {
-            background: rgba(26, 15, 46, 0.8);
+            background: var(--bg-secondary);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-top: 1px solid var(--border-subtle);
@@ -2399,31 +2389,40 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
             z-index: 10000;
-            animation: fadeIn 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .minigames-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .minigames-container {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-default);
-            border-radius: 24px;
-            width: 90%;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
             max-width: 900px;
-            max-height: 85vh;
+            height: 100vh;
             overflow: hidden;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(167, 139, 250, 0.2);
-            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .minigames-modal.active .minigames-container {
+            transform: translateX(0);
         }
 
         @keyframes slideInUp {
@@ -2438,75 +2437,84 @@
         }
 
         .minigames-header {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            padding: 24px 32px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--border-strong);
+            justify-content: space-between;
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+            background: #1a1a1e;
+            gap: 12px;
+            position: relative;
         }
 
         .minigames-title {
-            font-size: 28px;
+            font-size: 15px;
             font-weight: 700;
-            font-family: var(--font-display);
-            color: white;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            font-family: var(--font-sans);
+            letter-spacing: 0.03em;
         }
 
         .minigames-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: var(--text-tertiary);
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
 
         .minigames-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
+            background: rgba(255,255,255,0.09);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.14);
         }
 
         .minigames-content {
-            padding: 32px;
+            padding: 24px;
             overflow-y: auto;
-            max-height: calc(85vh - 100px);
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
         }
 
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         /* Force all cards in the grid to the same height */
         #gamesMenu { align-items: stretch; }
 
         .game-card {
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-default);
-            border-radius: 16px;
-            padding: 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 0;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
-            height: 180px;
+            aspect-ratio: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 6px;
         }
 
         .game-card::before {
@@ -2516,15 +2524,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, var(--purple-glow), transparent);
+            background: linear-gradient(135deg, rgba(217,70,168,0.08), transparent);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.2s;
         }
 
         .game-card:hover {
-            border-color: var(--primary-purple);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.3);
+            border-color: rgba(217,70,168,0.4);
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
 
         .game-card:hover::before {
@@ -2532,25 +2541,24 @@
         }
 
         .game-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
+            font-size: 42px;
             position: relative;
             z-index: 1;
         }
 
         .game-title {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 8px;
             position: relative;
             z-index: 1;
         }
 
         .game-desc {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--text-tertiary);
-            line-height: 1.5;
+            line-height: 1.3;
+            padding: 0 8px;
             position: relative;
             z-index: 1;
         }
@@ -2691,7 +2699,7 @@
             transform: translateX(-50%);
             z-index: 20003;
             background: rgba(0,0,0,0.6);
-            color: var(--purple-light);
+            color: var(--text-secondary);
             font-family: var(--font-mono);
             font-size: 14px;
             font-weight: 700;
@@ -2706,22 +2714,19 @@
         }
         #gamesMenu.gsize-md {
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            gap: 12px;
         }
-        #gamesMenu.gsize-md .game-card { height: 150px; }
-        #gamesMenu.gsize-md .game-icon { font-size: 40px; margin-bottom: 10px; }
-        #gamesMenu.gsize-md .game-title { font-size: 15px; }
-        #gamesMenu.gsize-md .game-desc { font-size: 11px; }
-        #gamesMenu.gsize-md .game-card { padding: 18px 14px; }
+        #gamesMenu.gsize-md .game-card { aspect-ratio: 1; }
+        #gamesMenu.gsize-md .game-icon { font-size: 34px; }
+        #gamesMenu.gsize-md .game-title { font-size: 12px; }
         #gamesMenu.gsize-sm {
             grid-template-columns: repeat(5, 1fr);
             gap: 10px;
         }
-        #gamesMenu.gsize-sm .game-card { height: 110px; }
-        #gamesMenu.gsize-sm .game-icon { font-size: 28px; margin-bottom: 6px; }
-        #gamesMenu.gsize-sm .game-title { font-size: 12px; margin-bottom: 2px; }
+        #gamesMenu.gsize-sm .game-card { aspect-ratio: 1; }
+        #gamesMenu.gsize-sm .game-icon { font-size: 26px; }
+        #gamesMenu.gsize-sm .game-title { font-size: 11px; }
         #gamesMenu.gsize-sm .game-desc { display: none; }
-        #gamesMenu.gsize-sm .game-card { padding: 14px 10px; }
         #gamesMenu.gsize-sm .custom-game-thumb { height: 50px; }
         #gamesMenu.gsize-list {
             grid-template-columns: 1fr;
@@ -2729,7 +2734,8 @@
         }
         #gamesMenu.gsize-list .game-card {
             flex-direction: row;
-            height: 56px;
+            aspect-ratio: unset;
+            height: 54px;
             padding: 0 16px;
             border-radius: 10px;
             gap: 14px;
@@ -2738,14 +2744,13 @@
         }
         #gamesMenu.gsize-list .game-icon {
             font-size: 26px;
-            margin-bottom: 0;
             flex-shrink: 0;
             width: 36px;
             text-align: center;
+            padding: 0;
         }
         #gamesMenu.gsize-list .game-title {
-            font-size: 14px;
-            margin-bottom: 0;
+            font-size: 13px;
             flex-shrink: 0;
         }
         #gamesMenu.gsize-list .game-desc {
@@ -2756,6 +2761,7 @@
             text-overflow: ellipsis;
             margin-left: 8px;
             flex: 1;
+            padding: 0;
         }
         #gamesMenu.gsize-list .custom-game-thumb {
             width: 44px;
@@ -2765,41 +2771,20 @@
             flex-shrink: 0;
             object-fit: cover;
         }
-        #gamesMenu.gsize-list .custom-game-name-el {
-            font-size: 14px;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-        #gamesMenu.gsize-list .custom-game-actions {
-            margin-top: 0;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-        #gamesMenu.gsize-list .project-card {
-            flex-direction: row;
-            border-radius: 10px;
-            height: 56px;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-thumb {
-            width: 80px;
-            height: 56px;
-            flex-shrink: 0;
-            border-bottom: none;
-            border-right: 1px solid var(--border-subtle);
-            border-radius: 0;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-body {
-            flex: 1;
-            padding: 8px 12px;
-        }
-        #gamesMenu.gsize-list .project-card .project-card-name { font-size: 13px; margin-bottom: 1px; }
+        #gamesMenu.gsize-list .custom-game-name-el { font-size: 13px; flex-shrink: 0; }
+        #gamesMenu.gsize-list .custom-game-actions { margin-top: 0; margin-left: auto; flex-shrink: 0; }
+        #gamesMenu.gsize-list .project-card { flex-direction: row; border-radius: 10px; aspect-ratio: unset; height: 54px; }
+        #gamesMenu.gsize-list .project-card .project-card-thumb { width: 80px; height: 54px; flex-shrink: 0; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.07); border-radius: 0; }
+        #gamesMenu.gsize-list .project-card .project-card-body { flex: 1; padding: 8px 12px; }
+        #gamesMenu.gsize-list .project-card .project-card-name { font-size: 13px; }
         #gamesMenu.gsize-list .project-card .project-card-date { font-size: 11px; }
         #gamesMenu.gsize-list .add-game-icon { font-size: 22px; width: 36px; text-align: center; }
-        #gamesMenu.gsize-list .add-game-label { font-size: 14px; }
+        #gamesMenu.gsize-list .add-game-label { font-size: 13px; }
 
         /* ===== PROJECT-CARD DANS GAMES MENU : taille uniforme avec game-card ===== */
         #gamesMenu .project-card {
-            height: 180px;
+            aspect-ratio: 1;
+            height: auto;
         }
         #gamesMenu .project-card .project-card-thumb {
             height: 110px;
@@ -3034,7 +3019,7 @@
         #gameCanvas {
             border: 3px solid var(--primary-purple);
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 10px 40px rgba(217, 70, 168, 0.45);
         }
 
         .game-controls {
@@ -3228,7 +3213,7 @@
             position: fixed;
             top: 110px;
             right: 32px;
-            background: linear-gradient(135deg, rgba(26, 15, 46, 0.98), rgba(45, 31, 74, 0.98));
+            background: var(--bg-tertiary);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border: 2px solid var(--border-default);
@@ -3239,7 +3224,7 @@
             box-shadow: 
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(124, 58, 237, 0.3);
+                0 0 30px rgba(217, 70, 168, 0.25);
             font-weight: 600;
             font-size: 14px;
             z-index: 100000;
@@ -3377,11 +3362,11 @@
         }
 
         .notification.info {
-            border-color: rgba(124, 58, 237, 0.4);
+            border-color: rgba(217, 70, 168, 0.35);
             box-shadow: 
-                0 0 0 1px rgba(124, 58, 237, 0.2),
+                0 0 0 1px rgba(217, 70, 168, 0.2),
                 0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 40px rgba(124, 58, 237, 0.4);
+                0 0 40px rgba(217, 70, 168, 0.35);
         }
 
         .notification.info .notification-icon {
@@ -3454,87 +3439,114 @@
         /* Templates Modal */
         .templates-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10000;
             display: none;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
+            align-items: stretch;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .templates-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .templates-content {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 900px;
-            max-height: 80vh;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 800px;
+            height: 100vh;
             overflow-y: auto;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .templates-modal.active .templates-content {
+            transform: translateX(0);
         }
 
         .templates-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            gap: 40px;
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+            background: #1a1a1e;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .templates-title {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-sans);
+            letter-spacing: 0.03em;
         }
 
         .templates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            padding: 24px;
         }
 
         .template-card {
-            background: var(--surface-glass);
-            border: 2px solid var(--border-default);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
             border-radius: 12px;
-            padding: 28px;
+            padding: 0;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
         }
 
         .template-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-purple);
-            box-shadow: 0 10px 30px var(--purple-glow);
+            transform: translateY(-2px);
+            border-color: rgba(217,70,168,0.4);
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
 
         .template-icon {
-            font-size: 48px;
-            margin-bottom: 14px;
+            font-size: 38px;
         }
 
         .template-name {
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
             color: var(--text-primary);
         }
 
         .template-desc {
-            font-size: 14px;
+            font-size: 11px;
             color: var(--text-tertiary);
-            line-height: 1.5;
+            line-height: 1.3;
+            padding: 0 8px;
         }
 
         /* Responsive Preview */
@@ -3947,70 +3959,73 @@
         /* Share Modal */
         .share-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10000;
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .share-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .share-content {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 460px;
+            height: 100vh;
             overflow-y: auto;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
             position: relative;
         }
 
+        .share-modal.active .share-content {
+            transform: translateX(0);
+        }
+
         .share-url {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-default);
-            padding: 16px;
-            border-radius: 8px;
-            margin: 20px 0;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 14px 16px;
+            border-radius: 10px;
             word-break: break-all;
             font-family: var(--font-mono);
             font-size: 11px;
             line-height: 1.6;
-            max-height: 300px;
+            max-height: 200px;
             overflow-y: auto;
-            overflow-x: hidden;
+            color: var(--text-secondary);
         }
 
         #qrcode {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px 0;
+            margin: 16px 0;
             padding: 20px;
             background: white;
             border-radius: 10px;
-            min-height: 240px;
+            min-height: 200px;
         }
 
-        #qrcode canvas {
-            display: block !important;
-            margin: 0 auto;
-        }
-
-        #qrcode img {
-            display: block !important;
-            margin: 0 auto;
-        }
+        #qrcode canvas { display: block !important; margin: 0 auto; }
+        #qrcode img { display: block !important; margin: 0 auto; }
 
         /* Tutorial Overlay */
         .tutorial-overlay {
@@ -4058,50 +4073,70 @@
         /* Shortcuts Help Modal */
         .shortcuts-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10000;
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .shortcuts-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .shortcuts-content {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 520px;
+            height: 100vh;
             overflow-y: auto;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .shortcuts-modal.active .shortcuts-content {
+            transform: translateX(0);
         }
 
         .shortcut-item {
             display: flex;
             justify-content: space-between;
-            padding: 15px;
-            margin: 10px 0;
-            background: var(--surface-glass);
-            border-radius: 10px;
-            border: 1px solid var(--border-subtle);
+            align-items: center;
+            padding: 10px 12px;
+            margin: 2px 0;
+            background: transparent;
+            border-radius: 8px;
+            border: none;
+            transition: background 0.15s;
+        }
+
+        .shortcut-item:hover {
+            background: rgba(255,255,255,0.04);
         }
 
         .shortcut-keys {
-            background: var(--bg-tertiary);
-            padding: 5px 12px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3px 10px;
             border-radius: 6px;
             font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
         }
 
         /* Code Editor Line Numbers */
@@ -4270,8 +4305,8 @@
             display: inline-block;
             margin-left: 10px;
             padding: 1px 8px;
-            background: rgba(124, 58, 237, 0.25);
-            border: 1px solid rgba(124, 58, 237, 0.5);
+            background: rgba(217, 70, 168, 0.2);
+            border: 1px solid rgba(217, 70, 168, 0.45);
             border-radius: 4px;
             font-size: 10px;
             color: #a78bfa;
@@ -4281,10 +4316,10 @@
             vertical-align: middle;
         }
         .console-line-badge:hover {
-            background: rgba(124, 58, 237, 0.5);
+            background: rgba(217, 70, 168, 0.45);
             color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 8px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 0 8px rgba(217, 70, 168, 0.35);
         }
 
         /* Ligne d'erreur surlignée dans CodeMirror */
@@ -4318,11 +4353,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
             z-index: 5000;
             opacity: 0;
             pointer-events: none;
@@ -4333,40 +4369,44 @@
             display: flex;
             opacity: 1;
             pointer-events: all;
-            animation: fadeIn 0.3s ease;
         }
 
         .projects-panel-inner {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-default);
-            border-radius: 24px;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
             width: 96%;
-            max-width: 1100px;
-            max-height: 90vh;
+            max-width: 900px;
+            height: 100vh;
             overflow: hidden;
-            box-shadow:
-                0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(167, 139, 250, 0.2);
-            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
             display: flex;
             flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .projects-panel.active .projects-panel-inner {
+            transform: translateX(0);
         }
 
         .projects-modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 24px 32px 20px;
-            border-bottom: 1px solid var(--border-subtle);
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
             gap: 12px;
+            flex-shrink: 0;
+            background: #1a1a1e;
+            position: relative;
         }
 
         /* ===== SIZE SELECTOR BUTTONS ===== */
         .projects-size-btns {
             display: flex;
             gap: 4px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
             border-radius: 10px;
             padding: 4px;
         }
@@ -4375,8 +4415,8 @@
             background: transparent;
             border: none;
             color: var(--text-tertiary);
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 7px;
             display: flex;
             align-items: center;
@@ -4386,7 +4426,7 @@
         }
 
         .proj-size-btn:hover {
-            background: var(--surface-hover);
+            background: rgba(255,255,255,0.07);
             color: var(--text-primary);
         }
 
@@ -4403,8 +4443,8 @@
             background: rgba(0,0,0,0.65);
             border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -4422,7 +4462,7 @@
             border-color: var(--primary-purple);
         }
 
-        /* Fix layout card-body : nom+date à gauche, boutons à droite sans se toucher */
+        /* Fix layout card-body */
         .project-card-body {
             padding: 10px 12px;
             display: flex;
@@ -4430,7 +4470,7 @@
             justify-content: space-between;
             gap: 10px;
             flex: 1;
-            background: var(--bg-tertiary);
+            background: rgba(255,255,255,0.02);
         }
         .project-card-info {
             flex: 1;
@@ -4446,7 +4486,7 @@
         }
         .project-card-btn {
             background: transparent;
-            border: 1px solid var(--border-default);
+            border: 1px solid rgba(255,255,255,0.08);
             color: var(--text-tertiary);
             width: 28px;
             height: 28px;
@@ -4460,30 +4500,30 @@
             flex-shrink: 0;
         }
         .project-card-btn:hover {
-            background: var(--surface-glass);
+            background: rgba(255,255,255,0.06);
             border-color: var(--primary-purple);
             color: var(--primary-purple);
             transform: translateY(-1px);
         }
         .project-card-btn.danger:hover {
-            background: rgba(239,68,68,0.15);
-            border-color: rgba(239,68,68,0.6);
+            background: rgba(239,68,68,0.12);
+            border-color: rgba(239,68,68,0.5);
             color: #ef4444;
         }
         #projectsList.size-xl {
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
-        #projectsList.size-xl .project-card-thumb { height: 200px; }
+        #projectsList.size-xl .project-card-thumb { height: 190px; }
 
         #projectsList.size-md {
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
         }
 
         #projectsList.size-sm {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
         }
         #projectsList.size-sm .project-card-thumb { height: 90px; font-size: 20px; }
         #projectsList.size-sm .project-card-name { font-size: 12px; }
@@ -4493,18 +4533,18 @@
 
         #projectsList.size-list {
             grid-template-columns: 1fr;
-            gap: 8px;
+            gap: 6px;
         }
         #projectsList.size-list .project-card {
             flex-direction: row;
             border-radius: 10px;
         }
         #projectsList.size-list .project-card-thumb {
-            width: 80px;
-            height: 56px;
+            width: 72px;
+            height: 50px;
             flex-shrink: 0;
             border-bottom: none;
-            border-right: 1px solid var(--border-subtle);
+            border-right: 1px solid rgba(255,255,255,0.07);
             border-radius: 0;
             font-size: 18px;
         }
@@ -4514,86 +4554,84 @@
         }
         #projectsList.size-list .project-card-name { font-size: 13px; margin-bottom: 1px; }
         #projectsList.size-list .project-card-date { font-size: 11px; }
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            padding: 24px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--border-strong);
-            flex-shrink: 0;
-        }
 
         .projects-modal-title {
-            font-size: 26px;
+            font-size: 15px;
             font-weight: 700;
-            font-family: var(--font-display);
-            color: white;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            font-family: var(--font-sans);
+            letter-spacing: 0.03em;
         }
 
         .projects-modal-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: var(--text-tertiary);
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
             font-family: var(--font-sans);
+            flex-shrink: 0;
         }
 
         .projects-modal-close:hover {
-            background: rgba(255, 255, 255, 0.22);
-            transform: rotate(90deg);
+            background: rgba(255,255,255,0.09);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.14);
         }
 
         .projects-modal-body {
-            padding: 28px 32px;
+            padding: 20px;
             overflow-y: auto;
             flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
         }
 
         /* ===== PROJECTS GRID ===== */
         #projectsList {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
         }
 
         .project-card {
-            background: var(--bg-tertiary);
-            border: 1.5px solid var(--border-subtle);
-            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
         .project-card:hover {
-            border-color: var(--primary-purple);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(124, 58, 237, 0.25);
+            border-color: rgba(217, 70, 168, 0.4);
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
 
         .project-card-thumb {
             width: 100%;
-            height: 140px;
-            background: rgba(124, 58, 237, 0.1);
-            border-bottom: 1px solid var(--border-subtle);
+            height: 130px;
+            background: rgba(217, 70, 168, 0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 28px;
             overflow: hidden;
             flex-shrink: 0;
             position: relative;
@@ -4611,7 +4649,7 @@
             inset: 0;
             background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
             opacity: 0;
-            transition: opacity 0.25s;
+            transition: opacity 0.2s;
         }
 
         .project-card:hover .project-card-thumb-overlay {
@@ -4619,8 +4657,8 @@
         }
 
         .project-card-name {
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 13px;
             color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
@@ -4844,7 +4882,7 @@
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 1px;
-            color: var(--purple-light);
+            color: var(--text-secondary);
             text-transform: uppercase;
             margin-bottom: 6px;
             display: flex;
@@ -5221,7 +5259,7 @@
         .profile-stat-value {
             font-size: 22px;
             font-weight: 800;
-            color: var(--purple-light);
+            color: var(--text-secondary);
         }
         .profile-stat-label {
             font-size: 11px;
@@ -5349,57 +5387,74 @@
         /* Export Options Modal */
         .export-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10000;
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .export-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .export-content {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 460px;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .export-modal.active .export-content {
+            transform: translateX(0);
         }
 
         .export-option {
-            background: var(--surface-glass);
-            border: 2px solid var(--border-default);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 15px 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 0 20px 10px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
         }
 
         .export-option:hover {
-            transform: translateX(10px);
-            border-color: var(--primary-purple);
-            box-shadow: 0 5px 20px var(--purple-glow);
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(217,70,168,0.4);
+            transform: translateX(4px);
         }
 
         .export-icon {
-            font-size: 32px;
+            font-size: 24px;
+            flex-shrink: 0;
         }
 
         .export-info h3 {
-            margin-bottom: 5px;
-            font-size: 16px;
+            margin-bottom: 2px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .export-info p {
@@ -5410,61 +5465,76 @@
         /* Snippets Panel */
         .snippets-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 10000;
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .snippets-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .snippets-content {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 80vh;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 600px;
+            height: 100vh;
             overflow-y: auto;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .snippets-modal.active .snippets-content {
+            transform: translateX(0);
         }
 
         .snippet-item {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-default);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
             border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 12px 14px;
+            margin: 0 20px 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
         }
 
         .snippet-item:hover {
-            background: var(--surface-hover);
-            border-color: var(--primary-purple);
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(217,70,168,0.4);
         }
 
         .snippet-title {
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--primary-purple);
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
         }
 
         .snippet-code {
-            background: var(--bg-tertiary);
-            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px 10px;
             border-radius: 6px;
             font-family: var(--font-mono);
-            font-size: 12px;
+            font-size: 11px;
             overflow-x: auto;
+            color: var(--text-secondary);
         }
 
         @keyframes fadeIn {
@@ -5510,140 +5580,278 @@
             transform: rotate(-45deg) translateY(-9px);
         }
 
-        /* Dropdown Menu */
+        /* ===== NEXTMOVE-STYLE SIDEBAR MENU ===== */
+
+        /* Overlay backdrop */
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 99998;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Settings overlay backdrop — same as menu */
+        .settings-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 99998;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .settings-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Sidebar panel */
         .dropdown-menu {
             position: fixed;
-            top: 90px;
-            right: 32px;
-            background: rgba(26, 15, 46, 0.98);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 2px solid var(--border-default);
-            border-radius: 16px;
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(124, 58, 237, 0.3);
-            min-width: 320px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 280px;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
             z-index: 99999;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+        .dropdown-menu::-webkit-scrollbar { display: none; }
 
         .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
+            transform: translateX(0);
         }
 
-        .menu-item-account { padding: 6px 10px; }
-        .menu-item-account #menuAccountConnected { width: 100%; }
-
-        .menu-section {
-            padding: 12px 8px;
+        /* Sidebar header — logo row */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
         }
-
-        .menu-section-title {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-brand-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #2a1a2e, #1e1020);
+            border: 1px solid rgba(217, 70, 168, 0.35);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(217,70,168,0.2);
+        }
+        .sidebar-brand-icon svg { width: 14px; height: 14px; }
+        .sidebar-brand-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.03em;
+            font-family: var(--font-sans);
+        }
+        .sidebar-close-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
             color: var(--text-tertiary);
-            padding: 8px 16px;
-            margin-bottom: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .sidebar-close-btn:hover {
+            background: rgba(255,255,255,0.09);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.14);
         }
 
+        /* Workspace selector */
+        .sidebar-workspace {
+            margin: 14px 12px 6px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 10px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sidebar-workspace:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .sidebar-ws-avatar {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #3a1a3a, #2a1020);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            font-family: var(--font-sans);
+        }
+        .sidebar-ws-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+        }
+        .sidebar-ws-chevron {
+            color: var(--text-tertiary);
+        }
+
+        /* Nav sections */
+        .sidebar-nav {
+            padding: 10px 12px;
+            flex: 1;
+            position: relative;
+        }
+        .sidebar-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-tertiary);
+            padding: 8px 10px 4px;
+        }
+
+        /* Nav item — Nextmove style */
         .menu-item {
             width: 100%;
             background: transparent;
             border: none;
-            color: var(--text-primary);
-            padding: 12px 16px;
+            color: var(--text-secondary);
+            padding: 0;
             border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             font-family: var(--font-sans);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0;
             text-align: left;
             margin: 2px 0;
+            position: relative;
+            overflow: visible;
+        }
+        /* Inner wrapper for padding + layout */
+        .menu-item-inner {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: color 0.15s ease, background 0.15s ease;
+            position: relative;
+            z-index: 2;
+            color: var(--text-secondary);
         }
 
-        .menu-item:hover {
-            background: var(--surface-hover);
-            color: var(--primary-purple);
-            transform: translateX(4px);
+        /* Active/hover gradient — Nextmove exact:
+           dark blue-grey fills 70% left, pink/magenta only right 30% */
+        .menu-item.nav-lit .menu-item-inner {
+            background: linear-gradient(90deg,
+                #232830 0%,
+                #232830 45%,
+                #4a1535 72%,
+                #8b0f46 88%,
+                #b8125a 100%
+            );
+            color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
         }
+
+        .menu-item-pill { display: none; }
+
+        .menu-item::after { display: none; }
+        .sidebar-glider-active, .sidebar-glider-hover { display: none; }
 
         .menu-item-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
+            opacity: 0.6;
+            transition: opacity 0.15s;
         }
+        .menu-item:hover .menu-item-icon,
+        .menu-item.active .menu-item-icon { opacity: 1; }
 
         .menu-item-text {
             flex: 1;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .menu-item-shortcut {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-tertiary);
-            background: var(--bg-tertiary);
-            padding: 4px 8px;
-            border-radius: 6px;
+            background: rgba(255,255,255,0.07);
+            padding: 3px 7px;
+            border-radius: 5px;
             font-family: var(--font-mono);
+            border: 1px solid rgba(255,255,255,0.07);
         }
 
         .menu-divider {
             height: 1px;
-            background: var(--border-subtle);
-            margin: 8px 16px;
+            background: rgba(255,255,255,0.06);
+            margin: 6px 10px;
         }
 
-        /* Menu scrollbar - CACHÉE */
-        .dropdown-menu::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
+        .menu-section {
+            padding: 4px 0;
         }
+        .menu-item-account { padding: 0; }
+        .menu-item-account #menuAccountConnected { width: 100%; }
 
-        .dropdown-menu::-webkit-scrollbar-track {
-            display: none !important;
-        }
-
-        .dropdown-menu::-webkit-scrollbar-thumb {
-            display: none !important;
-        }
-
-        .dropdown-menu::-webkit-scrollbar-thumb:hover {
-            display: none !important;
-        }
-        
-        .dropdown-menu {
-            scrollbar-width: none !important;
-            -ms-overflow-style: none !important;
-        }
-
-        /* Menu overlay pour fermer en cliquant en dehors */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 99998;
-            display: none;
-        }
-
-        .menu-overlay.active {
-            display: block;
+        .menu-section-title {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-tertiary);
+            padding: 8px 10px 4px;
         }
 
         /* ========================================= */
@@ -5763,23 +5971,25 @@
                 right: 8px;
                 min-width: unset;
             }
-            /* Modals full screen sur mobile */
+            /* Modals full width on mobile */
             .templates-content,
             .snippets-content,
-            .export-content {
+            .export-content,
+            .shortcuts-content {
+                width: 100vw;
                 max-width: 100vw;
-                max-height: 95vh;
-                border-radius: 12px 12px 0 0;
-                margin-top: auto;
-                padding: 24px 16px;
             }
             /* Settings panel prend plus de place */
             .settings-panel {
                 width: 100vw;
-                right: -100vw;
+                transform: translateX(100%);
             }
             .settings-panel.active {
-                right: 0;
+                transform: translateX(0);
+            }
+            /* Projects panel full width on mobile */
+            .projects-panel-inner {
+                width: 100vw;
             }
             /* Preview controls scrollables */
             .preview-controls {
@@ -5952,32 +6162,61 @@
         .shortcuts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+        .shortcut-section {
+            margin-bottom: 4px;
+        }
+        .shortcut-section + .shortcut-section {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 4px;
+        }
+        .shortcut-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-tertiary);
+            padding: 14px 20px 6px;
+            display: flex;
+            align-items: center;
             gap: 8px;
-            margin-top: 16px;
+        }
+        .shortcut-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin-right: 4px;
         }
         .shortcut-card {
-            background: var(--surface-glass);
-            border: 1px solid var(--border-subtle);
-            border-radius: 10px;
-            padding: 10px 14px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 10px;
+            transition: background 0.15s;
+        }
+        .shortcut-card:hover {
+            background: rgba(255,255,255,0.04);
         }
         .shortcut-card-label {
             font-size: 12px;
             color: var(--text-secondary);
         }
         .shortcut-tag {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-default);
-            color: var(--purple-light);
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
             font-family: var(--font-mono);
             font-size: 10px;
-            padding: 3px 7px;
-            border-radius: 6px;
+            padding: 2px 7px;
+            border-radius: 5px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         /* Fold gutter customization */
@@ -6004,7 +6243,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#7c3aed">
+    <meta name="theme-color" content="#d946a8">
 </head>
 <body>
     <!-- ✅ Skip to content - accessibilité -->
@@ -6289,7 +6528,7 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-const COLORS = ['#7c3aed', '#a78bfa', '#ec4899', '#3b82f6', '#10b981'];
+const COLORS = ['#d946a8', '#a78bfa', '#ec4899', '#3b82f6', '#10b981'];
 const particles = [];
 
 class Particle {
@@ -6499,14 +6738,20 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     </div>
 
     <!-- Settings Panel -->
+    <!-- Settings Overlay -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="toggleSettings()"></div>
+
     <div class="settings-panel" id="settingsPanel">
         <div class="settings-header">
-            <div class="settings-title">⚙️ Paramètres</div>
+            <div class="settings-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+                Paramètres
+            </div>
             <button class="close-settings" onclick="toggleSettings()">✕</button>
         </div>
         <div class="settings-content">
             <div class="settings-section">
-                <div class="settings-section-title">🎨 Apparence</div>
+                <div class="settings-section-title">Apparence</div>
                 <div class="setting-item">
                     <label class="setting-label">Taille de police</label>
                     <select class="setting-select" id="fontSize" onchange="updateFontSize(this.value)">
@@ -6518,32 +6763,6 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                     </select>
                 </div>
 
-                <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 8px;">
-                    <label class="setting-label">🎨 Thème de l'interface</label>
-                    <div class="theme-switcher-panel">
-                        <button class="theme-btn active" id="theme-dark" onclick="applyTheme('dark')">
-                            <div class="theme-preview preview-dark"></div>
-                            Dark
-                        </button>
-                        <button class="theme-btn" id="theme-neo" onclick="applyTheme('neo')">
-                            <div class="theme-preview preview-neo"></div>
-                            Néo
-                        </button>
-                        <button class="theme-btn" id="theme-cyberpunk" onclick="applyTheme('cyberpunk')">
-                            <div class="theme-preview preview-cyber"></div>
-                            Cyber
-                        </button>
-                        <button class="theme-btn" id="theme-terminal" onclick="applyTheme('terminal')">
-                            <div class="theme-preview preview-term"></div>
-                            Terminal
-                        </button>
-                        <button class="theme-btn" id="theme-glace" onclick="applyTheme('glace')">
-                            <div class="theme-preview preview-glace"></div>
-                            Glace
-                        </button>
-                    </div>
-                </div>
-
                 <div class="setting-item">
                     <div class="setting-toggle" id="tutorialToggle" onclick="showTutorial(true)">
                         <span>Revoir le tutoriel</span>
@@ -6553,7 +6772,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             </div>
 
             <div class="settings-section">
-                <div class="settings-section-title">⚡ Comportement</div>
+                <div class="settings-section-title">Comportement</div>
                 <div class="setting-item">
                     <div class="setting-toggle active" id="autoRunToggle" onclick="toggleSetting(this, 'autoRun')">
                         <span>Auto-exécution</span>
@@ -6573,7 +6792,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             </div>
 
             <div class="settings-section">
-                <div class="settings-section-title">💾 Projet</div>
+                <div class="settings-section-title">Projet</div>
                 <div class="setting-item">
                     <label class="setting-label">Format d'export</label>
                     <select class="setting-select" id="exportFormat">
@@ -6584,7 +6803,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             </div>
 
             <div class="settings-section">
-                <div class="settings-section-title">ℹ️ À propos</div>
+                <div class="settings-section-title">À propos</div>
                 <div style="color: var(--text-tertiary); font-size: 13px; line-height: 1.8;">
                     <strong>SCRIX v2.0</strong><br>
                     Éditeur de code professionnel<br>
@@ -6597,135 +6816,244 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <!-- Menu Overlay -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
-    <!-- Dropdown Menu -->
+    <!-- Dropdown Menu — Nextmove Sidebar -->
     <div class="dropdown-menu" id="dropdownMenu">
-        <div class="menu-section">
-            <div class="menu-section-title">👤 Compte</div>
-            <button class="menu-item menu-item-account" id="menuAccountBtn" onclick="toggleProfile(); closeMenu();">
-                <!-- Pas connecté -->
-                <span id="menuAccountDisconnected">
-                    <span class="menu-item-icon">👤</span>
-                    <span class="menu-item-text">Mon Profil</span>
-                </span>
-                <!-- Connecté : mini pill -->
-                <span id="menuAccountConnected" style="display:none; align-items:center; gap:9px; width:100%;">
-                    <div id="menuAvatarFallback" class="auth-avatar-fallback" style="width:26px;height:26px;font-size:11px;">?</div>
-                    <img id="menuAvatarImg" class="auth-avatar" src="" alt="" style="display:none;width:26px;height:26px;" onerror="this.style.display='none';document.getElementById('menuAvatarFallback').style.display='flex'"/>
-                    <span id="menuUsername" class="auth-username" style="font-size:13px;"></span>
-                    <div class="auth-sync-dot" style="margin-left:auto;"></div>
-                </span>
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#e879a8">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <span class="sidebar-brand-name">SCRIX</span>
+            </div>
+            <button class="sidebar-close-btn" onclick="closeMenu()" aria-label="Fermer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
             </button>
         </div>
 
-        <div class="menu-divider"></div>
+        <!-- Workspace -->
+        <div class="sidebar-workspace" onclick="toggleProfile(); closeMenu();">
+            <div class="sidebar-ws-avatar" id="sidebarWsAvatar">S</div>
+            <span class="sidebar-ws-name" id="sidebarWsName">Mon Espace</span>
+            <svg class="sidebar-ws-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+            </svg>
+        </div>
 
-        <div class="menu-section">
-            <div class="menu-section-title">📁 Fichiers</div>
-            <button class="menu-item" onclick="toggleProjects(); closeMenu();">
-                <span class="menu-item-icon">📂</span>
-                <span class="menu-item-text">Mes Projets</span>
-                <span class="menu-item-shortcut">Ctrl+P</span>
-            </button>
-            <button class="menu-item" onclick="newProject(); closeMenu();">
-                <span class="menu-item-icon">📄</span>
-                <span class="menu-item-text">Nouveau Projet</span>
-                <span class="menu-item-shortcut">Ctrl+N</span>
-            </button>
-            <button class="menu-item" onclick="saveCurrentProject(); closeMenu();">
-                <span class="menu-item-icon">💾</span>
-                <span class="menu-item-text">Sauvegarder</span>
-                <span class="menu-item-shortcut">Ctrl+Shift+S</span>
-            </button>
+        <!-- Nav -->
+        <div class="sidebar-nav">
+
+            <!-- Fichiers -->
+            <div class="menu-section">
+                <div class="menu-section-title">Fichiers</div>
+                <button class="menu-item active" id="menuHomeBtn" onclick="closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Accueil</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="toggleProjects(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Mes Projets</span>
+                        <span class="menu-item-shortcut">⌘P</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="newProject(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Nouveau Projet</span>
+                        <span class="menu-item-shortcut">⌘N</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="saveCurrentProject(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Sauvegarder</span>
+                        <span class="menu-item-shortcut">⌘S</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="menu-divider"></div>
+
+            <!-- Ressources -->
+            <div class="menu-section">
+                <div class="menu-section-title">Ressources</div>
+                <button class="menu-item" onclick="openTemplates(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Templates</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="openSnippets(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Snippets</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="menu-divider"></div>
+
+            <!-- Vue Responsive -->
+            <div class="menu-section">
+                <div class="menu-section-title">Vue</div>
+                <button class="menu-item" onclick="setDeviceView('desktop'); closeMenu();" id="menuDesktopBtn"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Desktop</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="setDeviceView('tablet'); closeMenu();" id="menuTabletBtn"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Tablet</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="setDeviceView('mobile'); closeMenu();" id="menuMobileBtn"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Mobile</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="menu-divider"></div>
+
+            <!-- Partage -->
+            <div class="menu-section">
+                <div class="menu-section-title">Partage & Export</div>
+                <button class="menu-item" onclick="shareCode(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Partager</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="openExportModal(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Exporter</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="importCode(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Importer</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="menu-divider"></div>
+
+            <!-- Divertissement & Aide -->
+            <div class="menu-section">
+                <div class="menu-section-title">Extras</div>
+                <button class="menu-item" onclick="openMiniGames(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="10" r="1" fill="currentColor"/><circle cx="17.5" cy="12.5" r="1" fill="currentColor"/><rect x="2" y="6" width="20" height="12" rx="5"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Mini-Jeux</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="openShortcuts(); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Raccourcis</span>
+                        <span class="menu-item-shortcut">⌘/</span>
+                    </div>
+                </button>
+                <button class="menu-item" onclick="showTutorial(true); closeMenu();"><span class="menu-item-pill"></span>
+                    <div class="menu-item-inner">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Aide</span>
+                    </div>
+                </button>
+            </div>
         </div>
-        
-        <div class="menu-divider"></div>
-        
-        <div class="menu-section">
-            <div class="menu-section-title">🎨 Ressources</div>
-            <button class="menu-item" onclick="openTemplates(); closeMenu();">
-                <span class="menu-item-icon">📋</span>
-                <span class="menu-item-text">Templates</span>
-            </button>
-            <button class="menu-item" onclick="openSnippets(); closeMenu();">
-                <span class="menu-item-icon">⚡</span>
-                <span class="menu-item-text">Snippets</span>
-            </button>
-        </div>
-        
-        <div class="menu-divider"></div>
-        
-        <div class="menu-section">
-            <div class="menu-section-title">📱 Vue Responsive</div>
-            <button class="menu-item" onclick="setDeviceView('desktop'); closeMenu();" id="menuDesktopBtn">
-                <span class="menu-item-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <line x1="8" y1="21" x2="16" y2="21"></line>
-                        <line x1="12" y1="17" x2="12" y2="21"></line>
-                    </svg>
-                </span>
-                <span class="menu-item-text">Desktop</span>
-            </button>
-            <button class="menu-item" onclick="setDeviceView('tablet'); closeMenu();" id="menuTabletBtn">
-                <span class="menu-item-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                    </svg>
-                </span>
-                <span class="menu-item-text">Tablet</span>
-            </button>
-            <button class="menu-item" onclick="setDeviceView('mobile'); closeMenu();" id="menuMobileBtn">
-                <span class="menu-item-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect>
-                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                    </svg>
-                </span>
-                <span class="menu-item-text">Mobile</span>
-            </button>
-        </div>
-        
-        <div class="menu-divider"></div>
-        
-        <div class="menu-section">
-            <div class="menu-section-title">📤 Partage & Export</div>
-            <button class="menu-item" onclick="shareCode(); closeMenu();">
-                <span class="menu-item-icon">🔗</span>
-                <span class="menu-item-text">Partager</span>
-            </button>
-            <button class="menu-item" onclick="openExportModal(); closeMenu();">
-                <span class="menu-item-icon">📥</span>
-                <span class="menu-item-text">Exporter</span>
-            </button>
-            <button class="menu-item" onclick="importCode(); closeMenu();">
-                <span class="menu-item-icon">📤</span>
-                <span class="menu-item-text">Importer</span>
-            </button>
-        </div>
-        
-        <div class="menu-divider"></div>
-        
-        <div class="menu-section">
-            <div class="menu-section-title">🎮 Divertissement</div>
-            <button class="menu-item" onclick="openMiniGames(); closeMenu();">
-                <span class="menu-item-icon">🎮</span>
-                <span class="menu-item-text">Mini-Jeux</span>
-            </button>
-        </div>
-        
-        <div class="menu-divider"></div>
-        
-        <div class="menu-section">
-            <div class="menu-section-title">ℹ️ Aide</div>
-            <button class="menu-item" onclick="openShortcuts(); closeMenu();">
-                <span class="menu-item-icon">⌨️</span>
-                <span class="menu-item-text">Raccourcis</span>
-                <span class="menu-item-shortcut">Ctrl+/</span>
-            </button>
-            <button class="menu-item" onclick="showTutorial(true); closeMenu();">
-                <span class="menu-item-icon">🎓</span>
-                <span class="menu-item-text">Tutoriel</span>
+
+        <!-- Bottom account section -->
+        <div style="border-top: 1px solid rgba(255,255,255,0.07); padding: 12px;">
+            <button class="menu-item menu-item-account" id="menuAccountBtn" onclick="toggleProfile(); closeMenu();"><span class="menu-item-pill"></span>
+                <div class="menu-item-inner" style="padding: 10px 12px;">
+                    <span id="menuAccountDisconnected" style="display:flex;align-items:center;gap:11px;width:100%;">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Mon Profil</span>
+                    </span>
+                    <span id="menuAccountConnected" style="display:none; align-items:center; gap:9px; width:100%;">
+                        <div id="menuAvatarFallback" class="auth-avatar-fallback" style="width:26px;height:26px;font-size:11px;">?</div>
+                        <img id="menuAvatarImg" class="auth-avatar" src="" alt="" style="display:none;width:26px;height:26px;" onerror="this.style.display='none';document.getElementById('menuAvatarFallback').style.display='flex'"/>
+                        <span id="menuUsername" class="auth-username" style="font-size:13px;"></span>
+                        <div class="auth-sync-dot" style="margin-left:auto;"></div>
+                    </span>
+                </div>
             </button>
         </div>
     </div>
@@ -6733,11 +7061,14 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <!-- ========== NOUVELLES MODALES ========== -->
     
     <!-- Templates Modal -->
-    <div class="templates-modal" id="templatesModal">
+    <div class="templates-modal" id="templatesModal" onclick="if(event.target===this)closeTemplates()">
         <div class="templates-content">
             <div class="templates-header">
-                <h2 class="templates-title">📋 Templates</h2>
-                <button class="btn" onclick="closeTemplates()">✕ Fermer</button>
+                <div class="templates-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Templates
+                </div>
+                <button class="minigames-close" onclick="closeTemplates()">✕</button>
             </div>
             <div class="templates-grid">
                 <div class="template-card" onclick="loadTemplate('glitchInput')">
@@ -6773,29 +7104,35 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <div class="share-modal" id="shareModal" onclick="if(event.target === this) closeShare()">
         <div class="share-content">
             <div class="templates-header">
-                <h2 class="templates-title">🔗 Partager le projet</h2>
-                <button class="btn" onclick="closeShare()">✕ Fermer</button>
+                <div class="templates-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    Partager le projet
+                </div>
+                <button class="minigames-close" onclick="closeShare()">✕</button>
             </div>
-            <p style="margin: 20px 0; color: var(--text-secondary);">
-                Partagez votre code via un lien ou un QR code
-            </p>
-            <div class="share-url" id="shareUrl">
-                Le lien sera généré ici...
-            </div>
-            <div id="qrcode"></div>
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-primary" style="flex: 1;" onclick="copyShareUrl()">📋 Copier le lien</button>
-                <button class="btn" style="flex: 1;" onclick="downloadQR()">📥 Télécharger QR</button>
+            <div style="padding: 20px; flex: 1;">
+                <p style="margin-bottom: 14px; color: var(--text-secondary); font-size: 13px;">
+                    Partagez votre code via un lien ou un QR code
+                </p>
+                <div class="share-url" id="shareUrl">Le lien sera généré ici...</div>
+                <div id="qrcode"></div>
+                <div style="display: flex; gap: 10px; margin-top: 16px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="copyShareUrl()">📋 Copier le lien</button>
+                    <button class="btn" style="flex: 1;" onclick="downloadQR()">📥 Télécharger QR</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Mini Games Modal -->
-    <div class="minigames-modal" id="miniGamesModal">
+    <div class="minigames-modal" id="miniGamesModal" onclick="handleMiniGamesOverlayClick(event)">
         <div class="minigames-container">
             <div class="minigames-header">
-                <div class="minigames-title">🎮 Mini-Jeux</div>
-                <div class="projects-size-btns" style="margin-right:12px;">
+                <div class="minigames-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M7 12h.01"/><path d="M17 12h.01"/><path d="M12 9v6"/></svg>
+                    Mini-Jeux
+                </div>
+                <div class="projects-size-btns" style="position:absolute;left:50%;transform:translateX(-50%);">
                     <button class="proj-size-btn active" id="gsize-lg" onclick="setGamesSize('lg')" title="Grandes">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="9" height="9" rx="1.5"/><rect x="13" y="2" width="9" height="9" rx="1.5"/><rect x="2" y="13" width="9" height="9" rx="1.5"/><rect x="13" y="13" width="9" height="9" rx="1.5"/></svg>
                     </button>
@@ -6879,44 +7216,76 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     </div>
 
     <!-- Shortcuts Modal -->
-    <div class="shortcuts-modal" id="shortcutsModal">
+    <div class="shortcuts-modal" id="shortcutsModal" onclick="if(event.target===this)closeShortcuts()">
         <div class="shortcuts-content">
             <div class="templates-header">
-                <h2 class="templates-title">⌨️ Raccourcis clavier</h2>
-                <button class="btn" onclick="closeShortcuts()">✕ Fermer</button>
+                <div class="templates-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h4M14 14h4"/></svg>
+                    Raccourcis clavier
+                </div>
+                <button class="minigames-close" onclick="closeShortcuts()">✕</button>
             </div>
-            <div class="shortcuts-grid">
-                <div class="shortcut-card"><span class="shortcut-card-label">Exécuter le code</span><span class="shortcut-tag">Ctrl+S</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Tout effacer</span><span class="shortcut-tag">Ctrl+K</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Télécharger</span><span class="shortcut-tag">Ctrl+D</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Rechercher</span><span class="shortcut-tag">Ctrl+F</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Raccourcis clavier</span><span class="shortcut-tag">Ctrl+/</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Nouveau projet</span><span class="shortcut-tag">Ctrl+N</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Sauvegarder projet</span><span class="shortcut-tag">Ctrl+Shift+S</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Thème sombre/clair</span><span class="shortcut-tag">Ctrl+Shift+L</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Assistant IA</span><span class="shortcut-tag">Ctrl+I</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Formatter le code</span><span class="shortcut-tag">Alt+F</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Plier/déplier bloc</span><span class="shortcut-tag">Ctrl+Q</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Mode focus</span><span class="shortcut-tag">Ctrl+Shift+F</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Onglet HTML</span><span class="shortcut-tag">Alt+1</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Onglet CSS</span><span class="shortcut-tag">Alt+2</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Onglet JS</span><span class="shortcut-tag">Alt+3</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Onglet Python</span><span class="shortcut-tag">Alt+4</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Commenter ligne</span><span class="shortcut-tag">Ctrl+;</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Dupliquer ligne</span><span class="shortcut-tag">Alt+D</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Export ZIP</span><span class="shortcut-tag">Ctrl+E</span></div>
-                <div class="shortcut-card"><span class="shortcut-card-label">Console</span><span class="shortcut-tag">Ctrl+`</span></div>
+            <div style="padding: 4px 0 20px;">
+
+                <div class="shortcut-section">
+                    <div class="shortcut-section-label">Général</div>
+                    <div class="shortcuts-grid" style="padding: 0 12px;">
+                    <div class="shortcut-card"><span class="shortcut-card-label">Exécuter le code</span><span class="shortcut-tag">Ctrl+S</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Tout effacer</span><span class="shortcut-tag">Ctrl+K</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Télécharger</span><span class="shortcut-tag">Ctrl+D</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Rechercher</span><span class="shortcut-tag">Ctrl+F</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Assistant IA</span><span class="shortcut-tag">Ctrl+I</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Mode focus</span><span class="shortcut-tag">Ctrl+Shift+F</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Console</span><span class="shortcut-tag">Ctrl+`</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Raccourcis clavier</span><span class="shortcut-tag">Ctrl+/</span></div>
+                    </div>
+                </div>
+
+                <div class="shortcut-section">
+                    <div class="shortcut-section-label">Projets</div>
+                    <div class="shortcuts-grid" style="padding: 0 12px;">
+                    <div class="shortcut-card"><span class="shortcut-card-label">Nouveau projet</span><span class="shortcut-tag">Ctrl+N</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Sauvegarder</span><span class="shortcut-tag">Ctrl+Shift+S</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Export ZIP</span><span class="shortcut-tag">Ctrl+E</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Thème clair/sombre</span><span class="shortcut-tag">Ctrl+Shift+L</span></div>
+                    </div>
+                </div>
+
+                <div class="shortcut-section">
+                    <div class="shortcut-section-label">Éditeur</div>
+                    <div class="shortcuts-grid" style="padding: 0 12px;">
+                    <div class="shortcut-card"><span class="shortcut-card-label">Formatter le code</span><span class="shortcut-tag">Alt+F</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Commenter ligne</span><span class="shortcut-tag">Ctrl+;</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Dupliquer ligne</span><span class="shortcut-tag">Alt+D</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Plier/déplier bloc</span><span class="shortcut-tag">Ctrl+Q</span></div>
+                    </div>
+                </div>
+
+                <div class="shortcut-section">
+                    <div class="shortcut-section-label">Onglets</div>
+                    <div class="shortcuts-grid" style="padding: 0 12px;">
+                    <div class="shortcut-card"><span class="shortcut-card-label">HTML</span><span class="shortcut-tag">Alt+1</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">CSS</span><span class="shortcut-tag">Alt+2</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">JavaScript</span><span class="shortcut-tag">Alt+3</span></div>
+                    <div class="shortcut-card"><span class="shortcut-card-label">Python</span><span class="shortcut-tag">Alt+4</span></div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <!-- Snippets Modal -->
-    <div class="snippets-modal" id="snippetsModal">
+    <div class="snippets-modal" id="snippetsModal" onclick="if(event.target===this)closeSnippets()">
         <div class="snippets-content">
             <div class="templates-header">
-                <h2 class="templates-title">⚡ Snippets de code</h2>
-                <button class="btn" onclick="closeSnippets()">✕ Fermer</button>
+                <div class="templates-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Snippets
+                </div>
+                <button class="minigames-close" onclick="closeSnippets()">✕</button>
             </div>
+            <div style="padding: 12px 0 20px;">
             <div class="snippet-item" onclick="insertSnippet('flexCenter')">
                 <div class="snippet-title">CSS - Flex Center</div>
                 <div class="snippet-code">display: flex; justify-content: center; align-items: center;</div>
@@ -6941,16 +7310,21 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <div class="snippet-title">JS - Event Listener</div>
                 <div class="snippet-code">element.addEventListener('click', (e) => { });</div>
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Export Modal -->
-    <div class="export-modal" id="exportModal">
+    <div class="export-modal" id="exportModal" onclick="if(event.target===this)closeExport()">
         <div class="export-content">
             <div class="templates-header">
-                <h2 class="templates-title">📤 Options d'export</h2>
-                <button class="btn" onclick="closeExport()">✕ Fermer</button>
+                <div class="templates-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Exporter
+                </div>
+                <button class="minigames-close" onclick="closeExport()">✕</button>
             </div>
+            <div style="padding: 12px 0 20px;">
             <div class="export-option export-option-zip" onclick="exportAsZip()">
                 <div class="export-icon">📦</div>
                 <div class="export-info">
@@ -6985,6 +7359,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                     <h3>JSFiddle</h3>
                     <p>Ouvrir dans JSFiddle</p>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -7130,8 +7505,11 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <div class="projects-panel" id="projectsPanel" onclick="handleProjectsOverlayClick(event)">
         <div class="projects-panel-inner">
             <div class="projects-modal-header">
-                <div class="projects-modal-title">📁 Mes Projets</div>
-                <div class="projects-size-btns">
+                <div class="projects-modal-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    Mes Projets
+                </div>
+                <div class="projects-size-btns" style="position:absolute;left:50%;transform:translateX(-50%);">
                     <button class="proj-size-btn" id="psize-xl" onclick="setProjectsSize('xl')" title="Très grandes">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="9" height="9" rx="1.5"/><rect x="13" y="2" width="9" height="9" rx="1.5"/><rect x="2" y="13" width="9" height="9" rx="1.5"/><rect x="13" y="13" width="9" height="9" rx="1.5"/></svg>
                     </button>
@@ -7527,7 +7905,19 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             // Fermer le menu si ouvert
             closeMenu();
             
-            document.getElementById('settingsPanel').classList.toggle('active');
+            const panel = document.getElementById('settingsPanel');
+            const overlay = document.getElementById('settingsOverlay');
+            const isActive = panel.classList.toggle('active');
+            if (isActive) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsPanel').classList.remove('active');
+            document.getElementById('settingsOverlay').classList.remove('active');
         }
 
         // Toggle setting
@@ -8416,6 +8806,11 @@ ${js}
                     mFallback.style.display = 'flex';
                     mFallback.textContent = firstName[0].toUpperCase();
                 }
+                // Update sidebar workspace
+                const wsName = document.getElementById('sidebarWsName');
+                const wsAvatar = document.getElementById('sidebarWsAvatar');
+                if (wsName) wsName.textContent = firstName + "'s workspace";
+                if (wsAvatar) wsAvatar.textContent = firstName[0].toUpperCase();
             } else {
                 menuConnected.style.display = 'none';
                 menuDisconnected.style.display = 'flex';
@@ -8427,6 +8822,7 @@ ${js}
             const settingsPanel = document.getElementById('settingsPanel');
             if (settingsPanel.classList.contains('active')) {
                 settingsPanel.classList.remove('active');
+                document.getElementById('settingsOverlay').classList.remove('active');
             }
             
             const menu = document.getElementById('dropdownMenu');
@@ -8440,6 +8836,76 @@ ${js}
             // Rafraîchir la pill compte à chaque ouverture
             if (menu.classList.contains('active')) refreshMenuPill();
         }
+
+        // Helper: set active nav item in sidebar
+        function setActiveMenuItem(el) {
+            document.querySelectorAll('.sidebar-nav .menu-item').forEach(i => i.classList.remove('active'));
+            if (el) el.classList.add('active');
+        }
+
+        // ===== SIDEBAR HOVER HIGHLIGHT =====
+        let _navReturnTimer = null;
+
+        function _initSidebarGlider() {
+            const nav = document.querySelector('.sidebar-nav');
+            if (!nav || nav._gliderInited) return;
+            nav._gliderInited = true;
+
+            const items = nav.querySelectorAll('.menu-item');
+
+            // Set initial active item as nav-lit
+            const activeItem = nav.querySelector('.menu-item.active');
+            if (activeItem) activeItem.classList.add('nav-lit');
+
+            items.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    // Cancel any pending return animation
+                    if (_navReturnTimer) { clearTimeout(_navReturnTimer); _navReturnTimer = null; }
+                    // Remove nav-lit from all (triggers fade-out via CSS), add to hovered instantly
+                    items.forEach(i => {
+                        if (i.classList.contains('nav-lit')) {
+                            i.classList.remove('nav-lit');
+                            i.classList.add('nav-fade-out');
+                            setTimeout(() => i.classList.remove('nav-fade-out'), 200);
+                        }
+                    });
+                    item.classList.add('nav-lit');
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    const active = nav.querySelector('.menu-item.active');
+                    if (!active) return;
+
+                    // Step 1: fade out current
+                    item.classList.remove('nav-lit');
+
+                    // Step 2: light up active after CSS fade completes (200ms matches transition)
+                    _navReturnTimer = setTimeout(() => {
+                        active.classList.add('nav-lit');
+                        _navReturnTimer = null;
+                    }, 200);
+                });
+
+                item.addEventListener('click', () => {
+                    setActiveMenuItem(item);
+                    items.forEach(i => i.classList.remove('nav-lit'));
+                    item.classList.add('nav-lit');
+                });
+            });
+        }
+
+        let _gliderActive = null;
+        let _gliderHover = null;
+        let _gliderNav = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menuBtn');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    setTimeout(_initSidebarGlider, 50);
+                });
+            }
+        });
 
         function closeMenu() {
             const menu = document.getElementById('dropdownMenu');
@@ -8611,7 +9077,7 @@ ${js}
                         text: shareUrl,
                         width: 200,
                         height: 200,
-                        colorDark: '#7c3aed',
+                        colorDark: '#d946a8',
                         colorLight: '#ffffff',
                         correctLevel: QRCode.CorrectLevel.L // Use Low correction for longer URLs
                     });
@@ -9361,7 +9827,7 @@ ${js}
                     const hiResCanvas = await html2canvas(iframeDoc.body, {
                         width: iframeW, height: iframeH, scale: 1,
                         useCORS: true, allowTaint: true,
-                        backgroundColor: '#1a0f2e', logging: false,
+                        backgroundColor: '#111112', logging: false,
                         windowWidth: iframeW, windowHeight: iframeH
                     });
                     const thumbCanvas = document.createElement('canvas');
@@ -10580,6 +11046,12 @@ ${js}
             currentGame = null;
         }
 
+        function handleMiniGamesOverlayClick(event) {
+            if (event.target === document.getElementById('miniGamesModal')) {
+                closeMiniGames();
+            }
+        }
+
         function backToGamesMenu() {
             // Fermer l'overlay plein écran si ouvert
             const overlay = document.getElementById('gameFullscreenOverlay');
@@ -10991,12 +11463,12 @@ ${js}
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 // Draw snake
-                ctx.fillStyle = '#7c3aed';
+                ctx.fillStyle = '#d946a8';
                 snake.forEach((segment, index) => {
                     if (index === 0) {
                         ctx.fillStyle = '#a78bfa'; // Head color
                     } else {
-                        ctx.fillStyle = '#7c3aed';
+                        ctx.fillStyle = '#d946a8';
                     }
                     ctx.fillRect(segment.x * gridSize + 1, segment.y * gridSize + 1, gridSize - 2, gridSize - 2);
                 });
@@ -11306,7 +11778,7 @@ ${js}
                 // BG
                 const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
                 bg.addColorStop(0, '#0f0a1e');
-                bg.addColorStop(0.5, '#1a0f2e');
+                bg.addColorStop(0.5, '#111112');
                 bg.addColorStop(1, '#0d0520');
                 ctx.fillStyle = bg;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -11429,7 +11901,7 @@ ${js}
                 ctx.fillStyle = '#000';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#7c3aed';
+                ctx.fillStyle = '#d946a8';
                 ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
                 
                 ctx.fillStyle = '#ec4899';
@@ -11544,7 +12016,7 @@ ${js}
                         if (bricks[c][r].status === 1) {
                             const brickX = brickOffsetLeft + c * (brickWidth + brickPadding);
                             const brickY = brickOffsetTop + r * (brickHeight + brickPadding);
-                            const colors = ['#7c3aed', '#a78bfa', '#ec4899', '#f59e0b', '#10b981'];
+                            const colors = ['#d946a8', '#a78bfa', '#ec4899', '#f59e0b', '#10b981'];
                             ctx.fillStyle = colors[r];
                             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
                         }
@@ -11552,7 +12024,7 @@ ${js}
                 }
                 
                 // Draw paddle
-                ctx.fillStyle = '#7c3aed';
+                ctx.fillStyle = '#d946a8';
                 ctx.beginPath();
                 ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 6);
                 ctx.fill();
@@ -11585,8 +12057,8 @@ ${js}
 
             function drawGame() {
                 const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, '#1a0f2e');
-                gradient.addColorStop(1, '#2d1f4a');
+                gradient.addColorStop(0, '#111112');
+                gradient.addColorStop(1, '#1c1c1f');
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
@@ -11607,11 +12079,11 @@ ${js}
                 const boxH = Math.floor(canvas.height * 0.1);
                 const boxX = cx - boxW / 2;
                 const boxY = cy - canvas.height * 0.13;
-                ctx.fillStyle = '#241838';
+                ctx.fillStyle = '#161618';
                 ctx.beginPath();
                 ctx.roundRect(boxX, boxY, boxW, boxH, 12);
                 ctx.fill();
-                ctx.strokeStyle = inputActive ? '#7c3aed' : '#4a5568';
+                ctx.strokeStyle = inputActive ? '#d946a8' : '#4a5568';
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 
