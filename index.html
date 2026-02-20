@@ -3098,46 +3098,60 @@
         /* Modal sélection projet pour mini-jeu */
         .proj-selector-modal {
             position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(12px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-end;
             z-index: 11000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
         .proj-selector-modal.active {
             display: flex;
+            opacity: 1;
+            pointer-events: all;
         }
         .proj-selector-box {
-            background: var(--bg-secondary);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
+            background: #1a1a1e;
+            border-left: 1px solid rgba(255,255,255,0.07);
+            width: 96%;
+            max-width: 900px;
+            height: 100vh;
             overflow: hidden;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
             display: flex;
             flex-direction: column;
-            animation: slideInUp 0.35s cubic-bezier(0.16,1,0.3,1);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+            position: relative;
+        }
+        .proj-selector-modal.active .proj-selector-box {
+            transform: translateX(0);
         }
         .proj-selector-header {
-            background: #1a1a1e;
-            padding: 18px 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 22px 20px 18px;
             border-bottom: 1px solid rgba(255,255,255,0.07);
             flex-shrink: 0;
+            background: #1a1a1e;
+            gap: 12px;
+            position: relative;
         }
         .proj-selector-title {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: var(--font-sans);
+            letter-spacing: 0.03em;
         }
         .proj-selector-close {
             background: rgba(255,255,255,0.06);
@@ -7463,7 +7477,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         <div class="proj-selector-box">
             <div class="proj-selector-header">
                 <div class="proj-selector-title"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Choisir un projet comme mini-jeu</div>
-                <button class="proj-selector-close" onclick="closeProjectSelector()">✕</button>
+                <button class="minigames-close" onclick="closeProjectSelector()">✕</button>
             </div>
             <div class="proj-selector-list" id="projSelectorList"></div>
         </div>
