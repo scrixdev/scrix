@@ -2931,8 +2931,8 @@
         }
         #gamesMenu.gsize-list .custom-game-name-el { font-size: 13px; flex-shrink: 0; }
         #gamesMenu.gsize-list .custom-game-actions { margin-top: 0; margin-left: auto; flex-shrink: 0; }
-        #gamesMenu.gsize-list .project-card { flex-direction: row; border-radius: 10px; aspect-ratio: unset; height: 54px; }
-        #gamesMenu.gsize-list .project-card .project-card-thumb { width: 80px; height: auto; align-self: stretch; flex-shrink: 0; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.07); border-radius: 0; }
+        #gamesMenu.gsize-list .project-card { flex-direction: row; border-radius: 10px; aspect-ratio: unset; height: 54px; overflow: hidden; }
+        #gamesMenu.gsize-list .project-card .project-card-thumb { width: 80px; height: 54px; min-height: unset; flex-shrink: 0; flex: none; align-self: auto; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.07); border-radius: 0; }
         #gamesMenu.gsize-list .project-card .project-card-body { flex: 1; padding: 8px 12px; }
         #gamesMenu.gsize-list .project-card .project-card-name { font-size: 13px; }
         #gamesMenu.gsize-list .project-card .project-card-date { font-size: 11px; }
@@ -3099,8 +3099,8 @@
         .proj-selector-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(12px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -3111,8 +3111,8 @@
         }
         .proj-selector-box {
             background: var(--bg-secondary);
-            border: 2px solid var(--border-default);
-            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
             width: 90%;
             max-width: 700px;
             max-height: 80vh;
@@ -3120,70 +3120,77 @@
             display: flex;
             flex-direction: column;
             animation: slideInUp 0.35s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
         }
         .proj-selector-header {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            padding: 20px 28px;
+            background: #1a1a1e;
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
         }
         .proj-selector-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .proj-selector-close {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            font-size: 18px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
         }
-        .proj-selector-close:hover { background: rgba(255,255,255,0.25); transform: rotate(90deg); }
+        .proj-selector-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); transform: rotate(90deg); }
         .proj-selector-list {
             overflow-y: auto;
-            padding: 20px;
+            padding: 16px;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 14px;
+            gap: 12px;
         }
         .proj-selector-card {
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-subtle);
+            background: rgba(79,142,247,0.04);
+            border: 1px solid rgba(79,142,247,0.2);
             border-radius: 12px;
-            padding: 14px;
+            overflow: hidden;
             cursor: pointer;
             transition: all 0.2s;
-            text-align: center;
         }
         .proj-selector-card:hover {
-            border-color: var(--primary-purple);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(124,58,237,0.25);
+            border-color: rgba(79,142,247,0.7);
+            background: rgba(79,142,247,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79,142,247,0.2);
         }
         .proj-selector-thumb {
             width: 100%;
-            height: 70px;
+            height: 90px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            display: block;
             background: var(--bg-elevated);
         }
         .proj-selector-name {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            padding: 8px 10px;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
 
         .game-canvas-container {
@@ -7455,7 +7462,7 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
     <div class="proj-selector-modal" id="projSelectorModal">
         <div class="proj-selector-box">
             <div class="proj-selector-header">
-                <div class="proj-selector-title">🎮 Choisir un projet comme mini-jeu</div>
+                <div class="proj-selector-title"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Choisir un projet comme mini-jeu</div>
                 <button class="proj-selector-close" onclick="closeProjectSelector()">✕</button>
             </div>
             <div class="proj-selector-list" id="projSelectorList"></div>
