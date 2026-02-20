@@ -2925,30 +2925,33 @@
             right: 28px;
             color: #fff;
             padding: 0;
-            border-radius: 8px;
+            border-radius: 20px;
             font-family: var(--font-sans);
             z-index: 100000;
-            animation: slideInRight 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-            width: 400px;
+            animation: slideInRight 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 360px;
             overflow: hidden;
             display: flex;
             align-items: center;
-            gap: 0;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+            background: rgba(30, 30, 35, 0.7);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
         .notification-bar {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
+            gap: 14px;
+            padding: 16px 16px;
             flex: 1;
         }
 
         .notification-icon-wrap {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2956,42 +2959,36 @@
         }
 
         .notification-icon-wrap svg {
-            width: 18px;
-            height: 18px;
-            stroke: #fff;
-            stroke-width: 2.5;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            width: 40px;
+            height: 40px;
         }
 
         .notification-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
 
         .notification-title {
             font-weight: 700;
             font-size: 14px;
-            letter-spacing: 0.03em;
             color: #fff;
+            letter-spacing: -0.01em;
         }
 
         .notification-message {
             font-weight: 400;
-            font-size: 13px;
-            line-height: 1.45;
-            color: rgba(255,255,255,0.75);
+            font-size: 12.5px;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.5);
         }
 
         .notification-close {
-            border: none;
-            color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
             height: 34px;
             padding: 0 16px;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -3000,52 +2997,38 @@
             font-size: 13px;
             font-weight: 600;
             font-family: var(--font-sans);
-            margin-right: 16px;
+            margin-right: 14px;
             transition: opacity 0.2s;
+            background: rgba(255,255,255,0.08);
         }
         .notification-close:hover { opacity: 0.8; }
 
-        .notification-progress {
-            display: none;
-        }
+        .notification-progress { display: none; }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(60px); }
-            to   { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateX(40px) scale(0.96); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
         }
         @keyframes slideOutRight {
-            from { opacity: 1; transform: translateX(0); }
-            to   { opacity: 0; transform: translateX(60px); }
+            from { opacity: 1; transform: translateX(0) scale(1); }
+            to   { opacity: 0; transform: translateX(40px) scale(0.96); }
         }
 
-        /* Couleurs par type — exactement comme l'image */
-        .notification.success {
-            background: #1a4731;
-            border-left: 5px solid #22c55e;
-        }
-        .notification.success .notification-icon-wrap { background: rgba(34,197,94,0.2); }
-        .notification.success .notification-close { background: #22c55e; }
+        .notification.success .notification-icon-wrap { background: none; }
+        .notification.success .notification-icon-wrap svg { stroke: #4ade80; }
+        .notification.success .notification-close { color: #4ade80; border-color: rgba(74,222,128,0.3); }
 
-        .notification.error {
-            background: #4a1212;
-            border-left: 5px solid #ef4444;
-        }
-        .notification.error .notification-icon-wrap { background: rgba(239,68,68,0.2); }
-        .notification.error .notification-close { background: #ef4444; }
+        .notification.error .notification-icon-wrap { background: none; }
+        .notification.error .notification-icon-wrap svg { stroke: #f87171; }
+        .notification.error .notification-close { color: #f87171; border-color: rgba(248,113,113,0.3); }
 
-        .notification.info {
-            background: #0f2547;
-            border-left: 5px solid #3b82f6;
-        }
-        .notification.info .notification-icon-wrap { background: rgba(59,130,246,0.2); }
-        .notification.info .notification-close { background: #3b82f6; }
+        .notification.info .notification-icon-wrap { background: none; }
+        .notification.info .notification-icon-wrap svg { stroke: #60a5fa; }
+        .notification.info .notification-close { color: #60a5fa; border-color: rgba(96,165,250,0.3); }
 
-        .notification.warn {
-            background: #4a2d0a;
-            border-left: 5px solid #f59e0b;
-        }
-        .notification.warn .notification-icon-wrap { background: rgba(245,158,11,0.2); }
-        .notification.warn .notification-close { background: #f59e0b; }
+        .notification.warn .notification-icon-wrap { background: none; }
+        .notification.warn .notification-icon-wrap svg { stroke: #fbbf24; }
+        .notification.warn .notification-close { color: #fbbf24; border-color: rgba(251,191,36,0.3); }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -8446,10 +8429,53 @@ ${js}
             notification.className = `notification ${type}`;
             
             const icons = {
-                success: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
-                error:   '<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-                info:    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-                warn:    '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+                success: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#4ade80"/>
+                            <stop offset="100%" stop-color="#16a34a"/>
+                        </linearGradient>
+                        <filter id="sf"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#22c55e" flood-opacity="0.5"/></filter>
+                    </defs>
+                    <circle cx="20" cy="20" r="18" fill="url(#sg)" filter="url(#sf)"/>
+                    <polyline points="12,20 17,26 28,14" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>`,
+                error: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="eg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#f87171"/>
+                            <stop offset="100%" stop-color="#dc2626"/>
+                        </linearGradient>
+                        <filter id="ef"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ef4444" flood-opacity="0.5"/></filter>
+                    </defs>
+                    <circle cx="20" cy="20" r="18" fill="url(#eg)" filter="url(#ef)"/>
+                    <line x1="14" y1="14" x2="26" y2="26" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="26" y1="14" x2="14" y2="26" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                </svg>`,
+                info: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="ig" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="100%" stop-color="#2563eb"/>
+                        </linearGradient>
+                        <filter id="if"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#3b82f6" flood-opacity="0.5"/></filter>
+                    </defs>
+                    <circle cx="20" cy="20" r="18" fill="url(#ig)" filter="url(#if)"/>
+                    <circle cx="20" cy="13" r="2" fill="#fff"/>
+                    <line x1="20" y1="18" x2="20" y2="28" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                </svg>`,
+                warn: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fcd34d"/>
+                            <stop offset="100%" stop-color="#d97706"/>
+                        </linearGradient>
+                        <filter id="wf"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#f59e0b" flood-opacity="0.5"/></filter>
+                    </defs>
+                    <circle cx="20" cy="20" r="18" fill="url(#wg)" filter="url(#wf)"/>
+                    <line x1="20" y1="12" x2="20" y2="24" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="20" cy="28" r="2" fill="#fff"/>
+                </svg>`
             };
             const titles   = { success: 'Succès',      error: 'Erreur',  info: 'Information', warn: 'Attention' };
             const btnLabels = { success: 'Fermer',      error: 'Fermer',  info: 'Fermer',      warn: 'Fermer'   };
