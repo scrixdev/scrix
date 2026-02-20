@@ -3140,6 +3140,32 @@
             transition: all 0.2s;
         }
         .proj-selector-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); transform: rotate(90deg); }
+
+        .proj-view-switcher {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 3px;
+        }
+        .proj-view-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .proj-view-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+        .proj-view-btn.active { background: var(--primary-purple); color: #fff; }
+
         .proj-selector-list {
             overflow-y: auto;
             padding: 16px;
@@ -7458,6 +7484,20 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         <div class="proj-selector-box">
             <div class="proj-selector-header">
                 <div class="proj-selector-title"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Choisir un projet comme mini-jeu</div>
+                <div class="proj-view-switcher">
+                    <button class="proj-view-btn" onclick="setProjGrid(2)" id="projView2" title="2 colonnes">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg>
+                    </button>
+                    <button class="proj-view-btn active" onclick="setProjGrid(3)" id="projView3" title="3 colonnes">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="3.5" height="3.5" rx="0.5"/><rect x="5.25" y="0" width="3.5" height="3.5" rx="0.5"/><rect x="10.5" y="0" width="3.5" height="3.5" rx="0.5"/><rect x="0" y="5.25" width="3.5" height="3.5" rx="0.5"/><rect x="5.25" y="5.25" width="3.5" height="3.5" rx="0.5"/><rect x="10.5" y="5.25" width="3.5" height="3.5" rx="0.5"/><rect x="0" y="10.5" width="3.5" height="3.5" rx="0.5"/><rect x="5.25" y="10.5" width="3.5" height="3.5" rx="0.5"/><rect x="10.5" y="10.5" width="3.5" height="3.5" rx="0.5"/></svg>
+                    </button>
+                    <button class="proj-view-btn" onclick="setProjGrid(4)" id="projView4" title="4 colonnes">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="0" y="0" width="3" height="3" rx="0.4"/><rect x="4.3" y="0" width="3" height="3" rx="0.4"/><rect x="8.6" y="0" width="3" height="3" rx="0.4"/><rect x="13" y="0" width="3" height="3" rx="0.4"/><rect x="0" y="4.3" width="3" height="3" rx="0.4"/><rect x="4.3" y="4.3" width="3" height="3" rx="0.4"/><rect x="8.6" y="4.3" width="3" height="3" rx="0.4"/><rect x="13" y="4.3" width="3" height="3" rx="0.4"/><rect x="0" y="8.6" width="3" height="3" rx="0.4"/><rect x="4.3" y="8.6" width="3" height="3" rx="0.4"/><rect x="8.6" y="8.6" width="3" height="3" rx="0.4"/><rect x="13" y="8.6" width="3" height="3" rx="0.4"/><rect x="0" y="13" width="3" height="3" rx="0.4"/><rect x="4.3" y="13" width="3" height="3" rx="0.4"/><rect x="8.6" y="13" width="3" height="3" rx="0.4"/><rect x="13" y="13" width="3" height="3" rx="0.4"/></svg>
+                    </button>
+                    <button class="proj-view-btn" onclick="setProjGrid('list')" id="projViewList" title="Liste">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="14" height="2.5" rx="1"/><rect x="0" y="5.75" width="14" height="2.5" rx="1"/><rect x="0" y="11.5" width="14" height="2.5" rx="1"/></svg>
+                    </button>
+                </div>
                 <button class="minigames-close" onclick="closeProjectSelector()">✕</button>
             </div>
             <div class="proj-selector-list" id="projSelectorList"></div>
@@ -11457,6 +11497,37 @@ ${js}
                     renderCustomGameCards();
                 }
             } catch(e) { console.error('Custom games load error:', e); }
+        }
+
+        function setProjGrid(cols) {
+            const list = document.getElementById('projSelectorList');
+            // Reset all buttons
+            ['2','3','4','List'].forEach(v => {
+                const btn = document.getElementById('projView' + v);
+                if (btn) btn.classList.remove('active');
+            });
+            if (cols === 'list') {
+                list.style.gridTemplateColumns = '1fr';
+                document.getElementById('projViewList').classList.add('active');
+                // List mode: horizontal cards
+                list.querySelectorAll('.proj-selector-card').forEach(card => {
+                    card.style.flexDirection = 'row';
+                    card.style.aspectRatio = 'unset';
+                    card.style.height = '60px';
+                    const wrap = card.querySelector('.proj-selector-thumb-wrap');
+                    if (wrap) { wrap.style.width = '60px'; wrap.style.aspectRatio = '1'; wrap.style.flexShrink = '0'; }
+                });
+            } else {
+                list.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                document.getElementById('projView' + cols).classList.add('active');
+                list.querySelectorAll('.proj-selector-card').forEach(card => {
+                    card.style.flexDirection = 'column';
+                    card.style.aspectRatio = 'unset';
+                    card.style.height = 'unset';
+                    const wrap = card.querySelector('.proj-selector-thumb-wrap');
+                    if (wrap) { wrap.style.width = '100%'; wrap.style.aspectRatio = '1'; wrap.style.flexShrink = '0'; }
+                });
+            }
         }
 
         function openProjectSelector() {
