@@ -13721,7 +13721,7 @@ self.addEventListener('fetch', e => {
                 if (aiHistory.length > 10) aiHistory = aiHistory.slice(aiHistory.length - 10);
 
                 // ⚠️ REMPLACE l'URL ci-dessous par celle de ton Cloudflare Worker après déploiement
-                const PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
+                const PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev';
 
                 try {
                     const response = await fetch(PROXY_URL, {
