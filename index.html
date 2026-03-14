@@ -5905,70 +5905,60 @@
 
 
         /* ===== SCRIX AI PANEL ===== */
-        .ai-btn-header {
-            display: flex; align-items: center; gap: 6px;
-            background: linear-gradient(135deg, rgba(79,142,247,0.2), rgba(126,179,255,0.1));
-            border: 1px solid rgba(79,142,247,0.3);
-            color: var(--accent-blue);
-            padding: 6px 12px; border-radius: 8px;
-            font-size: 12px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
-            font-family: var(--font-sans);
-        }
-        .ai-btn-header:hover { background: rgba(79,142,247,0.25); border-color: rgba(79,142,247,0.5); }
-        .ai-btn-header .ai-btn-dot { width:7px;height:7px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite; }
-        .ai-modal { position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:stretch;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity 0.3s ease; }
-        .ai-modal.active { display:flex;opacity:1;pointer-events:all; }
-        .ai-panel-content { background:#13131a;border-left:1px solid rgba(79,142,247,0.2);width:400px;max-width:90vw;height:100vh;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);box-shadow:-20px 0 60px rgba(0,0,0,0.7); }
-        .ai-modal.active .ai-panel-content { transform:translateX(0); }
-        .ai-panel-header { padding:16px 20px;border-bottom:1px solid rgba(79,142,247,0.15);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(79,142,247,0.04); }
-        .ai-panel-logo { width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#7eb3ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a0f1e; }
-        .ai-panel-title-block { flex:1; }
-        .ai-panel-title { font-size:14px;font-weight:700;color:var(--text-primary); }
-        .ai-panel-subtitle { font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px; }
-        .ai-status-dot { width:6px;height:6px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite; }
-        .ai-close-btn { background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:4px;border-radius:6px;transition:all 0.15s;display:flex;align-items:center;justify-content:center; }
-        .ai-close-btn:hover { color:var(--text-primary);background:rgba(255,255,255,0.07); }
-        .ai-quick-actions { padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0; }
-        .ai-quick-btn { font-size:11.5px;font-family:var(--font-sans);padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid rgba(79,142,247,0.25);background:rgba(79,142,247,0.07);color:var(--accent-blue);transition:all 0.15s;white-space:nowrap;font-weight:500;display:flex;align-items:center;gap:4px; }
-        .ai-quick-btn:hover { background:rgba(79,142,247,0.18);border-color:rgba(79,142,247,0.5); }
-        .ai-context-bar { padding:7px 14px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:7px;flex-shrink:0; }
-        .ai-context-label { font-size:11px;color:var(--text-tertiary); }
-        .ai-context-tab { font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.07);color:var(--text-secondary);border:1px solid rgba(255,255,255,0.1); }
-        .ai-context-tab.html { background:rgba(248,112,96,0.12);color:#f87060;border-color:rgba(248,112,96,0.3); }
-        .ai-context-tab.css  { background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.3); }
-        .ai-context-tab.js   { background:rgba(253,230,138,0.12);color:#fde68a;border-color:rgba(253,230,138,0.3); }
-        .ai-context-tab.python { background:rgba(125,211,252,0.12);color:#7dd3fc;border-color:rgba(125,211,252,0.3); }
-        .ai-messages { flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth; }
-        .ai-messages::-webkit-scrollbar { width:4px; }
-        .ai-messages::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1);border-radius:2px; }
-        .ai-msg-role { font-size:10px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;display:flex;align-items:center;gap:5px; }
-        .ai-msg-role-dot { width:5px;height:5px;border-radius:50%; }
-        .ai-msg.user .ai-msg-role-dot { background:var(--accent-blue); }
-        .ai-msg.assistant .ai-msg-role-dot { background:var(--accent-green); }
-        .ai-msg-bubble { font-size:13px;line-height:1.6;padding:10px 13px;border-radius:10px;word-break:break-word; }
-        .ai-msg.user .ai-msg-bubble { background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.22);color:var(--text-primary); }
-        .ai-msg.assistant .ai-msg-bubble { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text-primary); }
-        .ai-msg-bubble code { font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.35);padding:1px 5px;border-radius:4px;color:var(--accent-blue); }
-        .ai-code-block { margin:8px 0;border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden; }
-        .ai-code-header { display:flex;align-items:center;padding:5px 10px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06); }
-        .ai-code-lang { font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-tertiary);font-family:var(--font-mono); }
-        .ai-code-block pre { font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.35);padding:10px 12px;overflow-x:auto;margin:0;white-space:pre-wrap;line-height:1.55; }
-        .insert-code-btn { display:flex;align-items:center;gap:5px;width:100%;margin:0;font-size:11.5px;font-family:var(--font-sans);padding:7px 12px;background:rgba(79,142,247,0.08);border:none;border-top:1px solid rgba(79,142,247,0.15);color:var(--accent-blue);cursor:pointer;transition:all 0.15s;font-weight:500; }
-        .insert-code-btn:hover:not(:disabled) { background:rgba(79,142,247,0.18); }
-        .insert-code-btn.inserted { background:rgba(52,211,153,0.08);color:var(--accent-green);border-top-color:rgba(52,211,153,0.15);cursor:default; }
-        .ai-typing { display:flex;gap:5px;padding:12px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:fit-content; }
-        .ai-typing span { width:6px;height:6px;background:var(--text-tertiary);border-radius:50%;animation:aiTypingBounce 1.2s infinite; }
-        .ai-typing span:nth-child(2) { animation-delay:.2s; }
-        .ai-typing span:nth-child(3) { animation-delay:.4s; }
-        @keyframes aiTypingBounce { 0%,80%,100%{ transform:translateY(0);opacity:.5; } 40%{ transform:translateY(-6px);opacity:1; } }
-        .ai-input-area { padding:12px 14px;border-top:1px solid rgba(255,255,255,0.07);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:rgba(0,0,0,0.2); }
-        #aiUserInput { flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text-primary);border-radius:8px;padding:9px 12px;font-size:13px;font-family:var(--font-sans);outline:none;resize:none;max-height:120px;min-height:38px;transition:border-color 0.2s; }
-        #aiUserInput:focus { border-color:rgba(79,142,247,0.5); }
-        #aiUserInput::placeholder { color:var(--text-tertiary); }
-        #aiSendBtn { background:linear-gradient(135deg,#4f8ef7,#7eb3ff);color:#0a0f1e;border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s; }
-        #aiSendBtn:hover { transform:scale(1.05);box-shadow:0 4px 15px rgba(79,142,247,0.4); }
-        #aiSendBtn:disabled { opacity:.4;cursor:default;transform:none;box-shadow:none; }
+        .ai-btn-header{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(79,142,247,.2),rgba(126,179,255,.1));border:1px solid rgba(79,142,247,.3);color:var(--accent-blue);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-sans);}
+        .ai-btn-header:hover{background:rgba(79,142,247,.25);border-color:rgba(79,142,247,.5);}
+        .ai-btn-header .ai-btn-dot{width:7px;height:7px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite;}
+        .ai-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:stretch;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+        .ai-modal.active{display:flex;opacity:1;pointer-events:all;}
+        .ai-panel-content{background:#13131a;border-left:1px solid rgba(79,142,247,.2);width:400px;max-width:90vw;height:100vh;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);box-shadow:-20px 0 60px rgba(0,0,0,.7);}
+        .ai-modal.active .ai-panel-content{transform:translateX(0);}
+        .ai-panel-header{padding:16px 20px;border-bottom:1px solid rgba(79,142,247,.15);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(79,142,247,.04);}
+        .ai-panel-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#7eb3ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a0f1e;}
+        .ai-panel-title{font-size:14px;font-weight:700;color:var(--text-primary);}
+        .ai-panel-subtitle{font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px;}
+        .ai-status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite;}
+        .ai-close-btn{background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:4px;border-radius:6px;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+        .ai-close-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.07);}
+        .ai-quick-actions{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;}
+        .ai-quick-btn{font-size:11.5px;font-family:var(--font-sans);padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid rgba(79,142,247,.25);background:rgba(79,142,247,.07);color:var(--accent-blue);transition:all .15s;white-space:nowrap;font-weight:500;display:flex;align-items:center;gap:4px;}
+        .ai-quick-btn:hover{background:rgba(79,142,247,.18);border-color:rgba(79,142,247,.5);}
+        .ai-context-bar{padding:7px 14px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:7px;flex-shrink:0;}
+        .ai-context-label{font-size:11px;color:var(--text-tertiary);}
+        .ai-context-tab{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.07);color:var(--text-secondary);border:1px solid rgba(255,255,255,.1);}
+        .ai-context-tab.html{background:rgba(248,112,96,.12);color:#f87060;border-color:rgba(248,112,96,.3);}
+        .ai-context-tab.css{background:rgba(96,165,250,.12);color:#60a5fa;border-color:rgba(96,165,250,.3);}
+        .ai-context-tab.js{background:rgba(253,230,138,.12);color:#fde68a;border-color:rgba(253,230,138,.3);}
+        .ai-context-tab.python{background:rgba(125,211,252,.12);color:#7dd3fc;border-color:rgba(125,211,252,.3);}
+        .ai-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+        .ai-messages::-webkit-scrollbar{width:4px;}
+        .ai-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px;}
+        .ai-msg-role{font-size:10px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;display:flex;align-items:center;gap:5px;}
+        .ai-msg-role-dot{width:5px;height:5px;border-radius:50%;}
+        .ai-msg.user .ai-msg-role-dot{background:var(--accent-blue);}
+        .ai-msg.assistant .ai-msg-role-dot{background:var(--accent-green);}
+        .ai-msg-bubble{font-size:13px;line-height:1.6;padding:10px 13px;border-radius:10px;word-break:break-word;}
+        .ai-msg.user .ai-msg-bubble{background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.22);color:var(--text-primary);}
+        .ai-msg.assistant .ai-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);}
+        .ai-msg-bubble code{font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px;color:var(--accent-blue);}
+        .ai-code-block{margin:8px 0;border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden;}
+        .ai-code-header{display:flex;align-items:center;padding:5px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);}
+        .ai-code-lang{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-tertiary);font-family:var(--font-mono);}
+        .ai-code-block pre{font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,.35);padding:10px 12px;overflow-x:auto;margin:0;white-space:pre-wrap;line-height:1.55;}
+        .insert-code-btn{display:flex;align-items:center;gap:5px;width:100%;margin:0;font-size:11.5px;font-family:var(--font-sans);padding:7px 12px;background:rgba(79,142,247,.08);border:none;border-top:1px solid rgba(79,142,247,.15);color:var(--accent-blue);cursor:pointer;transition:all .15s;font-weight:500;}
+        .insert-code-btn:hover:not(:disabled){background:rgba(79,142,247,.2);}
+        .insert-code-btn.inserted{background:rgba(52,211,153,.08);color:var(--accent-green);border-top-color:rgba(52,211,153,.15);cursor:default;}
+        .ai-typing{display:flex;gap:5px;padding:12px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;width:fit-content;}
+        .ai-typing span{width:6px;height:6px;background:var(--text-tertiary);border-radius:50%;animation:aiTypingBounce 1.2s infinite;}
+        .ai-typing span:nth-child(2){animation-delay:.2s;}
+        .ai-typing span:nth-child(3){animation-delay:.4s;}
+        @keyframes aiTypingBounce{0%,80%,100%{transform:translateY(0);opacity:.5;}40%{transform:translateY(-6px);opacity:1;}}
+        .ai-input-area{padding:12px 14px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:rgba(0,0,0,.2);}
+        #aiUserInput{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text-primary);border-radius:8px;padding:9px 12px;font-size:13px;font-family:var(--font-sans);outline:none;resize:none;max-height:120px;min-height:38px;transition:border-color .2s;}
+        #aiUserInput:focus{border-color:rgba(79,142,247,.5);}
+        #aiUserInput::placeholder{color:var(--text-tertiary);}
+        #aiSendBtn{background:linear-gradient(135deg,#4f8ef7,#7eb3ff);color:#0a0f1e;border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+        #aiSendBtn:hover{transform:scale(1.05);box-shadow:0 4px 15px rgba(79,142,247,.4);}
+        #aiSendBtn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
 
         /* Fold gutter customization */
         .CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
@@ -6074,7 +6064,7 @@
                         <div class="auth-sync-dot"></div>
                     </div>
                 </div>
-                <button class="ai-btn-header" onclick="toggleAIPanel()" data-tooltip="Assistant IA (Ctrl+Shift+A)">
+                <button class="ai-btn-header" onclick="toggleAIPanel()" data-tooltip="Assistant IA">
                     <div class="ai-btn-dot"></div>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     IA
@@ -7174,11 +7164,11 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <div class="ai-panel-logo">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
-                <div class="ai-panel-title-block">
+                <div>
                     <div class="ai-panel-title">SCRIX AI</div>
-                    <div class="ai-panel-subtitle"><div class="ai-status-dot"></div>Propuls&#233; par Llama 3.3 &middot; Contexte actif</div>
+                    <div class="ai-panel-subtitle"><div class="ai-status-dot"></div>Llama 3.3 &middot; Contexte actif</div>
                 </div>
-                <button class="ai-close-btn" onclick="closeAIPanel()">
+                <button class="ai-close-btn" onclick="closeAIPanel()" style="margin-left:auto">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
@@ -7187,8 +7177,8 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
                 <button class="ai-quick-btn" onclick="aiQuickAction('fix')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Corriger</button>
                 <button class="ai-quick-btn" onclick="aiQuickAction('optimize')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Optimiser</button>
                 <button class="ai-quick-btn" onclick="aiQuickAction('comment')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Commenter</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('complete')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Compl&#233;ter</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('generate')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>G&#233;n&#233;rer</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('complete')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Compl&eacute;ter</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('generate')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>G&eacute;n&eacute;rer</button>
             </div>
             <div class="ai-context-bar">
                 <span class="ai-context-label">Onglet actif :</span>
@@ -7202,14 +7192,11 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-msg assistant">
                     <div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div>
-                    <div class="ai-msg-bubble">
-                        Salut ! Je suis <strong>SCRIX AI</strong>, ton assistant int&#233;gr&#233;.<br><br>
-                        Tu peux me parler de <strong>tout</strong> : code, questions g&#233;n&#233;rales, maths, conseils, blagues... Je peux aussi <strong>cr&#233;er, corriger et ins&#233;rer le code</strong> directement dans ton &#233;diteur.
-                    </div>
+                    <div class="ai-msg-bubble">Salut ! Je suis <strong>SCRIX AI</strong>. Tu peux me parler de <strong>tout</strong> : code, questions, maths, blagues... et je peux aussi <strong>cr&eacute;er et ins&eacute;rer du code</strong> directement dans tes onglets.</div>
                 </div>
             </div>
             <div class="ai-input-area">
-                <textarea id="aiUserInput" placeholder="Pose une question ou demande du code..." rows="1"></textarea>
+                <textarea id="aiUserInput" placeholder="Parle-moi, pose une question..." rows="1"></textarea>
                 <button id="aiSendBtn" onclick="sendAIMessage()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                 </button>
@@ -13377,320 +13364,287 @@ self.addEventListener('fetch', e => {
 
         // ===== SCRIX AI PANEL =====
         (function() {
-            var aiHistory = [];
-            var aiIsStreaming = false;
-            var currentAiTab = 'html';
-            var PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
+            var _aiHistory = [];
+            var _aiStreaming = false;
+            var _aiTab = 'html';
+            var _PROXY = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
 
-            function getAllCode() {
-                var result = { html: '', css: '', js: '', python: '' };
-                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
-                for (var lang in result) {
+            function _getAllCode() {
+                var r = {html:'',css:'',js:'',python:''};
+                var ta = {html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                for (var lg in r) {
                     try {
-                        if (window._editors && window._editors[lang]) {
-                            result[lang] = window._editors[lang].getValue() || '';
-                        } else {
-                            var ta = document.getElementById(taMap[lang]);
-                            result[lang] = ta ? ta.value : '';
-                        }
-                    } catch(e) {}
+                        if (window._editors && window._editors[lg]) r[lg] = window._editors[lg].getValue()||'';
+                        else { var el=document.getElementById(ta[lg]); r[lg]=el?el.value:''; }
+                    } catch(e){}
                 }
-                return result;
+                return r;
             }
 
-            function getActiveTab() {
-                var tabs = ['html', 'css', 'js', 'python'];
-                for (var i = 0; i < tabs.length; i++) {
-                    var btn = document.querySelector('.tab-btn.' + tabs[i] + '-tab.active');
-                    if (btn) return tabs[i];
+            function _getTab() {
+                var ts=['html','css','js','python'];
+                for (var i=0;i<ts.length;i++){
+                    if(document.querySelector('.tab-btn.'+ts[i]+'-tab.active')) return ts[i];
                 }
-                return currentAiTab || 'html';
+                return _aiTab||'html';
             }
 
-            function insertCodeIntoTab(lang, code) {
-                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+            function _setCode(lang, code) {
+                var ta={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
                 try {
-                    if (window._editors && window._editors[lang]) {
+                    if(window._editors && window._editors[lang]){
                         window._editors[lang].setValue(code);
                         window._editors[lang].refresh();
                         return true;
                     }
-                    var ta = document.getElementById(taMap[lang]);
-                    if (ta) { ta.value = code; return true; }
-                } catch(e) {}
+                    var el=document.getElementById(ta[lang]);
+                    if(el){el.value=code;return true;}
+                } catch(e){}
                 return false;
             }
 
-            function insertAtCursor(lang, code) {
-                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+            function _insertAt(lang, code) {
+                var ta={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
                 try {
-                    if (window._editors && window._editors[lang]) {
-                        var ed = window._editors[lang];
-                        var cursor = ed.getCursor();
-                        ed.replaceRange('\n' + code + '\n', cursor);
+                    if(window._editors && window._editors[lang]){
+                        var ed=window._editors[lang];
+                        ed.replaceRange('\n'+code+'\n', ed.getCursor());
                         return true;
                     }
-                    var ta = document.getElementById(taMap[lang]);
-                    if (ta) {
-                        var pos = ta.selectionStart || ta.value.length;
-                        ta.value = ta.value.slice(0, pos) + '\n' + code + '\n' + ta.value.slice(pos);
+                    var el=document.getElementById(ta[lang]);
+                    if(el){
+                        var p=el.selectionStart||el.value.length;
+                        el.value=el.value.slice(0,p)+'\n'+code+'\n'+el.value.slice(p);
                         return true;
                     }
-                } catch(e) {}
+                } catch(e){}
                 return false;
             }
 
-            function switchToTab(lang) {
-                try { if (typeof switchTab === 'function') switchTab(lang); } catch(e) {}
+            function _switchTab(lang) {
+                try{ if(typeof switchTab==='function') switchTab(lang); }catch(e){}
             }
 
-            function updateContextBar() {
-                currentAiTab = getActiveTab();
-                var el = document.getElementById('aiContextTab');
-                if (!el) return;
-                el.className = 'ai-context-tab ' + currentAiTab;
-                el.textContent = currentAiTab.toUpperCase();
+            function _updateCtx() {
+                _aiTab=_getTab();
+                var el=document.getElementById('aiContextTab');
+                if(!el) return;
+                el.className='ai-context-tab '+_aiTab;
+                el.textContent=_aiTab.toUpperCase();
             }
 
             window.toggleAIPanel = function() {
-                var modal = document.getElementById('aiModal');
-                if (!modal) return;
-                modal.classList.toggle('active');
-                if (modal.classList.contains('active')) updateContextBar();
+                var m=document.getElementById('aiModal');
+                if(!m) return;
+                m.classList.toggle('active');
+                if(m.classList.contains('active')) _updateCtx();
             };
-
             window.closeAIPanel = function() {
-                var modal = document.getElementById('aiModal');
-                if (modal) modal.classList.remove('active');
+                var m=document.getElementById('aiModal');
+                if(m) m.classList.remove('active');
             };
-
             window.clearAIChat = function() {
-                aiHistory = [];
-                var msgs = document.getElementById('aiMessages');
-                if (!msgs) return;
-                msgs.innerHTML = '<div class="ai-msg assistant"><div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Chat effac&#233;. Pr&#234;t !</div></div>';
+                _aiHistory=[];
+                var msgs=document.getElementById('aiMessages');
+                if(msgs) msgs.innerHTML='<div class="ai-msg assistant"><div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Chat effac\u00e9 !</div></div>';
             };
 
-            function addAIMessage(role, content) {
-                var msgs = document.getElementById('aiMessages');
-                if (!msgs) return;
-                var div = document.createElement('div');
-                div.className = 'ai-msg ' + role;
-                var label = role === 'user' ? 'VOUS' : 'SCRIX AI';
-                div.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>' + label + '</div><div class="ai-msg-bubble"></div>';
-                msgs.appendChild(div);
-                div.querySelector('.ai-msg-bubble').innerHTML = content;
-                msgs.scrollTop = msgs.scrollHeight;
+            function _addMsg(role, content) {
+                var msgs=document.getElementById('aiMessages');
+                if(!msgs) return;
+                var d=document.createElement('div');
+                d.className='ai-msg '+role;
+                d.innerHTML='<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>'+(role==='user'?'VOUS':'SCRIX AI')+'</div><div class="ai-msg-bubble"></div>';
+                msgs.appendChild(d);
+                d.querySelector('.ai-msg-bubble').innerHTML=content;
+                msgs.scrollTop=msgs.scrollHeight;
             }
-
-            function showTyping() {
-                var msgs = document.getElementById('aiMessages');
-                if (!msgs) return;
-                var div = document.createElement('div');
-                div.id = 'aiTyping';
-                div.className = 'ai-msg assistant';
-                div.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-typing"><span></span><span></span><span></span></div>';
-                msgs.appendChild(div);
-                msgs.scrollTop = msgs.scrollHeight;
+            function _showTyping(){
+                var msgs=document.getElementById('aiMessages');
+                if(!msgs) return;
+                var d=document.createElement('div');
+                d.id='_aiTyping';d.className='ai-msg assistant';
+                d.innerHTML='<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-typing"><span></span><span></span><span></span></div>';
+                msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
             }
+            function _hideTyping(){ var t=document.getElementById('_aiTyping');if(t)t.remove(); }
 
-            function hideTyping() {
-                var t = document.getElementById('aiTyping');
-                if (t) t.remove();
-            }
+            function _esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-            function esc(s) {
-                return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-            }
-
-            function detectLang(hint, code) {
-                if (hint) {
-                    var h = hint.toLowerCase();
-                    if (h === 'html' || h === 'htm') return 'html';
-                    if (h === 'css' || h === 'scss') return 'css';
-                    if (h === 'js' || h === 'javascript' || h === 'typescript') return 'js';
-                    if (h === 'python' || h === 'py') return 'python';
+            function _detectLang(hint,code){
+                if(hint){
+                    var h=hint.toLowerCase();
+                    if(h==='html'||h==='htm') return 'html';
+                    if(h==='css'||h==='scss') return 'css';
+                    if(h==='js'||h==='javascript'||h==='typescript') return 'js';
+                    if(h==='python'||h==='py') return 'python';
                 }
-                if (/<(!DOCTYPE|html|head|body|div|span|button|nav)/i.test(code)) return 'html';
-                if (/^\s*(\.|#|body\s*\{|:root|@media)/m.test(code)) return 'css';
-                if (/(function\s|const |let |var |=>|document\.|window\.)/.test(code)) return 'js';
-                if (/(^def |^import |^class )/m.test(code)) return 'python';
+                if(/<(!DOCTYPE|html|head|body|div|span|button|nav)/i.test(code)) return 'html';
+                if(/^\s*(\.|#|body\s*\{|:root|@media)/m.test(code)) return 'css';
+                if(/(function\s|const |let |var |=>|document\.|window\.)/.test(code)) return 'js';
+                if(/(^def |^import |^class )/m.test(code)) return 'python';
                 return null;
             }
 
-            function formatResponse(text, autoInserted) {
-                var inserted = autoInserted || [];
-                var result = '';
-                var parts = text.split(/(```[\w]*\n[\s\S]*?```)/g);
-                for (var i = 0; i < parts.length; i++) {
-                    var m = parts[i].match(/^```([\w]*)\n([\s\S]*?)```$/);
-                    if (m) {
-                        var lang = detectLang(m[1], m[2].trim());
-                        var label = lang ? lang.toUpperCase() : (m[1] ? m[1].toUpperCase() : 'CODE');
-                        var code = esc(m[2].trim());
-                        var wasInserted = lang && inserted.indexOf(lang) !== -1;
-                        var btnHtml = wasInserted
-                            ? '<button class="insert-code-btn inserted" disabled><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Ins&#233;r&#233; dans ' + label + '</button>'
-                            : '<button class="insert-code-btn" data-lang="' + (lang||'active') + '" onclick="insertAICode(this)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Ins&#233;rer dans ' + label + '</button>';
-                        result += '<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">' + label + '</span></div><pre><code>' + code + '</code></pre>' + btnHtml + '</div>';
+            function _format(text, autoIns){
+                var ins=autoIns||[];
+                var out='';
+                var parts=text.split(/(```[\w]*\n[\s\S]*?```)/g);
+                for(var i=0;i<parts.length;i++){
+                    var m=parts[i].match(/^```([\w]*)\n([\s\S]*?)```$/);
+                    if(m){
+                        var lang=_detectLang(m[1],m[2].trim());
+                        var lbl=lang?lang.toUpperCase():(m[1]?m[1].toUpperCase():'CODE');
+                        var code=_esc(m[2].trim());
+                        var wasIns=lang&&ins.indexOf(lang)!==-1;
+                        var chk='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                        var arr='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>';
+                        var btn=wasIns
+                            ? '<button class="insert-code-btn inserted" disabled>'+chk+' Ins\u00e9r\u00e9 dans '+lbl+'</button>'
+                            : '<button class="insert-code-btn" data-lang="'+(lang||'active')+'" onclick="insertAICode(this)">'+arr+' Ins\u00e9rer dans '+lbl+'</button>';
+                        out+='<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">'+lbl+'</span></div><pre><code>'+code+'</code></pre>'+btn+'</div>';
                     } else {
-                        result += esc(parts[i])
-                            .replace(/`([^`]+)`/g, '<code>$1</code>')
-                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                            .replace(/\n/g, '<br>');
+                        out+=_esc(parts[i])
+                            .replace(/`([^`]+)`/g,'<code>$1</code>')
+                            .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+                            .replace(/\*(.*?)\*/g,'<em>$1</em>')
+                            .replace(/\n/g,'<br>');
                     }
                 }
-                return result;
+                return out;
             }
 
-            function autoInsert(text) {
-                var inserted = [];
-                var re = /```([\w]*)\n([\s\S]*?)```/g;
+            function _autoInsert(text){
+                var ins=[];
+                var re=/```([\w]*)\n([\s\S]*?)```/g;
                 var m;
-                while ((m = re.exec(text)) !== null) {
-                    var lang = detectLang(m[1], m[2].trim());
-                    if (lang && inserted.indexOf(lang) === -1) {
-                        if (insertCodeIntoTab(lang, m[2].trim())) {
-                            inserted.push(lang);
-                            if (typeof showNotification === 'function') showNotification('Code ' + lang.toUpperCase() + ' ins&#233;r&#233; !', 'success');
+                while((m=re.exec(text))!==null){
+                    var lang=_detectLang(m[1],m[2].trim());
+                    if(lang&&ins.indexOf(lang)===-1){
+                        if(_setCode(lang,m[2].trim())){
+                            ins.push(lang);
+                            _switchTab(lang);
+                            if(typeof showNotification==='function') showNotification('Code '+lang.toUpperCase()+' ins\u00e9r\u00e9 !','success');
                         }
                     }
                 }
-                return inserted;
+                return ins;
             }
 
-            window.insertAICode = function(btn) {
-                var block = btn.closest('.ai-code-block');
-                var codeEl = block && block.querySelector('code');
-                if (!codeEl) return;
-                var tmp = document.createElement('textarea');
-                tmp.innerHTML = codeEl.innerHTML;
-                var code = tmp.value;
-                var lang = btn.dataset.lang;
-                if (lang && lang !== 'active') {
-                    switchToTab(lang);
-                    setTimeout(function() {
-                        insertAtCursor(lang, code);
-                        if (typeof showNotification === 'function') showNotification('Code ins&#233;r&#233; dans ' + lang.toUpperCase(), 'success');
-                    }, 150);
+            window.insertAICode = function(btn){
+                var block=btn.closest('.ai-code-block');
+                var codeEl=block&&block.querySelector('code');
+                if(!codeEl) return;
+                var tmp=document.createElement('textarea');
+                tmp.innerHTML=codeEl.innerHTML;
+                var code=tmp.value;
+                var lang=btn.dataset.lang;
+                if(lang&&lang!=='active'){
+                    _switchTab(lang);
+                    setTimeout(function(){
+                        _setCode(lang,code);
+                        if(typeof showNotification==='function') showNotification('Code ins\u00e9r\u00e9 dans '+lang.toUpperCase(),'success');
+                    },150);
                 } else {
-                    insertAtCursor(currentAiTab, code);
-                    if (typeof showNotification === 'function') showNotification('Code ins&#233;r&#233; !', 'success');
+                    _insertAt(_aiTab,code);
+                    if(typeof showNotification==='function') showNotification('Code ins\u00e9r\u00e9 !','success');
                 }
-                btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Ins&#233;r&#233; !';
-                btn.disabled = true;
+                var chk='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                btn.innerHTML=chk+' Ins\u00e9r\u00e9 !';
+                btn.disabled=true;
                 btn.classList.add('inserted');
             };
 
-            window.aiQuickAction = function(action) {
-                var active = getActiveTab();
-                var p = {
-                    explain: 'Explique en d&#233;tail le code ' + active.toUpperCase() + ' actif.',
-                    fix: 'Analyse TOUT mon code et corrige TOUS les bugs. Fournis le code complet corrig&#233; dans des blocs ```html ```css ```javascript.',
-                    optimize: 'Optimise mon code ' + active.toUpperCase() + '. Fournis le code complet.',
-                    comment: 'Ajoute des commentaires dans mon code ' + active.toUpperCase() + '. Fournis le code complet.',
-                    complete: 'Compl&#232;te mon code ' + active.toUpperCase() + '. Fournis le code complet.',
-                    generate: 'G&#233;n&#232;re une am&#233;lioration pour mon projet. Fournis le code dans les bons blocs ```html ```css ```javascript.'
+            window.aiQuickAction = function(action){
+                var active=_getTab();
+                var p={
+                    explain:'Explique en detail le code '+active.toUpperCase()+' actif.',
+                    fix:'Analyse tout mon code et corrige tous les bugs. Fournis le code complet corrige dans des blocs de code avec la bonne langue.',
+                    optimize:'Optimise mon code '+active.toUpperCase()+'. Fournis le code complet optimise.',
+                    comment:'Ajoute des commentaires clairs dans mon code '+active.toUpperCase()+'. Fournis le code complet commente.',
+                    complete:'Complete mon code '+active.toUpperCase()+'. Ajoute les fonctionnalites manquantes. Fournis le code complet.',
+                    generate:'Genere une amelioration pour mon projet. Fournis le code complet dans les bons blocs de code.'
                 };
-                var input = document.getElementById('aiUserInput');
-                if (input) { input.value = p[action] || ''; }
+                var inp=document.getElementById('aiUserInput');
+                if(inp) inp.value=p[action]||'';
                 sendAIMessage();
             };
 
-            function isCodeRequest(q) {
-                var kw = ['cr','fait','fais','g','ajoute','construis','make','create','build','generate','add','corrige','fix','debug'];
-                q = q.toLowerCase();
-                var codeKw = ['crée','cree','créer','creer','fais','fait','génère','genere','ajoute','construis','make','create','build','generate','add','corrige','fix','debug','répare','repare','optimise','commente'];
-                for (var i = 0; i < codeKw.length; i++) {
-                    if (q.indexOf(codeKw[i]) !== -1) return true;
-                }
+            function _isCodeReq(q){
+                var kw=['cree','creer','fait','fais','genere','ajoute','construis','make','create','build','generate','add','corrige','fix','debug','repare','optimise','commente'];
+                q=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+                for(var i=0;i<kw.length;i++) if(q.indexOf(kw[i])!==-1) return true;
                 return false;
             }
 
-            window.sendAIMessage = async function() {
-                if (aiIsStreaming) return;
-                var input = document.getElementById('aiUserInput');
-                var sendBtn = document.getElementById('aiSendBtn');
-                if (!input) return;
-                var question = input.value.trim();
-                if (!question) return;
+            window.sendAIMessage = async function(){
+                if(_aiStreaming) return;
+                var inp=document.getElementById('aiUserInput');
+                var btn=document.getElementById('aiSendBtn');
+                if(!inp) return;
+                var q=inp.value.trim();
+                if(!q) return;
+                _updateCtx();
+                var all=_getAllCode();
+                inp.value='';inp.style.height='auto';
+                _aiStreaming=true;if(btn)btn.disabled=true;
+                _addMsg('user',_esc(q).replace(/\n/g,'<br>'));
+                _showTyping();
 
-                updateContextBar();
-                var allCode = getAllCode();
-                input.value = '';
-                input.style.height = 'auto';
-                aiIsStreaming = true;
-                if (sendBtn) sendBtn.disabled = true;
+                var sys='Tu es SCRIX AI, un assistant integre dans SCRIX (editeur de code). '
+                    +'Reponds a TOUTES les questions : code, culture generale, maths, histoire, blagues, conversations normales, tout ! '
+                    +'Sois naturel et sympa comme un ami qui sait tout, pas un robot. '
+                    +'Quand tu generes du code, utilise TOUJOURS des blocs avec la langue (```html ```css ```javascript ```python) et fournis le code COMPLET. '
+                    +'Si tu corriges des bugs, fournis le code complet corrige pour chaque fichier. '
+                    +'Reponds en francais par defaut sauf si on te parle dans une autre langue.';
 
-                addAIMessage('user', esc(question).replace(/\n/g,'<br>'));
-                showTyping();
+                var ctx='';
+                if(all.html) ctx+='\n\nHTML:\n```html\n'+all.html+'\n```';
+                if(all.css)  ctx+='\n\nCSS:\n```css\n'+all.css+'\n```';
+                if(all.js)   ctx+='\n\nJS:\n```javascript\n'+all.js+'\n```';
+                if(all.python) ctx+='\n\nPython:\n```python\n'+all.python+'\n```';
 
-                var sys = 'Tu es SCRIX AI, un assistant intelligent et sympa dans SCRIX (un editeur de code). '
-                    + 'Tu reponds a TOUTES les questions : code, culture generale, maths, histoire, blagues, conversations... '
-                    + 'Quand tu generes du code utilise TOUJOURS des blocs avec la bonne langue (```html ```css ```javascript ```python) et fournis le code COMPLET. '
-                    + 'Reponds en francais sauf si on te parle autrement. '
-                    + 'Sois naturel et sympa comme un ami.';
-
-                var ctx = '';
-                if (allCode.html) ctx += '\n\nHTML actuel:\n```html\n' + allCode.html + '\n```';
-                if (allCode.css)  ctx += '\n\nCSS actuel:\n```css\n'  + allCode.css  + '\n```';
-                if (allCode.js)   ctx += '\n\nJS actuel:\n```javascript\n' + allCode.js + '\n```';
-                if (allCode.python) ctx += '\n\nPython actuel:\n```python\n' + allCode.python + '\n```';
-
-                aiHistory.push({ role: 'user', content: question + ctx });
-                if (aiHistory.length > 12) aiHistory = aiHistory.slice(aiHistory.length - 12);
+                _aiHistory.push({role:'user',content:q+ctx});
+                if(_aiHistory.length>12) _aiHistory=_aiHistory.slice(_aiHistory.length-12);
 
                 try {
-                    var resp = await fetch(PROXY_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            model: 'llama-3.3-70b-versatile',
-                            max_tokens: 2048,
-                            messages: [{ role: 'system', content: sys }].concat(aiHistory)
+                    var resp=await fetch(_PROXY,{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({
+                            model:'llama-3.3-70b-versatile',
+                            max_tokens:2048,
+                            messages:[{role:'system',content:sys}].concat(_aiHistory)
                         })
                     });
-                    if (!resp.ok) {
-                        var err = await resp.json().catch(function(){ return {}; });
-                        throw new Error((err.error && err.error.message) || 'HTTP ' + resp.status);
+                    if(!resp.ok){
+                        var err=await resp.json().catch(function(){return {};});
+                        throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);
                     }
-                    var data = await resp.json();
-                    hideTyping();
-                    var text = (data.choices && data.choices[0] && data.choices[0].message)
-                        ? data.choices[0].message.content : 'Erreur : r&#233;ponse vide.';
-                    aiHistory.push({ role: 'assistant', content: text });
-                    var ins = isCodeRequest(question) ? autoInsert(text) : [];
-                    addAIMessage('assistant', formatResponse(text, ins));
-                } catch(e) {
-                    hideTyping();
-                    addAIMessage('assistant', '<span style="color:#f87171">Erreur : ' + (e.message||'connexion impossible') + '</span>');
-                    aiHistory.pop();
+                    var data=await resp.json();
+                    _hideTyping();
+                    var text=(data.choices&&data.choices[0]&&data.choices[0].message)
+                        ?data.choices[0].message.content:'Erreur : reponse vide.';
+                    _aiHistory.push({role:'assistant',content:text});
+                    var inserted=_isCodeReq(q)?_autoInsert(text):[];
+                    _addMsg('assistant',_format(text,inserted));
+                } catch(e){
+                    _hideTyping();
+                    _addMsg('assistant','<span style="color:#f87171">Erreur : '+(e.message||'connexion impossible')+'</span>');
+                    _aiHistory.pop();
                 }
-
-                aiIsStreaming = false;
-                if (sendBtn) sendBtn.disabled = false;
-                if (input) input.focus();
+                _aiStreaming=false;if(btn)btn.disabled=false;if(inp)inp.focus();
             };
 
-            document.addEventListener('DOMContentLoaded', function() {
-                var input = document.getElementById('aiUserInput');
-                if (!input) return;
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMessage(); }
-                });
-                input.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-                });
-                document.querySelectorAll('.tab-btn').forEach(function(btn) {
-                    btn.addEventListener('click', function() { setTimeout(updateContextBar, 50); });
-                });
+            document.addEventListener('DOMContentLoaded',function(){
+                var inp=document.getElementById('aiUserInput');
+                if(!inp) return;
+                inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAIMessage();}});
+                inp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';});
+                document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){setTimeout(_updateCtx,50);});});
             });
-
-            document.addEventListener('keydown', function(e) {
-                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
-                    e.preventDefault(); window.toggleAIPanel();
-                }
+            document.addEventListener('keydown',function(e){
+                if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='A'){e.preventDefault();window.toggleAIPanel();}
             });
         })();
 
