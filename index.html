@@ -5903,228 +5903,8 @@
             flex-shrink: 0;
         }
 
+
         /* ===== SCRIX AI PANEL ===== */
-        .ai-modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 10000;
-            display: none;
-            align-items: stretch;
-            justify-content: flex-end;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .ai-modal.active {
-            display: flex;
-            opacity: 1;
-            pointer-events: all;
-        }
-        .ai-panel-content {
-            background: #13131a;
-            border-left: 1px solid rgba(79, 142, 247, 0.2);
-            width: 400px;
-            max-width: 90vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: -20px 0 60px rgba(0,0,0,0.7), -1px 0 0 rgba(79,142,247,0.1);
-        }
-        .ai-modal.active .ai-panel-content {
-            transform: translateX(0);
-        }
-        .ai-panel-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid rgba(79, 142, 247, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-            background: rgba(79, 142, 247, 0.04);
-        }
-        .ai-panel-logo {
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #4f8ef7, #7eb3ff);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; flex-shrink: 0;
-        }
-        .ai-panel-title-block { flex: 1; }
-        .ai-panel-title {
-            font-size: 14px; font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 0.3px;
-        }
-        .ai-panel-subtitle {
-            font-size: 11px; color: var(--text-tertiary);
-            display: flex; align-items: center; gap: 5px;
-        }
-        .ai-status-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--accent-green);
-            box-shadow: 0 0 6px var(--accent-green);
-            animation: syncPulse 2s ease-in-out infinite;
-        }
-        .ai-close-btn {
-            background: none; border: none; color: var(--text-tertiary);
-            cursor: pointer; font-size: 16px; padding: 4px;
-            border-radius: 6px; transition: all 0.15s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .ai-close-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
-        .ai-quick-actions {
-            padding: 12px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            display: flex; gap: 6px; flex-wrap: wrap;
-            flex-shrink: 0;
-        }
-        .ai-quick-btn {
-            font-size: 11.5px; font-family: var(--font-sans);
-            padding: 5px 10px; border-radius: 6px; cursor: pointer;
-            border: 1px solid rgba(79, 142, 247, 0.25);
-            background: rgba(79, 142, 247, 0.07);
-            color: var(--accent-blue);
-            transition: all 0.15s; white-space: nowrap; font-weight: 500;
-        }
-        .ai-quick-btn:hover {
-            background: rgba(79, 142, 247, 0.15);
-            border-color: rgba(79, 142, 247, 0.5);
-            transform: translateY(-1px);
-        }
-        .ai-quick-btn:active { transform: translateY(0); }
-        .ai-context-bar {
-            padding: 8px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-        }
-        .ai-context-label {
-            font-size: 11px; color: var(--text-tertiary);
-        }
-        .ai-context-tab {
-            font-size: 11px; font-weight: 600;
-            padding: 2px 8px; border-radius: 4px;
-            background: rgba(255,255,255,0.07);
-            color: var(--text-secondary);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .ai-context-tab.html { background: rgba(248,112,96,0.12); color: #f87060; border-color: rgba(248,112,96,0.3); }
-        .ai-context-tab.css  { background: rgba(96,165,250,0.12); color: #60a5fa; border-color: rgba(96,165,250,0.3); }
-        .ai-context-tab.js   { background: rgba(253,230,138,0.12); color: #fde68a; border-color: rgba(253,230,138,0.3); }
-        .ai-context-tab.python { background: rgba(125,211,252,0.12); color: #7dd3fc; border-color: rgba(125,211,252,0.3); }
-        .ai-messages {
-            flex: 1; overflow-y: auto; padding: 14px;
-            display: flex; flex-direction: column; gap: 12px;
-            scroll-behavior: smooth;
-        }
-        .ai-messages::-webkit-scrollbar { width: 4px; }
-        .ai-messages::-webkit-scrollbar-track { background: transparent; }
-        .ai-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-        .ai-msg { max-width: 100%; }
-        .ai-msg-role {
-            font-size: 10px; color: var(--text-tertiary);
-            margin-bottom: 4px; text-transform: uppercase;
-            letter-spacing: 0.08em; font-weight: 600;
-            display: flex; align-items: center; gap: 5px;
-        }
-        .ai-msg-role-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-        }
-        .ai-msg.user .ai-msg-role-dot { background: var(--accent-blue); }
-        .ai-msg.assistant .ai-msg-role-dot { background: var(--accent-green); }
-        .ai-msg-bubble {
-            font-size: 13px; line-height: 1.6;
-            padding: 10px 13px; border-radius: 10px;
-            word-break: break-word;
-        }
-        .ai-msg.user .ai-msg-bubble {
-            background: rgba(79, 142, 247, 0.12);
-            border: 1px solid rgba(79, 142, 247, 0.22);
-            color: var(--text-primary);
-        }
-        .ai-msg.assistant .ai-msg-bubble {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: var(--text-primary);
-        }
-        .ai-msg-bubble code {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            background: rgba(0,0,0,0.35);
-            padding: 1px 5px; border-radius: 4px;
-            color: var(--accent-blue);
-        }
-        .ai-msg-bubble pre {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            background: rgba(0,0,0,0.4);
-            padding: 10px 12px; border-radius: 8px;
-            overflow-x: auto; margin: 8px 0;
-            border: 1px solid rgba(255,255,255,0.08);
-            white-space: pre-wrap; line-height: 1.55;
-        }
-        .ai-msg-bubble pre .insert-code-btn {
-            display: block; margin-top: 8px;
-            font-size: 11px; font-family: var(--font-sans);
-            padding: 4px 10px; border-radius: 5px;
-            background: rgba(79, 142, 247, 0.15);
-            border: 1px solid rgba(79, 142, 247, 0.3);
-            color: var(--accent-blue); cursor: pointer;
-            transition: all 0.15s; width: fit-content;
-        }
-        .ai-msg-bubble pre .insert-code-btn:hover {
-            background: rgba(79, 142, 247, 0.25);
-        }
-        .ai-typing {
-            display: flex; gap: 5px; padding: 12px 13px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px; width: fit-content;
-        }
-        .ai-typing span {
-            width: 6px; height: 6px; background: var(--text-tertiary);
-            border-radius: 50%; animation: aiTypingBounce 1.2s infinite;
-        }
-        .ai-typing span:nth-child(2) { animation-delay: 0.2s; }
-        .ai-typing span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes aiTypingBounce {
-            0%,80%,100%{ transform:translateY(0); opacity:0.5; }
-            40%{ transform:translateY(-6px); opacity:1; }
-        }
-        .ai-input-area {
-            padding: 12px 14px;
-            border-top: 1px solid rgba(255,255,255,0.07);
-            display: flex; gap: 8px; align-items: flex-end;
-            flex-shrink: 0; background: rgba(0,0,0,0.2);
-        }
-        #aiUserInput {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            border-radius: 8px; padding: 9px 12px;
-            font-size: 13px; font-family: var(--font-sans);
-            outline: none; resize: none;
-            max-height: 120px; min-height: 38px;
-            transition: border-color 0.2s;
-        }
-        #aiUserInput:focus { border-color: rgba(79, 142, 247, 0.5); }
-        #aiUserInput::placeholder { color: var(--text-tertiary); }
-        #aiSendBtn {
-            background: linear-gradient(135deg, #4f8ef7, #7eb3ff);
-            color: #0a0f1e; border: none;
-            border-radius: 8px; width: 38px; height: 38px;
-            cursor: pointer; font-size: 15px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; transition: all 0.2s;
-            font-weight: 700;
-        }
-        #aiSendBtn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(79,142,247,0.4); }
-        #aiSendBtn:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
         .ai-btn-header {
             display: flex; align-items: center; gap: 6px;
             background: linear-gradient(135deg, rgba(79,142,247,0.2), rgba(126,179,255,0.1));
@@ -6135,17 +5915,60 @@
             cursor: pointer; transition: all 0.2s;
             font-family: var(--font-sans);
         }
-        .ai-btn-header:hover {
-            background: rgba(79, 142, 247, 0.25);
-            border-color: rgba(79,142,247,0.5);
-            box-shadow: 0 0 15px rgba(79,142,247,0.2);
-        }
-        .ai-btn-header .ai-btn-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: var(--accent-green);
-            box-shadow: 0 0 6px var(--accent-green);
-            animation: syncPulse 2s ease-in-out infinite;
-        }
+        .ai-btn-header:hover { background: rgba(79,142,247,0.25); border-color: rgba(79,142,247,0.5); }
+        .ai-btn-header .ai-btn-dot { width:7px;height:7px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite; }
+        .ai-modal { position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:stretch;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity 0.3s ease; }
+        .ai-modal.active { display:flex;opacity:1;pointer-events:all; }
+        .ai-panel-content { background:#13131a;border-left:1px solid rgba(79,142,247,0.2);width:400px;max-width:90vw;height:100vh;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);box-shadow:-20px 0 60px rgba(0,0,0,0.7); }
+        .ai-modal.active .ai-panel-content { transform:translateX(0); }
+        .ai-panel-header { padding:16px 20px;border-bottom:1px solid rgba(79,142,247,0.15);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(79,142,247,0.04); }
+        .ai-panel-logo { width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#7eb3ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a0f1e; }
+        .ai-panel-title-block { flex:1; }
+        .ai-panel-title { font-size:14px;font-weight:700;color:var(--text-primary); }
+        .ai-panel-subtitle { font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px; }
+        .ai-status-dot { width:6px;height:6px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite; }
+        .ai-close-btn { background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:4px;border-radius:6px;transition:all 0.15s;display:flex;align-items:center;justify-content:center; }
+        .ai-close-btn:hover { color:var(--text-primary);background:rgba(255,255,255,0.07); }
+        .ai-quick-actions { padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0; }
+        .ai-quick-btn { font-size:11.5px;font-family:var(--font-sans);padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid rgba(79,142,247,0.25);background:rgba(79,142,247,0.07);color:var(--accent-blue);transition:all 0.15s;white-space:nowrap;font-weight:500;display:flex;align-items:center;gap:4px; }
+        .ai-quick-btn:hover { background:rgba(79,142,247,0.18);border-color:rgba(79,142,247,0.5); }
+        .ai-context-bar { padding:7px 14px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:7px;flex-shrink:0; }
+        .ai-context-label { font-size:11px;color:var(--text-tertiary); }
+        .ai-context-tab { font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.07);color:var(--text-secondary);border:1px solid rgba(255,255,255,0.1); }
+        .ai-context-tab.html { background:rgba(248,112,96,0.12);color:#f87060;border-color:rgba(248,112,96,0.3); }
+        .ai-context-tab.css  { background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.3); }
+        .ai-context-tab.js   { background:rgba(253,230,138,0.12);color:#fde68a;border-color:rgba(253,230,138,0.3); }
+        .ai-context-tab.python { background:rgba(125,211,252,0.12);color:#7dd3fc;border-color:rgba(125,211,252,0.3); }
+        .ai-messages { flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth; }
+        .ai-messages::-webkit-scrollbar { width:4px; }
+        .ai-messages::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1);border-radius:2px; }
+        .ai-msg-role { font-size:10px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;display:flex;align-items:center;gap:5px; }
+        .ai-msg-role-dot { width:5px;height:5px;border-radius:50%; }
+        .ai-msg.user .ai-msg-role-dot { background:var(--accent-blue); }
+        .ai-msg.assistant .ai-msg-role-dot { background:var(--accent-green); }
+        .ai-msg-bubble { font-size:13px;line-height:1.6;padding:10px 13px;border-radius:10px;word-break:break-word; }
+        .ai-msg.user .ai-msg-bubble { background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.22);color:var(--text-primary); }
+        .ai-msg.assistant .ai-msg-bubble { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text-primary); }
+        .ai-msg-bubble code { font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.35);padding:1px 5px;border-radius:4px;color:var(--accent-blue); }
+        .ai-code-block { margin:8px 0;border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden; }
+        .ai-code-header { display:flex;align-items:center;padding:5px 10px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06); }
+        .ai-code-lang { font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-tertiary);font-family:var(--font-mono); }
+        .ai-code-block pre { font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.35);padding:10px 12px;overflow-x:auto;margin:0;white-space:pre-wrap;line-height:1.55; }
+        .insert-code-btn { display:flex;align-items:center;gap:5px;width:100%;margin:0;font-size:11.5px;font-family:var(--font-sans);padding:7px 12px;background:rgba(79,142,247,0.08);border:none;border-top:1px solid rgba(79,142,247,0.15);color:var(--accent-blue);cursor:pointer;transition:all 0.15s;font-weight:500; }
+        .insert-code-btn:hover:not(:disabled) { background:rgba(79,142,247,0.18); }
+        .insert-code-btn.inserted { background:rgba(52,211,153,0.08);color:var(--accent-green);border-top-color:rgba(52,211,153,0.15);cursor:default; }
+        .ai-typing { display:flex;gap:5px;padding:12px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:fit-content; }
+        .ai-typing span { width:6px;height:6px;background:var(--text-tertiary);border-radius:50%;animation:aiTypingBounce 1.2s infinite; }
+        .ai-typing span:nth-child(2) { animation-delay:.2s; }
+        .ai-typing span:nth-child(3) { animation-delay:.4s; }
+        @keyframes aiTypingBounce { 0%,80%,100%{ transform:translateY(0);opacity:.5; } 40%{ transform:translateY(-6px);opacity:1; } }
+        .ai-input-area { padding:12px 14px;border-top:1px solid rgba(255,255,255,0.07);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:rgba(0,0,0,0.2); }
+        #aiUserInput { flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text-primary);border-radius:8px;padding:9px 12px;font-size:13px;font-family:var(--font-sans);outline:none;resize:none;max-height:120px;min-height:38px;transition:border-color 0.2s; }
+        #aiUserInput:focus { border-color:rgba(79,142,247,0.5); }
+        #aiUserInput::placeholder { color:var(--text-tertiary); }
+        #aiSendBtn { background:linear-gradient(135deg,#4f8ef7,#7eb3ff);color:#0a0f1e;border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s; }
+        #aiSendBtn:hover { transform:scale(1.05);box-shadow:0 4px 15px rgba(79,142,247,0.4); }
+        #aiSendBtn:disabled { opacity:.4;cursor:default;transform:none;box-shadow:none; }
 
         /* Fold gutter customization */
         .CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
@@ -6251,9 +6074,10 @@
                         <div class="auth-sync-dot"></div>
                     </div>
                 </div>
-                <button class="ai-btn-header" onclick="toggleAIPanel()" id="aiHeaderBtn" data-tooltip="Assistant IA">
+                <button class="ai-btn-header" onclick="toggleAIPanel()" data-tooltip="Assistant IA (Ctrl+Shift+A)">
                     <div class="ai-btn-dot"></div>
-                    ✦ IA
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    IA
                 </button>
                 <button class="btn btn-primary" id="runBtn" data-tooltip="Exécuter (Ctrl+S)" onclick="runCode()" aria-label="Exécuter le code (Ctrl+S)">
                     ▶️ Exécuter
@@ -7342,48 +7166,53 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
         </div>
     </div>
 
-    </div>
 
     <!-- ===== SCRIX AI PANEL ===== -->
     <div class="ai-modal" id="aiModal" onclick="if(event.target===this)closeAIPanel()">
         <div class="ai-panel-content">
             <div class="ai-panel-header">
-                <div class="ai-panel-logo">✦</div>
+                <div class="ai-panel-logo">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
                 <div class="ai-panel-title-block">
                     <div class="ai-panel-title">SCRIX AI</div>
-                    <div class="ai-panel-subtitle">
-                        <div class="ai-status-dot"></div>
-                        Propulsé par Claude · Contexte actif
-                    </div>
+                    <div class="ai-panel-subtitle"><div class="ai-status-dot"></div>Propuls&#233; par Llama 3.3 &middot; Contexte actif</div>
                 </div>
-                <button class="ai-close-btn" onclick="closeAIPanel()">✕</button>
+                <button class="ai-close-btn" onclick="closeAIPanel()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
             <div class="ai-quick-actions">
-                <button class="ai-quick-btn" onclick="aiQuickAction('explain')">💡 Expliquer</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('fix')">🔧 Corriger</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('optimize')">⚡ Optimiser</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('comment')">📝 Commenter</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('tests')">🧪 Générer tests</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('generate')">✨ Générer code</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('explain')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Expliquer</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('fix')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Corriger</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('optimize')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Optimiser</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('comment')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Commenter</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('complete')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Compl&#233;ter</button>
+                <button class="ai-quick-btn" onclick="aiQuickAction('generate')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>G&#233;n&#233;rer</button>
             </div>
             <div class="ai-context-bar">
                 <span class="ai-context-label">Onglet actif :</span>
                 <span class="ai-context-tab" id="aiContextTab">HTML</span>
                 <span style="flex:1"></span>
-                <button onclick="clearAIChat()" style="font-size:11px;background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-family:var(--font-sans);">Effacer chat</button>
+                <button onclick="clearAIChat()" style="font-size:11px;background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-family:var(--font-sans);display:flex;align-items:center;gap:4px;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Effacer
+                </button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-msg assistant">
                     <div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div>
                     <div class="ai-msg-bubble">
-                        Salut ! Je suis ton assistant IA intégré à SCRIX. Je vois le code de ton onglet actif en temps réel.<br><br>
-                        Utilise les boutons rapides ou pose-moi une question directement. Je peux <strong>expliquer</strong>, <strong>corriger</strong>, <strong>optimiser</strong>, <strong>générer</strong> du code et l'injecter directement dans l'éditeur. 🚀
+                        Salut ! Je suis <strong>SCRIX AI</strong>, ton assistant int&#233;gr&#233;.<br><br>
+                        Tu peux me parler de <strong>tout</strong> : code, questions g&#233;n&#233;rales, maths, conseils, blagues... Je peux aussi <strong>cr&#233;er, corriger et ins&#233;rer le code</strong> directement dans ton &#233;diteur.
                     </div>
                 </div>
             </div>
             <div class="ai-input-area">
-                <textarea id="aiUserInput" placeholder="Demande quelque chose sur le code..." rows="1"></textarea>
-                <button id="aiSendBtn" onclick="sendAIMessage()">➤</button>
+                <textarea id="aiUserInput" placeholder="Pose une question ou demande du code..." rows="1"></textarea>
+                <button id="aiSendBtn" onclick="sendAIMessage()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
             </div>
         </div>
     </div>
@@ -13545,83 +13374,120 @@ self.addEventListener('fetch', e => {
             }
         })();
 
+
         // ===== SCRIX AI PANEL =====
         (function() {
-            let aiHistory = [];
-            let aiIsStreaming = false;
-            let currentAiTab = 'html';
+            var aiHistory = [];
+            var aiIsStreaming = false;
+            var currentAiTab = 'html';
+            var PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
 
-            // Detect active tab for context
-            function getActiveTabCode() {
-                try {
-                    const tabs = ['html', 'css', 'js', 'python'];
-                    for (const t of tabs) {
-                        const btn = document.querySelector('.tab-btn.' + t + '-tab.active, .tab-btn[onclick*="' + t + '"].active');
-                        if (btn) { currentAiTab = t; break; }
-                    }
-                    // Try CodeMirror editors first
-                    if (window._editors) {
-                        const edMap = { html: 'html', css: 'css', js: 'js', python: 'python' };
-                        for (const [key, val] of Object.entries(edMap)) {
-                            if (window._editors[val] && currentAiTab === key) {
-                                return { lang: key, code: window._editors[val].getValue() };
-                            }
+            function getAllCode() {
+                var result = { html: '', css: '', js: '', python: '' };
+                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+                for (var lang in result) {
+                    try {
+                        if (window._editors && window._editors[lang]) {
+                            result[lang] = window._editors[lang].getValue() || '';
+                        } else {
+                            var ta = document.getElementById(taMap[lang]);
+                            result[lang] = ta ? ta.value : '';
                         }
-                    }
-                    // Fallback to textarea
-                    const taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
-                    const ta = document.getElementById(taMap[currentAiTab] || 'htmlEditor');
-                    return { lang: currentAiTab, code: ta ? ta.value : '' };
-                } catch(e) {
-                    return { lang: 'html', code: '' };
+                    } catch(e) {}
                 }
+                return result;
+            }
+
+            function getActiveTab() {
+                var tabs = ['html', 'css', 'js', 'python'];
+                for (var i = 0; i < tabs.length; i++) {
+                    var btn = document.querySelector('.tab-btn.' + tabs[i] + '-tab.active');
+                    if (btn) return tabs[i];
+                }
+                return currentAiTab || 'html';
+            }
+
+            function insertCodeIntoTab(lang, code) {
+                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+                try {
+                    if (window._editors && window._editors[lang]) {
+                        window._editors[lang].setValue(code);
+                        window._editors[lang].refresh();
+                        return true;
+                    }
+                    var ta = document.getElementById(taMap[lang]);
+                    if (ta) { ta.value = code; return true; }
+                } catch(e) {}
+                return false;
+            }
+
+            function insertAtCursor(lang, code) {
+                var taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
+                try {
+                    if (window._editors && window._editors[lang]) {
+                        var ed = window._editors[lang];
+                        var cursor = ed.getCursor();
+                        ed.replaceRange('\n' + code + '\n', cursor);
+                        return true;
+                    }
+                    var ta = document.getElementById(taMap[lang]);
+                    if (ta) {
+                        var pos = ta.selectionStart || ta.value.length;
+                        ta.value = ta.value.slice(0, pos) + '\n' + code + '\n' + ta.value.slice(pos);
+                        return true;
+                    }
+                } catch(e) {}
+                return false;
+            }
+
+            function switchToTab(lang) {
+                try { if (typeof switchTab === 'function') switchTab(lang); } catch(e) {}
             }
 
             function updateContextBar() {
-                const ctx = getActiveTabCode();
-                const el = document.getElementById('aiContextTab');
+                currentAiTab = getActiveTab();
+                var el = document.getElementById('aiContextTab');
                 if (!el) return;
-                el.className = 'ai-context-tab ' + ctx.lang;
-                el.textContent = ctx.lang.toUpperCase();
+                el.className = 'ai-context-tab ' + currentAiTab;
+                el.textContent = currentAiTab.toUpperCase();
             }
 
             window.toggleAIPanel = function() {
-                const modal = document.getElementById('aiModal');
+                var modal = document.getElementById('aiModal');
                 if (!modal) return;
                 modal.classList.toggle('active');
                 if (modal.classList.contains('active')) updateContextBar();
             };
+
             window.closeAIPanel = function() {
-                const modal = document.getElementById('aiModal');
+                var modal = document.getElementById('aiModal');
                 if (modal) modal.classList.remove('active');
             };
 
             window.clearAIChat = function() {
                 aiHistory = [];
-                const msgs = document.getElementById('aiMessages');
+                var msgs = document.getElementById('aiMessages');
                 if (!msgs) return;
-                msgs.innerHTML = '<div class="ai-msg assistant"><div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Chat effacé. Prêt pour une nouvelle session !</div></div>';
+                msgs.innerHTML = '<div class="ai-msg assistant"><div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Chat effac&#233;. Pr&#234;t !</div></div>';
             };
 
-            function addAIMessage(role, html) {
-                const msgs = document.getElementById('aiMessages');
-                if (!msgs) return null;
-                const div = document.createElement('div');
+            function addAIMessage(role, content) {
+                var msgs = document.getElementById('aiMessages');
+                if (!msgs) return;
+                var div = document.createElement('div');
                 div.className = 'ai-msg ' + role;
-                const roleLabel = role === 'user' ? 'VOUS' : 'SCRIX AI';
-                div.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>' + roleLabel + '</div><div class="ai-msg-bubble"></div>';
+                var label = role === 'user' ? 'VOUS' : 'SCRIX AI';
+                div.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>' + label + '</div><div class="ai-msg-bubble"></div>';
                 msgs.appendChild(div);
-                const bubble = div.querySelector('.ai-msg-bubble');
-                bubble.innerHTML = html;
+                div.querySelector('.ai-msg-bubble').innerHTML = content;
                 msgs.scrollTop = msgs.scrollHeight;
-                return bubble;
             }
 
             function showTyping() {
-                const msgs = document.getElementById('aiMessages');
+                var msgs = document.getElementById('aiMessages');
                 if (!msgs) return;
-                const div = document.createElement('div');
-                div.id = 'aiTypingIndicator';
+                var div = document.createElement('div');
+                div.id = 'aiTyping';
                 div.className = 'ai-msg assistant';
                 div.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-typing"><span></span><span></span><span></span></div>';
                 msgs.appendChild(div);
@@ -13629,127 +13495,175 @@ self.addEventListener('fetch', e => {
             }
 
             function hideTyping() {
-                const t = document.getElementById('aiTypingIndicator');
+                var t = document.getElementById('aiTyping');
                 if (t) t.remove();
             }
 
-            function formatAIResponse(text) {
-                // Convert markdown-like to HTML
-                let html = text
-                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                    .replace(/```(\w*)\n?([\s\S]*?)```/g, function(m, lang, code) {
-                        const escaped = code.trim();
-                        return '<pre><code>' + escaped + '</code><button class="insert-code-btn" onclick="insertAICode(this)">⬇ Insérer dans l\'éditeur</button></pre>';
-                    })
-                    .replace(/`([^`]+)`/g, '<code>$1</code>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/\n/g, '<br>');
-                return html;
+            function esc(s) {
+                return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            }
+
+            function detectLang(hint, code) {
+                if (hint) {
+                    var h = hint.toLowerCase();
+                    if (h === 'html' || h === 'htm') return 'html';
+                    if (h === 'css' || h === 'scss') return 'css';
+                    if (h === 'js' || h === 'javascript' || h === 'typescript') return 'js';
+                    if (h === 'python' || h === 'py') return 'python';
+                }
+                if (/<(!DOCTYPE|html|head|body|div|span|button|nav)/i.test(code)) return 'html';
+                if (/^\s*(\.|#|body\s*\{|:root|@media)/m.test(code)) return 'css';
+                if (/(function\s|const |let |var |=>|document\.|window\.)/.test(code)) return 'js';
+                if (/(^def |^import |^class )/m.test(code)) return 'python';
+                return null;
+            }
+
+            function formatResponse(text, autoInserted) {
+                var inserted = autoInserted || [];
+                var result = '';
+                var parts = text.split(/(```[\w]*\n[\s\S]*?```)/g);
+                for (var i = 0; i < parts.length; i++) {
+                    var m = parts[i].match(/^```([\w]*)\n([\s\S]*?)```$/);
+                    if (m) {
+                        var lang = detectLang(m[1], m[2].trim());
+                        var label = lang ? lang.toUpperCase() : (m[1] ? m[1].toUpperCase() : 'CODE');
+                        var code = esc(m[2].trim());
+                        var wasInserted = lang && inserted.indexOf(lang) !== -1;
+                        var btnHtml = wasInserted
+                            ? '<button class="insert-code-btn inserted" disabled><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Ins&#233;r&#233; dans ' + label + '</button>'
+                            : '<button class="insert-code-btn" data-lang="' + (lang||'active') + '" onclick="insertAICode(this)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Ins&#233;rer dans ' + label + '</button>';
+                        result += '<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">' + label + '</span></div><pre><code>' + code + '</code></pre>' + btnHtml + '</div>';
+                    } else {
+                        result += esc(parts[i])
+                            .replace(/`([^`]+)`/g, '<code>$1</code>')
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                            .replace(/\n/g, '<br>');
+                    }
+                }
+                return result;
+            }
+
+            function autoInsert(text) {
+                var inserted = [];
+                var re = /```([\w]*)\n([\s\S]*?)```/g;
+                var m;
+                while ((m = re.exec(text)) !== null) {
+                    var lang = detectLang(m[1], m[2].trim());
+                    if (lang && inserted.indexOf(lang) === -1) {
+                        if (insertCodeIntoTab(lang, m[2].trim())) {
+                            inserted.push(lang);
+                            if (typeof showNotification === 'function') showNotification('Code ' + lang.toUpperCase() + ' ins&#233;r&#233; !', 'success');
+                        }
+                    }
+                }
+                return inserted;
             }
 
             window.insertAICode = function(btn) {
-                const pre = btn.closest('pre');
-                const codeEl = pre ? pre.querySelector('code') : null;
+                var block = btn.closest('.ai-code-block');
+                var codeEl = block && block.querySelector('code');
                 if (!codeEl) return;
-                const code = codeEl.textContent;
-                try {
-                    if (window._editors) {
-                        const edMap = { html: 'html', css: 'css', js: 'js', python: 'python' };
-                        const ed = window._editors[edMap[currentAiTab]];
-                        if (ed) {
-                            const cursor = ed.getCursor();
-                            ed.replaceRange('\n' + code + '\n', cursor);
-                            if (typeof showNotification === 'function') showNotification('Code inséré dans l\'éditeur ✨', 'success');
-                            return;
-                        }
-                    }
-                    // Textarea fallback
-                    const taMap = { html: 'htmlEditor', css: 'cssEditor', js: 'jsEditor', python: 'pythonEditor' };
-                    const ta = document.getElementById(taMap[currentAiTab] || 'htmlEditor');
-                    if (ta) {
-                        const pos = ta.selectionStart;
-                        ta.value = ta.value.slice(0, pos) + '\n' + code + '\n' + ta.value.slice(pos);
-                        if (typeof showNotification === 'function') showNotification('Code inséré ✨', 'success');
-                    }
-                } catch(e) {
-                    console.error('[SCRIX AI] Erreur insertion:', e);
+                var tmp = document.createElement('textarea');
+                tmp.innerHTML = codeEl.innerHTML;
+                var code = tmp.value;
+                var lang = btn.dataset.lang;
+                if (lang && lang !== 'active') {
+                    switchToTab(lang);
+                    setTimeout(function() {
+                        insertAtCursor(lang, code);
+                        if (typeof showNotification === 'function') showNotification('Code ins&#233;r&#233; dans ' + lang.toUpperCase(), 'success');
+                    }, 150);
+                } else {
+                    insertAtCursor(currentAiTab, code);
+                    if (typeof showNotification === 'function') showNotification('Code ins&#233;r&#233; !', 'success');
                 }
+                btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Ins&#233;r&#233; !';
+                btn.disabled = true;
+                btn.classList.add('inserted');
             };
 
             window.aiQuickAction = function(action) {
-                const ctx = getActiveTabCode();
-                const prompts = {
-                    explain: 'Explique ce code ' + ctx.lang.toUpperCase() + ' en détail, ligne par ligne si nécessaire.',
-                    fix: 'Analyse ce code ' + ctx.lang.toUpperCase() + ' et corrige tous les bugs. Montre le code corrigé.',
-                    optimize: 'Optimise ce code ' + ctx.lang.toUpperCase() + ' pour de meilleures performances et lisibilité.',
-                    comment: 'Ajoute des commentaires clairs et détaillés à ce code ' + ctx.lang.toUpperCase() + '.',
-                    tests: 'Génère des tests unitaires complets pour ce code ' + ctx.lang.toUpperCase() + '.',
-                    generate: 'À partir de ce code existant, propose une amélioration ou une fonctionnalité supplémentaire en ' + ctx.lang.toUpperCase() + '.'
+                var active = getActiveTab();
+                var p = {
+                    explain: 'Explique en d&#233;tail le code ' + active.toUpperCase() + ' actif.',
+                    fix: 'Analyse TOUT mon code et corrige TOUS les bugs. Fournis le code complet corrig&#233; dans des blocs ```html ```css ```javascript.',
+                    optimize: 'Optimise mon code ' + active.toUpperCase() + '. Fournis le code complet.',
+                    comment: 'Ajoute des commentaires dans mon code ' + active.toUpperCase() + '. Fournis le code complet.',
+                    complete: 'Compl&#232;te mon code ' + active.toUpperCase() + '. Fournis le code complet.',
+                    generate: 'G&#233;n&#232;re une am&#233;lioration pour mon projet. Fournis le code dans les bons blocs ```html ```css ```javascript.'
                 };
-                const input = document.getElementById('aiUserInput');
-                if (input) { input.value = prompts[action] || ''; }
+                var input = document.getElementById('aiUserInput');
+                if (input) { input.value = p[action] || ''; }
                 sendAIMessage();
             };
 
+            function isCodeRequest(q) {
+                var kw = ['cr','fait','fais','g','ajoute','construis','make','create','build','generate','add','corrige','fix','debug'];
+                q = q.toLowerCase();
+                var codeKw = ['crée','cree','créer','creer','fais','fait','génère','genere','ajoute','construis','make','create','build','generate','add','corrige','fix','debug','répare','repare','optimise','commente'];
+                for (var i = 0; i < codeKw.length; i++) {
+                    if (q.indexOf(codeKw[i]) !== -1) return true;
+                }
+                return false;
+            }
+
             window.sendAIMessage = async function() {
                 if (aiIsStreaming) return;
-                const input = document.getElementById('aiUserInput');
-                const sendBtn = document.getElementById('aiSendBtn');
+                var input = document.getElementById('aiUserInput');
+                var sendBtn = document.getElementById('aiSendBtn');
                 if (!input) return;
-                const question = input.value.trim();
+                var question = input.value.trim();
                 if (!question) return;
 
                 updateContextBar();
-                const ctx = getActiveTabCode();
+                var allCode = getAllCode();
                 input.value = '';
                 input.style.height = 'auto';
                 aiIsStreaming = true;
                 if (sendBtn) sendBtn.disabled = true;
 
-                const displayQ = question.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-                addAIMessage('user', displayQ);
+                addAIMessage('user', esc(question).replace(/\n/g,'<br>'));
                 showTyping();
 
-                const systemPrompt = `Tu es SCRIX AI, un assistant expert en développement web et programmation intégré dans SCRIX, un éditeur de code professionnel. Tu analyses le code de l'utilisateur avec précision et tu fournis des réponses claires, concises et directement utilisables. Quand tu génères du code, utilise des blocs de code markdown avec la syntaxe appropriée. L'utilisateur peut insérer ton code directement dans son éditeur. Réponds toujours en français sauf si le code l'exige autrement.`;
+                var sys = 'Tu es SCRIX AI, un assistant intelligent et sympa dans SCRIX (un editeur de code). '
+                    + 'Tu reponds a TOUTES les questions : code, culture generale, maths, histoire, blagues, conversations... '
+                    + 'Quand tu generes du code utilise TOUJOURS des blocs avec la bonne langue (```html ```css ```javascript ```python) et fournis le code COMPLET. '
+                    + 'Reponds en francais sauf si on te parle autrement. '
+                    + 'Sois naturel et sympa comme un ami.';
 
-                const codeContext = ctx.code ? '\n\nCode actuel (' + ctx.lang.toUpperCase() + ') :\n```' + ctx.lang + '\n' + ctx.code + '\n```' : '';
-                const userContent = question + codeContext;
+                var ctx = '';
+                if (allCode.html) ctx += '\n\nHTML actuel:\n```html\n' + allCode.html + '\n```';
+                if (allCode.css)  ctx += '\n\nCSS actuel:\n```css\n'  + allCode.css  + '\n```';
+                if (allCode.js)   ctx += '\n\nJS actuel:\n```javascript\n' + allCode.js + '\n```';
+                if (allCode.python) ctx += '\n\nPython actuel:\n```python\n' + allCode.python + '\n```';
 
-                aiHistory.push({ role: 'user', content: userContent });
-                // Keep last 10 messages for context
-                if (aiHistory.length > 10) aiHistory = aiHistory.slice(aiHistory.length - 10);
-
-                // ⚠️ REMPLACE l'URL ci-dessous par celle de ton Cloudflare Worker après déploiement
-                const PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
+                aiHistory.push({ role: 'user', content: question + ctx });
+                if (aiHistory.length > 12) aiHistory = aiHistory.slice(aiHistory.length - 12);
 
                 try {
-                    // Format OpenAI-compatible pour Groq
-                    const groqMessages = [
-                        { role: 'system', content: systemPrompt },
-                        ...aiHistory
-                    ];
-                    const response = await fetch(PROXY_URL, {
+                    var resp = await fetch(PROXY_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             model: 'llama-3.3-70b-versatile',
-                            max_tokens: 1024,
-                            messages: groqMessages
+                            max_tokens: 2048,
+                            messages: [{ role: 'system', content: sys }].concat(aiHistory)
                         })
                     });
-                    if (!response.ok) {
-                        const errData = await response.json().catch(() => ({}));
-                        throw new Error((errData.error && errData.error.message) || 'HTTP ' + response.status);
+                    if (!resp.ok) {
+                        var err = await resp.json().catch(function(){ return {}; });
+                        throw new Error((err.error && err.error.message) || 'HTTP ' + resp.status);
                     }
-                    const data = await response.json();
+                    var data = await resp.json();
                     hideTyping();
-                    const text = (data.choices && data.choices[0] && data.choices[0].message) ? data.choices[0].message.content : 'Erreur : réponse vide.';
+                    var text = (data.choices && data.choices[0] && data.choices[0].message)
+                        ? data.choices[0].message.content : 'Erreur : r&#233;ponse vide.';
                     aiHistory.push({ role: 'assistant', content: text });
-                    addAIMessage('assistant', formatAIResponse(text));
-                } catch(err) {
+                    var ins = isCodeRequest(question) ? autoInsert(text) : [];
+                    addAIMessage('assistant', formatResponse(text, ins));
+                } catch(e) {
                     hideTyping();
-                    addAIMessage('assistant', '❌ Erreur : ' + (err.message || 'Connexion impossible au proxy.') + '<br><br><small>Vérifie que ton Cloudflare Worker est bien déployé et que l\'URL PROXY_URL est correcte dans le code.</small>');
+                    addAIMessage('assistant', '<span style="color:#f87171">Erreur : ' + (e.message||'connexion impossible') + '</span>');
                     aiHistory.pop();
                 }
 
@@ -13758,9 +13672,8 @@ self.addEventListener('fetch', e => {
                 if (input) input.focus();
             };
 
-            // Input auto-resize + Enter to send
             document.addEventListener('DOMContentLoaded', function() {
-                const input = document.getElementById('aiUserInput');
+                var input = document.getElementById('aiUserInput');
                 if (!input) return;
                 input.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMessage(); }
@@ -13769,19 +13682,14 @@ self.addEventListener('fetch', e => {
                     this.style.height = 'auto';
                     this.style.height = Math.min(this.scrollHeight, 120) + 'px';
                 });
-                // Keep context bar up to date as user switches tabs
                 document.querySelectorAll('.tab-btn').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        setTimeout(updateContextBar, 50);
-                    });
+                    btn.addEventListener('click', function() { setTimeout(updateContextBar, 50); });
                 });
             });
 
-            // Keyboard shortcut: Ctrl+Shift+A to toggle AI panel
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
-                    e.preventDefault();
-                    toggleAIPanel();
+                    e.preventDefault(); window.toggleAIPanel();
                 }
             });
         })();
