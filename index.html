@@ -13371,11 +13371,16 @@ self.addEventListener('fetch', e => {
 
             function _getAllCode() {
                 var r = {html:'',css:'',js:'',python:''};
-                var ta = {html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                var keys = {html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
                 for (var lg in r) {
                     try {
-                        if (window._editors && window._editors[lg]) r[lg] = window._editors[lg].getValue()||'';
-                        else { var el=document.getElementById(ta[lg]); r[lg]=el?el.value:''; }
+                        var cmKey = keys[lg];
+                        if (window._cmEditors && window._cmEditors[cmKey]) {
+                            r[lg] = window._cmEditors[cmKey].getValue()||'';
+                        } else {
+                            var el = document.getElementById(cmKey);
+                            r[lg] = el ? el.value : '';
+                        }
                     } catch(e){}
                 }
                 return r;
@@ -13390,37 +13395,53 @@ self.addEventListener('fetch', e => {
             }
 
             function _setCode(lang, code) {
-                var ta={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                var keys={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                var cmKey = keys[lang];
                 try {
-                    if(window._editors && window._editors[lang]){
-                        var ed = window._editors[lang];
-                        ed.setValue(''); // reset d'abord
+                    if(window._cmEditors && window._cmEditors[cmKey]){
+                        var ed = window._cmEditors[cmKey];
                         ed.setValue(code);
                         ed.refresh();
-                        setTimeout(function(){ ed.refresh(); }, 100);
+                        // Sync la textarea cachee
+                        var ta = document.getElementById(cmKey);
+                        if(ta) ta.value = code;
+                        setTimeout(function(){ ed.refresh(); if(typeof autoSave==='function') autoSave(); }, 50);
                         return true;
                     }
-                    var el=document.getElementById(ta[lang]);
-                    if(el){ el.value=code; el.dispatchEvent(new Event('input')); return true; }
+                    var el = document.getElementById(cmKey);
+                    if(el){
+                        el.value = code;
+                        el.dispatchEvent(new Event('input'));
+                        return true;
+                    }
                 } catch(e){ console.warn('[SCRIX AI] setCode error:', e); }
                 return false;
             }
 
             function _insertAt(lang, code) {
-                var ta={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                var keys={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
+                var cmKey = keys[lang];
                 try {
-                    if(window._editors && window._editors[lang]){
-                        var ed=window._editors[lang];
-                        ed.replaceRange('\n'+code+'\n', ed.getCursor());
+                    if(window._cmEditors && window._cmEditors[cmKey]){
+                        var ed = window._cmEditors[cmKey];
+                        var current = ed.getValue().trim();
+                        if(current === '') {
+                            // Editeur vide : setValue direct
+                            ed.setValue(code);
+                        } else {
+                            // Editeur avec contenu : insere au curseur
+                            ed.replaceRange('\n'+code+'\n', ed.getCursor());
+                        }
+                        ed.refresh();
                         return true;
                     }
-                    var el=document.getElementById(ta[lang]);
+                    var el = document.getElementById(cmKey);
                     if(el){
-                        var p=el.selectionStart||el.value.length;
-                        el.value=el.value.slice(0,p)+'\n'+code+'\n'+el.value.slice(p);
+                        el.value = el.value ? el.value + '\n' + code : code;
+                        el.dispatchEvent(new Event('input'));
                         return true;
                     }
-                } catch(e){}
+                } catch(e){ console.warn('[AI insert]', lang, e); }
                 return false;
             }
 
