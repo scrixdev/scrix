@@ -13393,13 +13393,16 @@ self.addEventListener('fetch', e => {
                 var ta={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
                 try {
                     if(window._editors && window._editors[lang]){
-                        window._editors[lang].setValue(code);
-                        window._editors[lang].refresh();
+                        var ed = window._editors[lang];
+                        ed.setValue(''); // reset d'abord
+                        ed.setValue(code);
+                        ed.refresh();
+                        setTimeout(function(){ ed.refresh(); }, 100);
                         return true;
                     }
                     var el=document.getElementById(ta[lang]);
-                    if(el){el.value=code;return true;}
-                } catch(e){}
+                    if(el){ el.value=code; el.dispatchEvent(new Event('input')); return true; }
+                } catch(e){ console.warn('[SCRIX AI] setCode error:', e); }
                 return false;
             }
 
@@ -13591,18 +13594,23 @@ self.addEventListener('fetch', e => {
                 _addMsg('user',_esc(q).replace(/\n/g,'<br>'));
                 _showTyping();
 
-                var sys='Tu es SCRIX AI, un assistant integre dans SCRIX (editeur de code). '
-                    +'Reponds a TOUTES les questions : code, culture generale, maths, histoire, blagues, conversations normales, tout ! '
-                    +'Sois naturel et sympa comme un ami qui sait tout, pas un robot. '
-                    +'Quand tu generes du code, utilise TOUJOURS des blocs avec la langue (```html ```css ```javascript ```python) et fournis le code COMPLET. '
-                    +'Si tu corriges des bugs, fournis le code complet corrige pour chaque fichier. '
-                    +'Reponds en francais par defaut sauf si on te parle dans une autre langue.';
+                var sys='Tu es SCRIX AI, un assistant integre dans SCRIX. '
+                    +'REGLES IMPORTANTES : '
+                    +'1) Pour les conversations normales (salut, ca va, blagues, questions generales...) reponds COURT et NATUREL, max 2-3 phrases, comme un ami. PAS de listes, PAS de blabla. '
+                    +'2) Pour les questions techniques/code, reponds precisement avec du code dans les bons blocs (```html ```css ```javascript ```python) et fournis le code COMPLET. '
+                    +'3) Ne fournis le contexte du code que si la question concerne le code. '
+                    +'4) Reponds en francais sauf si on te parle autrement. '
+                    +'5) Sois direct, chaleureux, concis.';
 
+                // N'envoie le code que si la question concerne le code
                 var ctx='';
-                if(all.html) ctx+='\n\nHTML:\n```html\n'+all.html+'\n```';
-                if(all.css)  ctx+='\n\nCSS:\n```css\n'+all.css+'\n```';
-                if(all.js)   ctx+='\n\nJS:\n```javascript\n'+all.js+'\n```';
-                if(all.python) ctx+='\n\nPython:\n```python\n'+all.python+'\n```';
+                var _isAboutCode=_isCodeReq(q)||/(code|html|css|js|bug|erreur|fonction|variable|script|style|balise|classe|div|button|css|javascript)/i.test(q);
+                if(_isAboutCode){
+                    if(all.html) ctx+='\n\nHTML:\n```html\n'+all.html+'\n```';
+                    if(all.css)  ctx+='\n\nCSS:\n```css\n'+all.css+'\n```';
+                    if(all.js)   ctx+='\n\nJS:\n```javascript\n'+all.js+'\n```';
+                    if(all.python) ctx+='\n\nPython:\n```python\n'+all.python+'\n```';
+                }
 
                 _aiHistory.push({role:'user',content:q+ctx});
                 if(_aiHistory.length>12) _aiHistory=_aiHistory.slice(_aiHistory.length-12);
