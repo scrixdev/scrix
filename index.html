@@ -424,96 +424,133 @@
         .confirm-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.2s ease;
+            opacity: 0;
+            animation: scrixFadeIn .22s ease forwards;
         }
+        @keyframes scrixFadeIn { to { opacity: 1; } }
 
         .confirm-card {
-            background: var(--bg-secondary);
-            border: 1.5px solid var(--border-default);
-            border-radius: 20px;
-            padding: 32px 36px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(167,139,250,0.1);
-            animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: #18181c;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 26px;
+            padding: 36px 28px 24px;
+            width: 320px;
+            max-width: 92vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 32px 90px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.07) inset;
+            animation: scrixModalPop .32s cubic-bezier(.34,1.56,.64,1) forwards;
+            opacity: 0;
+            transform: scale(.85) translateY(20px);
+        }
+        @keyframes scrixModalPop {
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .confirm-icon {
-            display: none; /* replaced by inline icon div */
-        }
+        .confirm-icon { display: none; } /* remplacé par getModalIcon inline */
 
         .confirm-title {
             font-family: var(--font-sans);
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.02em;
+            margin-bottom: 10px;
             text-align: center;
         }
 
         .confirm-desc {
             font-size: 13px;
-            color: var(--text-tertiary);
+            color: rgba(255,255,255,.42);
             text-align: center;
             margin-bottom: 26px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
+        .confirm-desc strong { color: rgba(255,255,255,.75); font-weight: 700; }
 
         .confirm-btns {
             display: flex;
+            flex-direction: column;
             gap: 10px;
+            width: 100%;
         }
 
         .confirm-btn {
-            flex: 1;
-            padding: 11px;
-            border-radius: 11px;
+            width: 100%;
+            height: 50px;
+            border-radius: 14px;
             border: none;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 14.5px;
+            font-weight: 800;
             font-family: var(--font-sans);
-            transition: all 0.2s ease;
+            transition: all .18s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .confirm-btn-cancel {
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            border: 1.5px solid var(--border-subtle);
+            background: rgba(255,255,255,.07);
+            color: rgba(255,255,255,.45);
+            font-weight: 600;
+            font-size: 14px;
+            order: 2;
         }
-
         .confirm-btn-cancel:hover {
-            background: var(--bg-elevated);
-            color: var(--text-primary);
+            background: rgba(255,255,255,.11);
+            color: rgba(255,255,255,.65);
         }
 
         .confirm-btn-ok {
-            background: linear-gradient(135deg, var(--primary-purple), var(--purple-dark));
-            color: white;
-            box-shadow: 0 4px 16px var(--purple-glow);
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--purple-dark) 100%);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(79,142,247,.4), 0 1px 0 rgba(255,255,255,.15) inset;
+            order: 1;
         }
-
         .confirm-btn-ok:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 22px var(--purple-glow);
+            box-shadow: 0 8px 30px rgba(79,142,247,.55);
+            transform: scale(1.02);
         }
 
         .confirm-btn-danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            box-shadow: 0 4px 16px rgba(239,68,68,0.3);
+            background: linear-gradient(135deg, #f43f5e 0%, #ef4444 100%);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(239,68,68,.45), 0 1px 0 rgba(255,255,255,.15) inset;
+            order: 1;
+        }
+        .confirm-btn-danger:hover {
+            background: linear-gradient(135deg, #e11d48 0%, #dc2626 100%);
+            box-shadow: 0 8px 30px rgba(239,68,68,.6);
+            transform: scale(1.02);
         }
 
-        .confirm-btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(239,68,68,0.4);
+        /* Input pour scrixPrompt */
+        .scrix-prompt-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(255,255,255,.06);
+            border: 1.5px solid rgba(255,255,255,.12);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #fff;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 20px;
+            transition: border-color .2s;
         }
+        .scrix-prompt-input:focus { border-color: var(--primary-purple); }
+        .scrix-prompt-input::placeholder { color: rgba(255,255,255,.3); }
 
         /* ===== RESTORE SESSION MODAL ===== */
         .restore-modal {
@@ -3029,6 +3066,71 @@
         .notification.warn .notification-icon-wrap { background: none; }
         .notification.warn .notification-icon-wrap svg { stroke: #fbbf24; }
         .notification.warn .notification-close { color: #fbbf24; border-color: rgba(251,191,36,0.3); }
+
+        /* ── Confirm Modal (popup centré — style premium) ── */
+        .scrix-confirm-overlay {
+            position: fixed; inset: 0; z-index: 200000;
+            background: rgba(0,0,0,.82); backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity .25s ease;
+            pointer-events: none;
+        }
+        .scrix-confirm-overlay.active { opacity: 1; pointer-events: all; }
+        .scrix-confirm-modal {
+            background: #18181c;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 26px;
+            padding: 36px 28px 24px;
+            width: 320px; max-width: 92vw;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 32px 90px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.07) inset;
+            transform: scale(.85) translateY(20px);
+            transition: transform .32s cubic-bezier(.34,1.56,.64,1), opacity .25s ease;
+            opacity: 0;
+        }
+        .scrix-confirm-overlay.active .scrix-confirm-modal {
+            transform: scale(1) translateY(0); opacity: 1;
+        }
+        .scrix-confirm-icon-wrap {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: rgba(239,68,68,.15);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 0 10px rgba(239,68,68,.07), 0 0 40px rgba(239,68,68,.2);
+        }
+        .scrix-confirm-title {
+            font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -.02em;
+            font-family: var(--font-sans); text-align: center; margin-bottom: 10px;
+        }
+        .scrix-confirm-msg {
+            font-size: 13px; color: rgba(255,255,255,.42); line-height: 1.6;
+            font-family: var(--font-sans); text-align: center; margin-bottom: 26px;
+        }
+        .scrix-confirm-msg strong { color: rgba(255,255,255,.75); font-weight: 700; }
+        .scrix-confirm-btns {
+            display: flex; flex-direction: column; gap: 10px; width: 100%;
+        }
+        .scrix-confirm-ok {
+            width: 100%; height: 50px; border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #f43f5e 0%, #ef4444 100%);
+            color: #fff; font-size: 14.5px; font-weight: 800;
+            font-family: var(--font-sans); cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all .18s;
+            box-shadow: 0 6px 24px rgba(239,68,68,.45), 0 1px 0 rgba(255,255,255,.15) inset;
+        }
+        .scrix-confirm-ok:hover {
+            background: linear-gradient(135deg, #e11d48 0%, #dc2626 100%);
+            box-shadow: 0 8px 30px rgba(239,68,68,.6); transform: scale(1.02);
+        }
+        .scrix-confirm-cancel {
+            width: 100%; height: 50px; border-radius: 14px;
+            border: none; background: rgba(255,255,255,.07);
+            color: rgba(255,255,255,.45); font-size: 14px; font-weight: 600;
+            font-family: var(--font-sans); cursor: pointer; transition: all .18s;
+        }
+        .scrix-confirm-cancel:hover { background: rgba(255,255,255,.11); color: rgba(255,255,255,.65); }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -5908,57 +6010,115 @@
         .ai-btn-header{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(79,142,247,.2),rgba(126,179,255,.1));border:1px solid rgba(79,142,247,.3);color:var(--accent-blue);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-sans);}
         .ai-btn-header:hover{background:rgba(79,142,247,.25);border-color:rgba(79,142,247,.5);}
         .ai-btn-header .ai-btn-dot{width:7px;height:7px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite;}
-        .ai-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:stretch;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+        .ai-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:10000;display:none;align-items:stretch;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .3s ease;}
         .ai-modal.active{display:flex;opacity:1;pointer-events:all;}
-        .ai-panel-content{background:#13131a;border-left:1px solid rgba(79,142,247,.2);width:400px;max-width:90vw;height:100vh;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);box-shadow:-20px 0 60px rgba(0,0,0,.7);}
+
+        /* ── Sidebar chats ── */
+        .ai-chats-sidebar{width:220px;background:#0f0f14;border-right:1px solid rgba(255,255,255,.06);height:100vh;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .35s cubic-bezier(.16,1,.3,1);flex-shrink:0;}
+        .ai-modal.active .ai-chats-sidebar{transform:translateX(0);}
+        .ai-chats-sidebar.hidden{display:none;}
+        .ai-chats-header{padding:16px 14px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);}
+        .ai-chats-title{font-size:12px;font-weight:700;color:var(--text-secondary);letter-spacing:.06em;text-transform:uppercase;}
+        .ai-new-chat-btn{display:flex;align-items:center;gap:6px;width:calc(100% - 28px);margin:10px 14px;padding:8px 12px;background:rgba(79,142,247,.1);border:1px dashed rgba(79,142,247,.35);border-radius:10px;color:var(--accent-blue);font-size:12px;font-family:var(--font-sans);font-weight:600;cursor:pointer;transition:all .18s;}
+        .ai-new-chat-btn:hover{background:rgba(79,142,247,.2);border-color:rgba(79,142,247,.6);}
+        .ai-chat-list{flex:1;overflow-y:auto;padding:0 8px 8px;}
+        .ai-chat-list::-webkit-scrollbar{width:3px;}
+        .ai-chat-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px;}
+        .ai-chat-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;cursor:pointer;transition:all .15s;margin-bottom:2px;border:1px solid transparent;}
+        .ai-chat-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.07);}
+        .ai-chat-item.active{background:rgba(79,142,247,.1);border-color:rgba(79,142,247,.25);}
+        .ai-chat-item-icon{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
+        .ai-chat-item.active .ai-chat-item-icon{background:rgba(79,142,247,.2);}
+        .ai-chat-item-name{font-size:12px;color:var(--text-secondary);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        .ai-chat-item.active .ai-chat-item-name{color:var(--text-primary);font-weight:500;}
+        .ai-chat-del-btn{width:20px;height:20px;border-radius:5px;background:none;border:none;color:var(--text-tertiary);cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0;}
+        .ai-chat-item:hover .ai-chat-del-btn{display:flex;}
+        .ai-chat-del-btn:hover{background:rgba(248,113,113,.15);color:var(--accent-red);}
+
+        /* ── Main panel ── */
+        .ai-panel-content{background:#13131a;border-left:1px solid rgba(79,142,247,.15);width:400px;max-width:90vw;height:100vh;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);box-shadow:-20px 0 60px rgba(0,0,0,.8);}
         .ai-modal.active .ai-panel-content{transform:translateX(0);}
-        .ai-panel-header{padding:16px 20px;border-bottom:1px solid rgba(79,142,247,.15);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(79,142,247,.04);}
-        .ai-panel-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#7eb3ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a0f1e;}
-        .ai-panel-title{font-size:14px;font-weight:700;color:var(--text-primary);}
-        .ai-panel-subtitle{font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px;}
+        .ai-panel-header{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(0,0,0,.2);}
+        .ai-panel-logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#7eb3ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a0f1e;}
+        .ai-panel-title{font-size:13px;font-weight:700;color:var(--text-primary);}
+        .ai-panel-subtitle{font-size:10.5px;color:var(--text-tertiary);display:flex;align-items:center;gap:5px;}
         .ai-status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:syncPulse 2s ease-in-out infinite;}
-        .ai-close-btn{background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:4px;border-radius:6px;transition:all .15s;display:flex;align-items:center;justify-content:center;}
-        .ai-close-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.07);}
-        .ai-quick-actions{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;}
-        .ai-quick-btn{font-size:11.5px;font-family:var(--font-sans);padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid rgba(79,142,247,.25);background:rgba(79,142,247,.07);color:var(--accent-blue);transition:all .15s;white-space:nowrap;font-weight:500;display:flex;align-items:center;gap:4px;}
-        .ai-quick-btn:hover{background:rgba(79,142,247,.18);border-color:rgba(79,142,247,.5);}
-        .ai-context-bar{padding:7px 14px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:7px;flex-shrink:0;}
+        .ai-header-actions{margin-left:auto;display:flex;align-items:center;gap:4px;}
+        .ai-hdr-btn{background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:5px;border-radius:7px;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+        .ai-hdr-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.08);}
+        .ai-close-btn{background:none;border:none;color:var(--text-tertiary);cursor:pointer;padding:5px;border-radius:7px;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+        .ai-close-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.08);}
+
+        /* ── Context bar ── */
+        .ai-context-bar{padding:6px 14px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:7px;flex-shrink:0;background:rgba(0,0,0,.1);}
         .ai-context-label{font-size:11px;color:var(--text-tertiary);}
-        .ai-context-tab{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.07);color:var(--text-secondary);border:1px solid rgba(255,255,255,.1);}
+        .ai-context-tab{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.07);color:var(--text-secondary);border:1px solid rgba(255,255,255,.1);}
         .ai-context-tab.html{background:rgba(248,112,96,.12);color:#f87060;border-color:rgba(248,112,96,.3);}
         .ai-context-tab.css{background:rgba(96,165,250,.12);color:#60a5fa;border-color:rgba(96,165,250,.3);}
         .ai-context-tab.js{background:rgba(253,230,138,.12);color:#fde68a;border-color:rgba(253,230,138,.3);}
         .ai-context-tab.python{background:rgba(125,211,252,.12);color:#7dd3fc;border-color:rgba(125,211,252,.3);}
-        .ai-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+
+        /* ── Error badge ── */
+        .ai-error-banner{display:none;margin:8px 12px;padding:10px 12px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:10px;cursor:pointer;transition:all .18s;}
+        .ai-error-banner:hover{background:rgba(248,113,113,.14);}
+        .ai-error-banner-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+        .ai-error-banner-dot{width:7px;height:7px;border-radius:50%;background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.6);animation:syncPulse 1.5s ease-in-out infinite;flex-shrink:0;}
+        .ai-error-banner-title{font-size:12px;font-weight:700;color:#f87171;}
+        .ai-error-banner-fix{font-size:11.5px;color:rgba(248,113,113,.8);margin-left:15px;}
+        .ai-error-banner-cta{display:flex;align-items:center;gap:4px;margin-left:auto;font-size:11px;color:#f87171;font-weight:600;flex-shrink:0;}
+
+        /* ── Messages ── */
+        .ai-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
         .ai-messages::-webkit-scrollbar{width:4px;}
-        .ai-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px;}
-        .ai-msg-role{font-size:10px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;display:flex;align-items:center;gap:5px;}
+        .ai-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px;}
+        .ai-msg-role{font-size:10px;color:var(--text-tertiary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;display:flex;align-items:center;gap:5px;}
         .ai-msg-role-dot{width:5px;height:5px;border-radius:50%;}
         .ai-msg.user .ai-msg-role-dot{background:var(--accent-blue);}
         .ai-msg.assistant .ai-msg-role-dot{background:var(--accent-green);}
-        .ai-msg-bubble{font-size:13px;line-height:1.6;padding:10px 13px;border-radius:10px;word-break:break-word;}
-        .ai-msg.user .ai-msg-bubble{background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.22);color:var(--text-primary);}
-        .ai-msg.assistant .ai-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);}
-        .ai-msg-bubble code{font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px;color:var(--accent-blue);}
-        .ai-code-block{margin:8px 0;border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden;}
-        .ai-code-header{display:flex;align-items:center;padding:5px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);}
+        .ai-msg-bubble{font-size:13px;line-height:1.65;padding:11px 14px;border-radius:12px;word-break:break-word;}
+        .ai-msg.user .ai-msg-bubble{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:var(--text-primary);border-bottom-right-radius:4px;}
+        .ai-msg.assistant .ai-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);border-bottom-left-radius:4px;}
+        .ai-msg-bubble code{font-family:var(--font-mono);font-size:11.5px;background:rgba(0,0,0,.4);padding:1px 5px;border-radius:4px;color:#7dd3fc;}
+        .ai-code-block{margin:8px 0;border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden;background:rgba(0,0,0,.3);}
+        .ai-code-header{display:flex;align-items:center;padding:6px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);}
         .ai-code-lang{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-tertiary);font-family:var(--font-mono);}
-        .ai-code-block pre{font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,.35);padding:10px 12px;overflow-x:auto;margin:0;white-space:pre-wrap;line-height:1.55;}
-        .insert-code-btn{display:flex;align-items:center;gap:5px;width:100%;margin:0;font-size:11.5px;font-family:var(--font-sans);padding:7px 12px;background:rgba(79,142,247,.08);border:none;border-top:1px solid rgba(79,142,247,.15);color:var(--accent-blue);cursor:pointer;transition:all .15s;font-weight:500;}
-        .insert-code-btn:hover:not(:disabled){background:rgba(79,142,247,.2);}
-        .insert-code-btn.inserted{background:rgba(52,211,153,.08);color:var(--accent-green);border-top-color:rgba(52,211,153,.15);cursor:default;}
-        .ai-typing{display:flex;gap:5px;padding:12px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;width:fit-content;}
+        .ai-code-block pre{font-family:var(--font-mono);font-size:11.5px;background:transparent;padding:10px 12px;overflow-x:auto;margin:0;white-space:pre-wrap;line-height:1.55;}
+        .insert-code-btn{display:flex;align-items:center;gap:5px;font-size:11px;font-family:var(--font-sans);padding:6px 12px;background:rgba(79,142,247,.07);border:none;border-top:1px solid rgba(79,142,247,.12);color:var(--accent-blue);cursor:pointer;transition:all .15s;font-weight:500;}
+        .insert-code-btn:hover:not(:disabled){background:rgba(79,142,247,.18);}
+        .insert-code-btn.inserted{background:rgba(52,211,153,.07);color:var(--accent-green);border-top-color:rgba(52,211,153,.12);cursor:default;}
+        .ai-typing{display:flex;gap:5px;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;width:fit-content;}
         .ai-typing span{width:6px;height:6px;background:var(--text-tertiary);border-radius:50%;animation:aiTypingBounce 1.2s infinite;}
         .ai-typing span:nth-child(2){animation-delay:.2s;}
         .ai-typing span:nth-child(3){animation-delay:.4s;}
         @keyframes aiTypingBounce{0%,80%,100%{transform:translateY(0);opacity:.5;}40%{transform:translateY(-6px);opacity:1;}}
-        .ai-input-area{padding:12px 14px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:rgba(0,0,0,.2);}
-        #aiUserInput{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text-primary);border-radius:8px;padding:9px 12px;font-size:13px;font-family:var(--font-sans);outline:none;resize:none;max-height:120px;min-height:38px;transition:border-color .2s;}
-        #aiUserInput:focus{border-color:rgba(79,142,247,.5);}
+
+        /* ── Error notification toast ── */
+        .ai-error-toast{position:fixed;bottom:80px;right:20px;background:#1a0f0f;border:1px solid rgba(248,113,113,.5);border-radius:14px;padding:12px 16px;z-index:10001;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:320px;cursor:pointer;transform:translateY(20px);opacity:0;transition:all .3s cubic-bezier(.16,1,.3,1);pointer-events:none;}
+        .ai-error-toast.visible{transform:translateY(0);opacity:1;pointer-events:all;}
+        .ai-error-toast-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+        .ai-error-toast-dot{width:8px;height:8px;border-radius:50%;background:#f87171;box-shadow:0 0 10px rgba(248,113,113,.7);animation:syncPulse 1.5s ease-in-out infinite;flex-shrink:0;}
+        .ai-error-toast-title{font-size:13px;font-weight:700;color:#f87171;font-family:var(--font-sans);}
+        .ai-error-toast-msg{font-size:11.5px;color:rgba(255,255,255,.6);line-height:1.5;font-family:var(--font-sans);}
+        .ai-error-toast-cta{margin-top:8px;font-size:11px;font-weight:700;color:#f87171;display:flex;align-items:center;gap:4px;}
+
+        /* ── Claude-style input bar ── */
+        .ai-input-area{padding:12px 14px 14px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;background:rgba(0,0,0,.15);}
+        .ai-input-card{background:#1c1c24;border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:visible;transition:border-color .2s,box-shadow .2s;box-shadow:0 2px 16px rgba(0,0,0,.3);}
+        .ai-input-card:focus-within{border-color:rgba(79,142,247,.4);box-shadow:0 0 0 3px rgba(79,142,247,.06);}
+        #aiUserInput{display:block;width:100%;background:transparent;border:none;color:var(--text-primary);padding:13px 16px 6px 16px;font-size:13.5px;font-family:var(--font-sans);outline:none;resize:none;max-height:160px;min-height:24px;line-height:1.55;box-sizing:border-box;}
         #aiUserInput::placeholder{color:var(--text-tertiary);}
-        #aiSendBtn{background:linear-gradient(135deg,#4f8ef7,#7eb3ff);color:#0a0f1e;border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
-        #aiSendBtn:hover{transform:scale(1.05);box-shadow:0 4px 15px rgba(79,142,247,.4);}
-        #aiSendBtn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
+        .ai-input-bottom{display:flex;align-items:center;padding:6px 8px 8px 8px;gap:4px;}
+        .ai-plus-btn{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;position:relative;}
+        .ai-plus-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--text-primary);}
+        .ai-plus-menu{display:none;position:absolute;bottom:calc(100% + 8px);left:0;background:#1c1c28;border:1px solid rgba(255,255,255,.12);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.6);min-width:220px;z-index:100;overflow:hidden;padding:4px;}
+        .ai-plus-menu.open{display:block;}
+        .ai-plus-menu-item{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12.5px;font-family:var(--font-sans);color:var(--text-secondary);cursor:pointer;border-radius:8px;transition:all .12s;border:none;background:none;width:100%;text-align:left;}
+        .ai-plus-menu-item:hover{background:rgba(255,255,255,.07);color:var(--text-primary);}
+        .ai-plus-menu-sep{height:1px;background:rgba(255,255,255,.07);margin:3px 8px;}
+        .ai-input-spacer{flex:1;}
+        #aiSendBtn{width:34px;height:34px;border-radius:10px;border:none;background:#e8601a;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;box-shadow:0 2px 8px rgba(232,96,26,.3);}
+        #aiSendBtn:hover{background:#ff7a2f;box-shadow:0 4px 16px rgba(232,96,26,.5);transform:scale(1.05);}
+        #aiSendBtn:disabled{background:rgba(255,255,255,.08);color:var(--text-tertiary);cursor:default;transform:none;box-shadow:none;}
 
         /* Fold gutter customization */
         .CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
@@ -7158,48 +7318,148 @@ print("\n✅ Python opérationnel dans SCRIX !")</textarea>
 
 
     <!-- ===== SCRIX AI PANEL ===== -->
+    <!-- Toast erreur (hors panel) -->
+    <div class="ai-error-toast" id="aiErrorToast" onclick="openAIFromError()">
+        <div class="ai-error-toast-top">
+            <div class="ai-error-toast-dot"></div>
+            <span class="ai-error-toast-title">⚠️ Erreur détectée dans ton code</span>
+            <button onclick="event.stopPropagation();dismissErrorToast()" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px;line-height:1;padding:0 0 0 8px;">&times;</button>
+        </div>
+        <div class="ai-error-toast-msg" id="aiErrorToastMsg">Une erreur JavaScript a été détectée.</div>
+        <div class="ai-error-toast-cta">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            Cliquer pour corriger avec l'IA →
+        </div>
+    </div>
+
     <div class="ai-modal" id="aiModal" onclick="if(event.target===this)closeAIPanel()">
+        <!-- Sidebar gestion des chats -->
+        <div class="ai-chats-sidebar" id="aiChatsSidebar">
+            <div class="ai-chats-header">
+                <span class="ai-chats-title">Conversations</span>
+                <button class="ai-hdr-btn" onclick="toggleChatsSidebar()" title="Fermer">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <button class="ai-new-chat-btn" onclick="createNewAIChat()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nouveau chat
+            </button>
+            <div class="ai-chat-list" id="aiChatList"></div>
+        </div>
+
+        <!-- Panel principal -->
         <div class="ai-panel-content">
             <div class="ai-panel-header">
                 <div class="ai-panel-logo">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
                 <div>
                     <div class="ai-panel-title">SCRIX AI</div>
-                    <div class="ai-panel-subtitle"><div class="ai-status-dot"></div>Llama 3.3 &middot; Contexte actif</div>
+                    <div class="ai-panel-subtitle"><div class="ai-status-dot"></div>Llama 3.3 · 70B · Vision</div>
                 </div>
-                <button class="ai-close-btn" onclick="closeAIPanel()" style="margin-left:auto">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+                <div class="ai-header-actions">
+                    <!-- Bouton chats -->
+                    <button class="ai-hdr-btn" onclick="toggleChatsSidebar()" title="Mes conversations">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                    <!-- Nouveau chat -->
+                    <button class="ai-hdr-btn" onclick="createNewAIChat()" title="Nouveau chat">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <button class="ai-close-btn" onclick="closeAIPanel()" title="Fermer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
             </div>
-            <div class="ai-quick-actions">
-                <button class="ai-quick-btn" onclick="aiQuickAction('explain')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Expliquer</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('fix')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Corriger</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('optimize')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Optimiser</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('comment')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Commenter</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('complete')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Compl&eacute;ter</button>
-                <button class="ai-quick-btn" onclick="aiQuickAction('generate')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>G&eacute;n&eacute;rer</button>
-            </div>
+
+            <!-- Barre contexte onglet actif -->
             <div class="ai-context-bar">
-                <span class="ai-context-label">Onglet actif :</span>
+                <span class="ai-context-label">Onglet :</span>
                 <span class="ai-context-tab" id="aiContextTab">HTML</span>
                 <span style="flex:1"></span>
-                <button onclick="clearAIChat()" style="font-size:11px;background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-family:var(--font-sans);display:flex;align-items:center;gap:4px;">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    Effacer
-                </button>
+                <span id="aiChatNameLabel" style="font-size:11px;color:var(--text-tertiary);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
             </div>
+
+            <!-- Bannière erreur inline (dans le panel) -->
+            <div class="ai-error-banner" id="aiErrorBanner" onclick="fixErrorWithAI()">
+                <div class="ai-error-banner-top">
+                    <div class="ai-error-banner-dot"></div>
+                    <span class="ai-error-banner-title">Erreur détectée</span>
+                    <span class="ai-error-banner-cta">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        Corriger →
+                    </span>
+                </div>
+                <div class="ai-error-banner-fix" id="aiErrorBannerMsg"></div>
+            </div>
+
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-msg assistant">
                     <div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div>
-                    <div class="ai-msg-bubble">Salut ! Je suis <strong>SCRIX AI</strong>. Tu peux me parler de <strong>tout</strong> : code, questions, maths, blagues... et je peux aussi <strong>cr&eacute;er et ins&eacute;rer du code</strong> directement dans tes onglets.</div>
+                    <div class="ai-msg-bubble">Salut ! Je suis <strong>SCRIX AI</strong>, ton assistant expert. Décris ce que tu veux créer et je génère le code complet. Je surveille aussi ton code en temps réel — si une erreur apparaît, je t'envoie une notif. 🚀</div>
                 </div>
             </div>
+
+            <!-- Preview fichier/image attaché -->
+            <div id="aiAttachPreview" style="display:none;padding:8px 14px;border-top:1px solid rgba(79,142,247,.12);background:rgba(79,142,247,.04);flex-shrink:0;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);">
+                    <img id="aiAttachImg" style="width:40px;height:40px;object-fit:cover;border-radius:6px;display:none;" />
+                    <span id="aiAttachName" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+                    <button onclick="clearAIAttach()" style="background:none;border:none;color:var(--accent-red);cursor:pointer;padding:2px 6px;font-size:18px;line-height:1;">&times;</button>
+                </div>
+            </div>
+
+            <!-- Barre d'input style Claude.ai -->
             <div class="ai-input-area">
-                <textarea id="aiUserInput" placeholder="Parle-moi, pose une question..." rows="1"></textarea>
-                <button id="aiSendBtn" onclick="sendAIMessage()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                </button>
+                <div class="ai-input-card">
+                    <textarea id="aiUserInput" placeholder="Pose une question ou décris ce que tu veux créer..." rows="1"></textarea>
+                    <div class="ai-input-bottom">
+                        <div style="position:relative;">
+                            <button class="ai-plus-btn" id="aiPlusBtn" onclick="toggleAIPlusMenu(event)" title="Options">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            </button>
+                            <div class="ai-plus-menu" id="aiPlusMenu">
+                                <label class="ai-plus-menu-item" for="aiFileInput" onclick="closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                    Joindre un fichier / image
+                                </label>
+                                <div class="ai-plus-menu-sep"></div>
+                                <button class="ai-plus-menu-item" onclick="aiQuickAction('fix');closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    Corriger tout le code
+                                </button>
+                                <button class="ai-plus-menu-item" onclick="aiQuickAction('optimize');closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    Optimiser le projet
+                                </button>
+                                <button class="ai-plus-menu-item" onclick="aiQuickAction('explain');closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                    Expliquer mon code
+                                </button>
+                                <button class="ai-plus-menu-item" onclick="aiQuickAction('complete');closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                                    Compléter et améliorer
+                                </button>
+                                <div class="ai-plus-menu-sep"></div>
+                                <button class="ai-plus-menu-item" onclick="createNewAIChat();closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    Nouveau chat
+                                </button>
+                                <button class="ai-plus-menu-item" onclick="clearAIChat();closeAIPlusMenu()">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    Effacer ce chat
+                                </button>
+                            </div>
+                        </div>
+                        <input type="file" id="aiFileInput" accept="image/*,.txt,.html,.css,.js,.py,.json,.md,.csv" style="display:none;" onchange="handleAIFileAttach(this)" />
+                        <div class="ai-input-spacer"></div>
+                        <span style="font-size:10.5px;color:var(--text-tertiary);padding:0 6px;white-space:nowrap;">Llama 3.3</span>
+                        <button id="aiSendBtn" onclick="sendAIMessage()" title="Envoyer (Entrée)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -8609,6 +8869,20 @@ ${js}
                 notification.style.animation = 'slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards';
                 setTimeout(() => notification.remove(), 400);
             }, 4000);
+        }
+
+        // ── Modal de confirmation centré — délègue à scrixConfirm pour design unifié ──
+        function showConfirmNotification(title, message, onConfirm, confirmLabel) {
+            scrixConfirm({
+                icon: 'trash',
+                title: title,
+                desc: message,
+                okText: confirmLabel || 'Supprimer',
+                cancelText: 'Annuler',
+                danger: true
+            }, function(result) {
+                if (result && typeof onConfirm === 'function') onConfirm();
+            });
         }
 
         // Tab support in textareas
@@ -10730,9 +11004,12 @@ ${js}
         };
         function getModalIcon(icon, danger) {
             const svg = MODAL_ICONS[icon] || MODAL_ICONS.warn;
-            const color = danger ? '#ef4444' : icon === 'trash' ? '#ef4444' : icon === 'save' ? 'var(--primary-purple)' : icon === 'edit' ? 'var(--primary-purple)' : '#f59e0b';
-            const bg    = danger ? 'rgba(239,68,68,0.12)' : icon === 'trash' ? 'rgba(239,68,68,0.12)' : icon === 'save' ? 'rgba(79,142,247,0.12)' : icon === 'edit' ? 'rgba(79,142,247,0.12)' : 'rgba(245,158,11,0.12)';
-            return `<div style="width:60px;height:60px;border-radius:16px;background:${bg};display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:${color}">${svg}</div>`;
+            const isDanger = danger || icon === 'trash';
+            const color = isDanger ? '#ef4444' : icon === 'save' ? 'var(--primary-purple)' : icon === 'edit' ? 'var(--primary-purple)' : '#f59e0b';
+            const bg    = isDanger ? 'rgba(239,68,68,0.15)' : icon === 'save' ? 'rgba(79,142,247,0.15)' : icon === 'edit' ? 'rgba(79,142,247,0.15)' : 'rgba(245,158,11,0.15)';
+            const glow  = isDanger ? 'rgba(239,68,68,0.07)' : icon === 'save' ? 'rgba(79,142,247,0.07)' : icon === 'edit' ? 'rgba(79,142,247,0.07)' : 'rgba(245,158,11,0.07)';
+            const glowBig = isDanger ? 'rgba(239,68,68,0.18)' : icon === 'save' ? 'rgba(79,142,247,0.18)' : icon === 'edit' ? 'rgba(79,142,247,0.18)' : 'rgba(245,158,11,0.18)';
+            return `<div style="width:64px;height:64px;border-radius:18px;background:${bg};display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:${color};box-shadow:0 0 0 10px ${glow},0 0 40px ${glowBig};">${svg}</div>`;
         }
 
         function scrixConfirm({ icon = 'warn', title = 'Confirmation', desc = '', okText = 'Confirmer', cancelText = 'Annuler', danger = false } = {}, callback) {
@@ -10746,18 +11023,30 @@ ${js}
             modal.id = 'scrixConfirmModal';
             modal.setAttribute('role', 'dialog');
             modal.setAttribute('aria-modal', 'true');
+
+            const btnClass = danger ? 'confirm-btn confirm-btn-danger' : 'confirm-btn confirm-btn-ok';
+            // Icône dans le bouton action
+            const btnIconSvg = danger || icon === 'trash'
+                ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`
+                : icon === 'warn'
+                ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>`
+                : '';
+
             modal.innerHTML = `
                 <div class="confirm-card">
                     ${getModalIcon(icon, danger)}
                     <div class="confirm-title">${esc(title)}</div>
                     ${desc ? `<div class="confirm-desc">${esc(desc)}</div>` : ''}
                     <div class="confirm-btns">
+                        <button class="${btnClass}" id="scrixConfirmOk">${btnIconSvg} ${esc(okText)}</button>
                         <button class="confirm-btn confirm-btn-cancel" id="scrixConfirmCancel">${esc(cancelText)}</button>
-                        <button class="confirm-btn ${danger ? 'confirm-btn-danger' : 'confirm-btn-ok'}" id="scrixConfirmOk">${esc(okText)}</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
+
+            // Clic overlay = annuler
+            modal.addEventListener('click', (e) => { if (e.target === modal) close(false); });
 
             function close(result) {
                 modal.style.opacity = '0';
@@ -10791,27 +11080,16 @@ ${js}
                     <div class="confirm-title">${esc(title)}</div>
                     ${desc ? `<div class="confirm-desc">${esc(desc)}</div>` : ''}
                     <input id="scrixPromptInput" type="text"
+                        class="scrix-prompt-input"
                         value="${esc(defaultValue)}"
                         placeholder="${esc(placeholder)}"
-                        style="
-                            width:100%;box-sizing:border-box;
-                            background:var(--bg-tertiary);
-                            border:1.5px solid var(--border-default);
-                            border-radius:10px;
-                            padding:11px 14px;
-                            color:var(--text-primary);
-                            font-family:var(--font-sans);
-                            font-size:14px;
-                            outline:none;
-                            margin-bottom:20px;
-                            transition:border-color 0.2s;
-                        "
-                        onfocus="this.style.borderColor='var(--primary-purple)'"
-                        onblur="this.style.borderColor='var(--border-default)'"
                     />
                     <div class="confirm-btns">
+                        <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Sauvegarder
+                        </button>
                         <button class="confirm-btn confirm-btn-cancel" id="scrixPromptCancel">Annuler</button>
-                        <button class="confirm-btn confirm-btn-ok" id="scrixPromptOk">Sauvegarder</button>
                     </div>
                 </div>
             `;
@@ -10820,6 +11098,8 @@ ${js}
             const input = document.getElementById('scrixPromptInput');
             input.focus();
             input.select();
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) close(null); });
 
             function close(value) {
                 modal.style.opacity = '0';
@@ -13364,91 +13644,221 @@ self.addEventListener('fetch', e => {
 
         // ===== SCRIX AI PANEL =====
         (function() {
-            var _aiHistory = [];
+            // ── State ──
             var _aiStreaming = false;
             var _aiTab = 'html';
+            var _aiAttach = null;
             var _PROXY = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
 
+            // ── Multi-chat state ──
+            var _chats = {}; // { id: { name, history: [] } }
+            var _activeChatId = null;
+            var _chatCounter = 0;
+            var _sidebarOpen = false;
+            var _lastErrorMsg = '';
+            var _errorToastTimer = null;
+
+            // ── Init chats ──
+            function _initChats() {
+                try {
+                    var saved = JSON.parse(localStorage.getItem('scrix_ai_chats') || 'null');
+                    if(saved && saved.chats) {
+                        _chats = saved.chats;
+                        _chatCounter = saved.counter || 0;
+                        _activeChatId = saved.activeId;
+                    }
+                } catch(e){}
+                if(!_activeChatId || !_chats[_activeChatId]) _createChat('Chat 1');
+                _renderChatList();
+                _loadChat(_activeChatId);
+            }
+
+            function _saveChats() {
+                try {
+                    localStorage.setItem('scrix_ai_chats', JSON.stringify({
+                        chats: _chats, counter: _chatCounter, activeId: _activeChatId
+                    }));
+                } catch(e){}
+            }
+
+            function _createChat(name) {
+                _chatCounter++;
+                var id = 'chat_' + _chatCounter + '_' + Date.now();
+                _chats[id] = { name: name || ('Chat ' + _chatCounter), history: [], htmlSnapshot: '' };
+                _activeChatId = id;
+                _saveChats();
+                return id;
+            }
+
+            function _loadChat(id) {
+                if(!_chats[id]) return;
+                _activeChatId = id;
+                _renderChatList();
+                _renderMessages(_chats[id].history);
+                var label = document.getElementById('aiChatNameLabel');
+                if(label) label.textContent = _chats[id].name;
+                _saveChats();
+            }
+
+            function _renderMessages(history) {
+                var msgs = document.getElementById('aiMessages');
+                if(!msgs) return;
+                msgs.innerHTML = '';
+                if(history.length === 0) {
+                    var d = document.createElement('div');
+                    d.className = 'ai-msg assistant';
+                    d.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Salut ! Je suis <strong>SCRIX AI</strong>, ton assistant expert. Décris ce que tu veux créer et je génère le code complet. Je surveille aussi ton code en temps réel — si une erreur apparaît, je t\'envoie une notif. 🚀</div>';
+                    msgs.appendChild(d);
+                    return;
+                }
+                history.forEach(function(msg) {
+                    if(msg.role === 'system') return;
+                    var d = document.createElement('div');
+                    d.className = 'ai-msg ' + msg.role;
+                    var label = msg.role === 'user' ? 'VOUS' : 'SCRIX AI';
+                    d.innerHTML = '<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>' + label + '</div><div class="ai-msg-bubble"></div>';
+                    msgs.appendChild(d);
+                    var bubble = d.querySelector('.ai-msg-bubble');
+                    if(msg.role === 'assistant') {
+                        bubble.innerHTML = _format(typeof msg.content === 'string' ? msg.content : '');
+                    } else {
+                        var content = typeof msg.content === 'string' ? msg.content : (Array.isArray(msg.content) ? msg.content.filter(function(c){return c.type==='text';}).map(function(c){return c.text;}).join('') : '');
+                        bubble.innerHTML = _esc(content).replace(/\n/g,'<br>');
+                    }
+                });
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function _renderChatList() {
+                var list = document.getElementById('aiChatList');
+                if(!list) return;
+                list.innerHTML = '';
+                var ids = Object.keys(_chats).reverse();
+                ids.forEach(function(id) {
+                    var chat = _chats[id];
+                    var d = document.createElement('div');
+                    d.className = 'ai-chat-item' + (id === _activeChatId ? ' active' : '');
+                    d.innerHTML = '<div class="ai-chat-item-icon">💬</div>'
+                        + '<span class="ai-chat-item-name">' + _esc(chat.name) + '</span>'
+                        + '<button class="ai-chat-del-btn" onclick="deleteAIChat(\''+id+'\',event)" title="Supprimer"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>';
+                    d.addEventListener('click', function(){ _loadChat(id); });
+                    list.appendChild(d);
+                });
+            }
+
+            // ── Error Detection ──
+            // Écoute les erreurs du preview iframe
+            window.addEventListener('message', function(e) {
+                if(e.data && e.data.type === 'scrix_error') {
+                    _triggerErrorNotif(e.data.message || 'Erreur dans le code');
+                }
+            });
+
+            // Intercepte aussi les erreurs console globales JS
+            var _origError = window.onerror;
+            window.onerror = function(msg, src, line, col, err) {
+                if(src && src.indexOf('scrix') === -1 && src.indexOf('blob') === -1 && src.indexOf('srcdoc') === -1) {
+                    if(typeof _origError === 'function') return _origError(msg, src, line, col, err);
+                    return false;
+                }
+                _triggerErrorNotif(msg + (line ? ' (ligne ' + line + ')' : ''));
+                if(typeof _origError === 'function') return _origError(msg, src, line, col, err);
+            };
+
+            function _triggerErrorNotif(msg) {
+                if(!msg) return;
+                _lastErrorMsg = msg;
+                // Toast
+                var toast = document.getElementById('aiErrorToast');
+                var toastMsg = document.getElementById('aiErrorToastMsg');
+                if(toast && toastMsg) {
+                    toastMsg.textContent = msg.length > 100 ? msg.substring(0, 100) + '...' : msg;
+                    toast.classList.add('visible');
+                    if(_errorToastTimer) clearTimeout(_errorToastTimer);
+                    _errorToastTimer = setTimeout(function(){ dismissErrorToast(); }, 8000);
+                }
+                // Bannière dans le panel
+                var banner = document.getElementById('aiErrorBanner');
+                var bannerMsg = document.getElementById('aiErrorBannerMsg');
+                if(banner && bannerMsg) {
+                    bannerMsg.textContent = msg.length > 80 ? msg.substring(0, 80) + '...' : msg;
+                    banner.style.display = 'block';
+                }
+            }
+
+            window.dismissErrorToast = function() {
+                var toast = document.getElementById('aiErrorToast');
+                if(toast) toast.classList.remove('visible');
+                if(_errorToastTimer) clearTimeout(_errorToastTimer);
+            };
+
+            window.openAIFromError = function() {
+                dismissErrorToast();
+                window.toggleAIPanel();
+                setTimeout(function(){ fixErrorWithAI(); }, 300);
+            };
+
+            window.fixErrorWithAI = function() {
+                var inp = document.getElementById('aiUserInput');
+                if(inp) {
+                    inp.value = 'Il y a une erreur dans mon code : "' + _lastErrorMsg + '". Analyse tout mon code et corrige ce bug. Fournis le code complet corrigé.';
+                    sendAIMessage();
+                }
+                var banner = document.getElementById('aiErrorBanner');
+                if(banner) banner.style.display = 'none';
+            };
+
+            // ── Code helpers ──
             function _getAllCode() {
                 var r = {html:'',css:'',js:'',python:''};
                 var keys = {html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
-                for (var lg in r) {
+                for(var lg in r) {
                     try {
                         var cmKey = keys[lg];
-                        if (window._cmEditors && window._cmEditors[cmKey]) {
-                            r[lg] = window._cmEditors[cmKey].getValue()||'';
-                        } else {
-                            var el = document.getElementById(cmKey);
-                            r[lg] = el ? el.value : '';
-                        }
+                        if(window._cmEditors && window._cmEditors[cmKey]) r[lg] = window._cmEditors[cmKey].getValue()||'';
+                        else { var el=document.getElementById(cmKey); r[lg]=el?el.value:''; }
                     } catch(e){}
                 }
                 return r;
             }
-
             function _getTab() {
                 var ts=['html','css','js','python'];
-                for (var i=0;i<ts.length;i++){
-                    if(document.querySelector('.tab-btn.'+ts[i]+'-tab.active')) return ts[i];
-                }
+                for(var i=0;i<ts.length;i++) if(document.querySelector('.tab-btn.'+ts[i]+'-tab.active')) return ts[i];
                 return _aiTab||'html';
             }
-
             function _setCode(lang, code) {
                 var keys={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
-                var cmKey = keys[lang];
+                var cmKey=keys[lang];
                 try {
-                    if(window._cmEditors && window._cmEditors[cmKey]){
-                        var ed = window._cmEditors[cmKey];
-                        ed.setValue(code);
-                        ed.refresh();
-                        // Sync la textarea cachee
-                        var ta = document.getElementById(cmKey);
-                        if(ta) ta.value = code;
-                        setTimeout(function(){ ed.refresh(); if(typeof autoSave==='function') autoSave(); }, 50);
+                    if(window._cmEditors&&window._cmEditors[cmKey]){
+                        var ed=window._cmEditors[cmKey];
+                        ed.setValue(code); ed.refresh();
+                        var ta=document.getElementById(cmKey); if(ta) ta.value=code;
+                        setTimeout(function(){ed.refresh();if(typeof autoSave==='function')autoSave();},50);
                         return true;
                     }
-                    var el = document.getElementById(cmKey);
-                    if(el){
-                        el.value = code;
-                        el.dispatchEvent(new Event('input'));
-                        return true;
-                    }
-                } catch(e){ console.warn('[SCRIX AI] setCode error:', e); }
+                    var el=document.getElementById(cmKey);
+                    if(el){el.value=code;el.dispatchEvent(new Event('input'));return true;}
+                } catch(e){}
                 return false;
             }
-
             function _insertAt(lang, code) {
                 var keys={html:'htmlEditor',css:'cssEditor',js:'jsEditor',python:'pythonEditor'};
-                var cmKey = keys[lang];
+                var cmKey=keys[lang];
                 try {
-                    if(window._cmEditors && window._cmEditors[cmKey]){
-                        var ed = window._cmEditors[cmKey];
-                        var current = ed.getValue().trim();
-                        if(current === '') {
-                            // Editeur vide : setValue direct
-                            ed.setValue(code);
-                        } else {
-                            // Editeur avec contenu : insere au curseur
-                            ed.replaceRange('\n'+code+'\n', ed.getCursor());
-                        }
-                        ed.refresh();
-                        return true;
+                    if(window._cmEditors&&window._cmEditors[cmKey]){
+                        var ed=window._cmEditors[cmKey];
+                        var current=ed.getValue().trim();
+                        if(current==='') ed.setValue(code);
+                        else ed.replaceRange('\n'+code+'\n',ed.getCursor());
+                        ed.refresh(); return true;
                     }
-                    var el = document.getElementById(cmKey);
-                    if(el){
-                        el.value = el.value ? el.value + '\n' + code : code;
-                        el.dispatchEvent(new Event('input'));
-                        return true;
-                    }
-                } catch(e){ console.warn('[AI insert]', lang, e); }
+                    var el=document.getElementById(cmKey);
+                    if(el){el.value=el.value?el.value+'\n'+code:code;el.dispatchEvent(new Event('input'));return true;}
+                } catch(e){}
                 return false;
             }
-
-            function _switchTab(lang) {
-                try{ if(typeof switchTab==='function') switchTab(lang); }catch(e){}
-            }
-
+            function _switchTab(lang) { try{if(typeof switchTab==='function')switchTab(lang);}catch(e){} }
             function _updateCtx() {
                 _aiTab=_getTab();
                 var el=document.getElementById('aiContextTab');
@@ -13457,22 +13867,48 @@ self.addEventListener('fetch', e => {
                 el.textContent=_aiTab.toUpperCase();
             }
 
-            window.toggleAIPanel = function() {
-                var m=document.getElementById('aiModal');
-                if(!m) return;
-                m.classList.toggle('active');
-                if(m.classList.contains('active')) _updateCtx();
-            };
-            window.closeAIPanel = function() {
-                var m=document.getElementById('aiModal');
-                if(m) m.classList.remove('active');
-            };
-            window.clearAIChat = function() {
-                _aiHistory=[];
-                var msgs=document.getElementById('aiMessages');
-                if(msgs) msgs.innerHTML='<div class="ai-msg assistant"><div class="ai-msg-role"><div class="ai-msg-role-dot"></div>SCRIX AI</div><div class="ai-msg-bubble">Chat effac\u00e9 !</div></div>';
-            };
+            // ── Format & detect ──
+            function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+            function _detectLang(hint,code){
+                if(hint){var h=hint.toLowerCase();if(h==='html'||h==='htm')return 'html';if(h==='css'||h==='scss')return 'css';if(h==='js'||h==='javascript'||h==='typescript')return 'js';if(h==='python'||h==='py')return 'python';}
+                if(/<(!DOCTYPE|html|head|body|div|span|button|nav)/i.test(code))return 'html';
+                if(/^\s*(\.|#|body\s*\{|:root|@media)/m.test(code))return 'css';
+                if(/(function\s|const |let |var |=>|document\.|window\.)/.test(code))return 'js';
+                if(/(^def |^import |^class )/m.test(code))return 'python';
+                return null;
+            }
+            function _isCodeReq(q){
+                var kw=['cree','creer','fait','fais','genere','ajoute','construis','make','create','build','generate','add','corrige','fix','debug','repare','optimise','commente'];
+                q=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+                for(var i=0;i<kw.length;i++) if(q.indexOf(kw[i])!==-1) return true;
+                return false;
+            }
+            function _format(text){
+                var out='';
+                var parts=text.split(/(```[\w]*\n[\s\S]*?```)/g);
+                for(var i=0;i<parts.length;i++){
+                    var m=parts[i].match(/^```([\w]*)\n([\s\S]*?)```$/);
+                    if(m){
+                        var lang=_detectLang(m[1],m[2].trim());
+                        var lbl=lang?lang.toUpperCase():(m[1]?m[1].toUpperCase():'CODE');
+                        var code=_esc(m[2].trim());
+                        var safeLang=lang||'active';
+                        var copyBtn='<button class="insert-code-btn" style="background:rgba(255,255,255,.05)" onclick="copyAICode(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier</button>';
+                        if(lang){
+                            var replBtn='<button class="insert-code-btn" data-lang="'+safeLang+'" onclick="replaceAICode(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Remplacer '+lbl+'</button>';
+                            var addBtn='<button class="insert-code-btn" style="background:rgba(52,211,153,.08);color:#34d399;border-color:rgba(52,211,153,.2)" data-lang="'+safeLang+'" onclick="addAICode(this)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Ajouter dans '+lbl+'</button>';
+                            out+='<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">'+lbl+'</span></div><pre><code>'+code+'</code></pre><div style="display:flex;gap:0;flex-wrap:wrap;">'+copyBtn+replBtn+addBtn+'</div></div>';
+                        } else {
+                            out+='<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">'+lbl+'</span></div><pre><code>'+code+'</code></pre><div>'+copyBtn+'</div></div>';
+                        }
+                    } else {
+                        out+=_esc(parts[i]).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+                    }
+                }
+                return out;
+            }
 
+            // ── Messages UI ──
             function _addMsg(role, content) {
                 var msgs=document.getElementById('aiMessages');
                 if(!msgs) return;
@@ -13493,189 +13929,259 @@ self.addEventListener('fetch', e => {
             }
             function _hideTyping(){ var t=document.getElementById('_aiTyping');if(t)t.remove(); }
 
-            function _esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-            function _detectLang(hint,code){
-                if(hint){
-                    var h=hint.toLowerCase();
-                    if(h==='html'||h==='htm') return 'html';
-                    if(h==='css'||h==='scss') return 'css';
-                    if(h==='js'||h==='javascript'||h==='typescript') return 'js';
-                    if(h==='python'||h==='py') return 'python';
-                }
-                if(/<(!DOCTYPE|html|head|body|div|span|button|nav)/i.test(code)) return 'html';
-                if(/^\s*(\.|#|body\s*\{|:root|@media)/m.test(code)) return 'css';
-                if(/(function\s|const |let |var |=>|document\.|window\.)/.test(code)) return 'js';
-                if(/(^def |^import |^class )/m.test(code)) return 'python';
-                return null;
-            }
-
-            function _format(text, autoIns){
-                var ins=autoIns||[];
-                var out='';
-                var parts=text.split(/(```[\w]*\n[\s\S]*?```)/g);
-                for(var i=0;i<parts.length;i++){
-                    var m=parts[i].match(/^```([\w]*)\n([\s\S]*?)```$/);
-                    if(m){
-                        var lang=_detectLang(m[1],m[2].trim());
-                        var lbl=lang?lang.toUpperCase():(m[1]?m[1].toUpperCase():'CODE');
-                        var code=_esc(m[2].trim());
-                        var wasIns=lang&&ins.indexOf(lang)!==-1;
-                        var chk='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
-                        var arr='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>';
-                        var btn=wasIns
-                            ? '<button class="insert-code-btn inserted" disabled>'+chk+' Ins\u00e9r\u00e9 dans '+lbl+'</button>'
-                            : '<button class="insert-code-btn" data-lang="'+(lang||'active')+'" onclick="insertAICode(this)">'+arr+' Ins\u00e9rer dans '+lbl+'</button>';
-                        out+='<div class="ai-code-block"><div class="ai-code-header"><span class="ai-code-lang">'+lbl+'</span></div><pre><code>'+code+'</code></pre>'+btn+'</div>';
-                    } else {
-                        out+=_esc(parts[i])
-                            .replace(/`([^`]+)`/g,'<code>$1</code>')
-                            .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-                            .replace(/\*(.*?)\*/g,'<em>$1</em>')
-                            .replace(/\n/g,'<br>');
-                    }
-                }
-                return out;
-            }
-
-            function _autoInsert(text){
-                var ins=[];
-                var re=/```([\w]*)\n([\s\S]*?)```/g;
-                var m;
-                while((m=re.exec(text))!==null){
-                    var lang=_detectLang(m[1],m[2].trim());
-                    if(lang&&ins.indexOf(lang)===-1){
-                        if(_setCode(lang,m[2].trim())){
-                            ins.push(lang);
-                            _switchTab(lang);
-                            if(typeof showNotification==='function') showNotification('Code '+lang.toUpperCase()+' ins\u00e9r\u00e9 !','success');
-                        }
-                    }
-                }
-                return ins;
-            }
-
-            window.insertAICode = function(btn){
-                var block=btn.closest('.ai-code-block');
-                var codeEl=block&&block.querySelector('code');
-                if(!codeEl) return;
-                var tmp=document.createElement('textarea');
-                tmp.innerHTML=codeEl.innerHTML;
-                var code=tmp.value;
-                var lang=btn.dataset.lang;
-                if(lang&&lang!=='active'){
-                    _switchTab(lang);
-                    setTimeout(function(){
-                        _setCode(lang,code);
-                        if(typeof showNotification==='function') showNotification('Code ins\u00e9r\u00e9 dans '+lang.toUpperCase(),'success');
-                    },150);
-                } else {
-                    _insertAt(_aiTab,code);
-                    if(typeof showNotification==='function') showNotification('Code ins\u00e9r\u00e9 !','success');
-                }
-                var chk='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
-                btn.innerHTML=chk+' Ins\u00e9r\u00e9 !';
-                btn.disabled=true;
-                btn.classList.add('inserted');
-            };
-
-            window.aiQuickAction = function(action){
-                var active=_getTab();
-                var p={
-                    explain:'Explique en detail le code '+active.toUpperCase()+' actif.',
-                    fix:'Analyse tout mon code et corrige tous les bugs. Fournis le code complet corrige dans des blocs de code avec la bonne langue.',
-                    optimize:'Optimise mon code '+active.toUpperCase()+'. Fournis le code complet optimise.',
-                    comment:'Ajoute des commentaires clairs dans mon code '+active.toUpperCase()+'. Fournis le code complet commente.',
-                    complete:'Complete mon code '+active.toUpperCase()+'. Ajoute les fonctionnalites manquantes. Fournis le code complet.',
-                    generate:'Genere une amelioration pour mon projet. Fournis le code complet dans les bons blocs de code.'
-                };
-                var inp=document.getElementById('aiUserInput');
-                if(inp) inp.value=p[action]||'';
-                sendAIMessage();
-            };
-
-            function _isCodeReq(q){
-                var kw=['cree','creer','fait','fais','genere','ajoute','construis','make','create','build','generate','add','corrige','fix','debug','repare','optimise','commente'];
-                q=q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-                for(var i=0;i<kw.length;i++) if(q.indexOf(kw[i])!==-1) return true;
-                return false;
-            }
-
+            // ── Send message ──
             window.sendAIMessage = async function(){
                 if(_aiStreaming) return;
                 var inp=document.getElementById('aiUserInput');
                 var btn=document.getElementById('aiSendBtn');
                 if(!inp) return;
                 var q=inp.value.trim();
-                if(!q) return;
+                if(!q && !_aiAttach) return;
+                if(!q) q='(voir le fichier/image joint)';
                 _updateCtx();
                 var all=_getAllCode();
                 inp.value='';inp.style.height='auto';
                 _aiStreaming=true;if(btn)btn.disabled=true;
-                _addMsg('user',_esc(q).replace(/\n/g,'<br>'));
+
+                var userDisplay=_esc(q).replace(/\n/g,'<br>');
+                if(_aiAttach){
+                    if(_aiAttach.type==='image') userDisplay+='<br><img src="data:'+_aiAttach.mediaType+';base64,'+_aiAttach.data+'" style="max-width:100%;max-height:120px;border-radius:6px;margin-top:6px;object-fit:contain;" />';
+                    else userDisplay+='<br><span style="font-size:11px;color:var(--text-tertiary);background:rgba(255,255,255,.06);padding:2px 8px;border-radius:4px;">📄 '+_esc(_aiAttach.name)+'</span>';
+                }
+                _addMsg('user', userDisplay);
                 _showTyping();
 
-                var sys='Tu es SCRIX AI, un assistant integre dans SCRIX. '
-                    +'REGLES IMPORTANTES : '
-                    +'1) Pour les conversations normales (salut, ca va, blagues, questions generales...) reponds COURT et NATUREL, max 2-3 phrases, comme un ami. PAS de listes, PAS de blabla. '
-                    +'2) Pour les questions techniques/code, reponds precisement avec du code dans les bons blocs (```html ```css ```javascript ```python) et fournis le code COMPLET. '
-                    +'3) Ne fournis le contexte du code que si la question concerne le code. '
-                    +'4) Reponds en francais sauf si on te parle autrement. '
-                    +'5) Sois direct, chaleureux, concis.';
+                var sys='Tu es SCRIX AI, un assistant expert en développement web et programmation intégré dans SCRIX.\n\n'
+                    +'## RÔLE\nTu es un développeur senior full-stack. Tu crées du code professionnel, moderne, fonctionnel et COMPLET.\n\n'
+                    +'## RÈGLES CODE (TRÈS IMPORTANT)\n'
+                    +'1. Code toujours dans les bons blocs : ```html ```css ```javascript ```python\n'
+                    +'2. Code AUTONOME : aucune référence externe, pas de fonctions SCRIX\n'
+                    +'3. HTML sans <html><head><body> sauf si page complète demandée\n'
+                    +'4. Jamais de "..." ou placeholder — code 100% complet\n'
+                    +'5. Boutons/liens ne doivent jamais appeler des fonctions inexistantes\n\n'
+                    +'## STYLE\n- Conversations normales : court, naturel, max 2-3 phrases\n- Questions tech : précis + code complet\n- Toujours en français sauf si on parle autrement\n- Tu analyses images (maquettes, screenshots, bugs) et fichiers';
 
-                // N'envoie le code que si la question concerne le code
                 var ctx='';
-                var _isAboutCode=_isCodeReq(q)||/(code|html|css|js|bug|erreur|fonction|variable|script|style|balise|classe|div|button|css|javascript)/i.test(q);
+                var _isAboutCode=_isCodeReq(q)||/(code|html|css|js|bug|erreur|fonction|variable|script|style|balise|classe|div|button|javascript|python)/i.test(q);
                 if(_isAboutCode){
-                    if(all.html) ctx+='\n\nHTML:\n```html\n'+all.html+'\n```';
-                    if(all.css)  ctx+='\n\nCSS:\n```css\n'+all.css+'\n```';
-                    if(all.js)   ctx+='\n\nJS:\n```javascript\n'+all.js+'\n```';
-                    if(all.python) ctx+='\n\nPython:\n```python\n'+all.python+'\n```';
+                    var hasCode=(all.html&&all.html.trim())||(all.css&&all.css.trim())||(all.js&&all.js.trim())||(all.python&&all.python.trim());
+                    if(hasCode){
+                        ctx+='\n\n## CODE ACTUEL';
+                        if(all.html&&all.html.trim()) ctx+='\n```html\n'+all.html+'\n```';
+                        if(all.css&&all.css.trim())   ctx+='\n```css\n'+all.css+'\n```';
+                        if(all.js&&all.js.trim())     ctx+='\n```javascript\n'+all.js+'\n```';
+                        if(all.python&&all.python.trim()) ctx+='\n```python\n'+all.python+'\n```';
+                    }
                 }
 
-                _aiHistory.push({role:'user',content:q+ctx});
-                if(_aiHistory.length>12) _aiHistory=_aiHistory.slice(_aiHistory.length-12);
+                var userMsgContent;
+                if(_aiAttach&&_aiAttach.type==='image'){
+                    userMsgContent=[{type:'image_url',image_url:{url:'data:'+_aiAttach.mediaType+';base64,'+_aiAttach.data}},{type:'text',text:q+ctx}];
+                } else if(_aiAttach&&_aiAttach.type==='text'){
+                    userMsgContent=q+'\n\n## FICHIER : '+_aiAttach.name+'\n```\n'+_aiAttach.data+'\n```'+ctx;
+                } else {
+                    userMsgContent=q+ctx;
+                }
+
+                var attachModel=(_aiAttach&&_aiAttach.type==='image')?'llama-3.2-11b-vision-preview':'llama-3.3-70b-versatile';
+                clearAIAttach();
+
+                var chat=_chats[_activeChatId];
+                if(!chat) { chat=_chats[_createChat()]; }
+                chat.history.push({role:'user',content:userMsgContent});
+                if(chat.history.length>30) chat.history=chat.history.slice(chat.history.length-30);
+
+                // Auto-rename chat on first message
+                if(chat.history.length===1 && typeof userMsgContent==='string') {
+                    chat.name = userMsgContent.substring(0,28).replace(/\n/g,' ') + (userMsgContent.length>28?'...':'');
+                    _renderChatList();
+                    var label=document.getElementById('aiChatNameLabel');
+                    if(label) label.textContent=chat.name;
+                }
 
                 try {
-                    var resp=await fetch(_PROXY,{
-                        method:'POST',
-                        headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({
-                            model:'llama-3.3-70b-versatile',
-                            max_tokens:2048,
-                            messages:[{role:'system',content:sys}].concat(_aiHistory)
-                        })
-                    });
-                    if(!resp.ok){
-                        var err=await resp.json().catch(function(){return {};});
-                        throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);
-                    }
+                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:attachModel,max_tokens:8192,messages:[{role:'system',content:sys}].concat(chat.history)})});
+                    if(!resp.ok){var err=await resp.json().catch(function(){return{};});throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);}
                     var data=await resp.json();
                     _hideTyping();
-                    var text=(data.choices&&data.choices[0]&&data.choices[0].message)
-                        ?data.choices[0].message.content:'Erreur : reponse vide.';
-                    _aiHistory.push({role:'assistant',content:text});
-                    var inserted=_isCodeReq(q)?_autoInsert(text):[];
-                    _addMsg('assistant',_format(text,inserted));
+                    var text=(data.choices&&data.choices[0]&&data.choices[0].message)?data.choices[0].message.content:'Erreur : réponse vide.';
+                    chat.history.push({role:'assistant',content:text});
+                    _saveChats();
+                    _addMsg('assistant',_format(text));
                 } catch(e){
                     _hideTyping();
-                    _addMsg('assistant','<span style="color:#f87171">Erreur : '+(e.message||'connexion impossible')+'</span>');
-                    _aiHistory.pop();
+                    _addMsg('assistant','<span style="color:#f87171">❌ Erreur : '+(e.message||'connexion impossible')+'</span>');
+                    chat.history.pop();
                 }
                 _aiStreaming=false;if(btn)btn.disabled=false;if(inp)inp.focus();
             };
 
+            // ── Chat management ──
+            window.createNewAIChat = function(){
+                var id=_createChat('Nouveau chat');
+                _renderMessages([]);
+                _renderChatList();
+                var label=document.getElementById('aiChatNameLabel');
+                if(label) label.textContent='Nouveau chat';
+                _saveChats();
+                var inp=document.getElementById('aiUserInput');
+                if(inp) inp.focus();
+            };
+
+            window.deleteAIChat = function(id, e){
+                if(e) e.stopPropagation();
+                if(!_chats[id]) return;
+                var chatName = _chats[id].name || 'ce chat';
+                showConfirmNotification(
+                    'Supprimer ce chat ?',
+                    'Tu vas supprimer "' + chatName + '". Cette action est irréversible.',
+                    function() {
+                        // Confirmé → supprimer
+                        if(Object.keys(_chats).length === 1){
+                            _chats[id].history = [];
+                            _chats[id].name = 'Chat 1';
+                            _renderMessages([]);
+                            _renderChatList();
+                            _saveChats();
+                            return;
+                        }
+                        delete _chats[id];
+                        if(_activeChatId === id){
+                            var remaining = Object.keys(_chats);
+                            _activeChatId = remaining[remaining.length - 1];
+                            _loadChat(_activeChatId);
+                        }
+                        _renderChatList();
+                        _saveChats();
+                    }
+                );
+            };
+
+            window.clearAIChat = function(){
+                var chat=_chats[_activeChatId];
+                if(chat) chat.history=[];
+                _renderMessages([]);
+                _saveChats();
+            };
+
+            // ── Code buttons ──
+            window.replaceAICode = function(btn){
+                var block=btn.closest('.ai-code-block');var codeEl=block&&block.querySelector('code');if(!codeEl)return;
+                var tmp=document.createElement('textarea');tmp.innerHTML=codeEl.innerHTML;var code=tmp.value;
+                var lang=btn.dataset.lang;
+                if(lang&&lang!=='active'){_switchTab(lang);setTimeout(function(){_setCode(lang,code);if(typeof showNotification==='function')showNotification('✅ Code '+lang.toUpperCase()+' remplacé !','success');},150);}
+                else{_setCode(_aiTab,code);if(typeof showNotification==='function')showNotification('✅ Code remplacé !','success');}
+                btn.textContent='✓ Remplacé';btn.disabled=true;
+            };
+            window.addAICode = function(btn){
+                var block=btn.closest('.ai-code-block');var codeEl=block&&block.querySelector('code');if(!codeEl)return;
+                var tmp=document.createElement('textarea');tmp.innerHTML=codeEl.innerHTML;var code=tmp.value;
+                var lang=btn.dataset.lang;
+                if(lang&&lang!=='active'){_switchTab(lang);setTimeout(function(){_insertAt(lang,code);if(typeof showNotification==='function')showNotification('✅ Ajouté dans '+lang.toUpperCase(),'success');},150);}
+                else{_insertAt(_aiTab,code);if(typeof showNotification==='function')showNotification('✅ Code ajouté !','success');}
+                btn.textContent='✓ Ajouté';btn.disabled=true;
+            };
+            window.copyAICode = function(btn){
+                var block=btn.closest('.ai-code-block');var codeEl=block&&block.querySelector('code');if(!codeEl)return;
+                var tmp=document.createElement('textarea');tmp.innerHTML=codeEl.innerHTML;
+                navigator.clipboard.writeText(tmp.value).then(function(){
+                    btn.textContent='✓ Copié';
+                    setTimeout(function(){btn.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copier';},2000);
+                }).catch(function(){btn.textContent='Erreur';});
+            };
+            window.insertAICode = window.replaceAICode;
+
+            // ── File attach ──
+            window.handleAIFileAttach = function(input){
+                var file=input.files[0];if(!file)return;
+                var isImage=file.type.startsWith('image/');
+                var reader=new FileReader();
+                reader.onload=function(e){
+                    if(isImage){var b64=e.target.result.split(',')[1];_aiAttach={type:'image',data:b64,name:file.name,mediaType:file.type};document.getElementById('aiAttachImg').src=e.target.result;document.getElementById('aiAttachImg').style.display='block';}
+                    else{_aiAttach={type:'text',data:e.target.result,name:file.name};document.getElementById('aiAttachImg').style.display='none';}
+                    document.getElementById('aiAttachName').textContent=file.name;
+                    document.getElementById('aiAttachPreview').style.display='block';
+                };
+                if(isImage)reader.readAsDataURL(file);else reader.readAsText(file);
+                input.value='';
+            };
+            window.clearAIAttach = function(){
+                _aiAttach=null;
+                document.getElementById('aiAttachPreview').style.display='none';
+                document.getElementById('aiAttachImg').src='';
+                document.getElementById('aiAttachImg').style.display='none';
+                document.getElementById('aiAttachName').textContent='';
+            };
+
+            // ── Quick actions ──
+            window.aiQuickAction = function(action){
+                var active=_getTab();
+                var all=_getAllCode();
+                var hasCode=all[active]&&all[active].trim();
+                var p={
+                    explain:hasCode?'Explique en détail ce que fait mon code '+active.toUpperCase()+'. Décris la structure, le rôle de chaque partie.':'Explique-moi comment fonctionne le développement '+active.toUpperCase()+'.',
+                    fix:'Analyse tout mon code (HTML, CSS, JS) et corrige TOUS les bugs. Fournis le code complet corrigé dans des blocs séparés ```html ```css ```javascript avec le code intégral.',
+                    optimize:'Optimise mon code '+active.toUpperCase()+' pour les performances et les bonnes pratiques. Fournis le code complet optimisé.',
+                    comment:'Ajoute des commentaires clairs et professionnels dans mon code '+active.toUpperCase()+'. Fournis le code complet commenté.',
+                    complete:'Analyse mon projet et complète-le : ajoute les fonctionnalités manquantes, améliore l\'UX et le design. Code complet dans les bons blocs.',
+                    generate:'Regarde mon projet et propose une amélioration créative et utile. Génère le code complet.'
+                };
+                var inp=document.getElementById('aiUserInput');
+                if(inp){inp.value=p[action]||'';inp.focus();}
+                sendAIMessage();
+            };
+
+            // ── Panel & sidebar toggles ──
+            window.toggleAIPanel = function(){
+                var m=document.getElementById('aiModal');
+                if(!m) return;
+                m.classList.toggle('active');
+                if(m.classList.contains('active')) _updateCtx();
+            };
+            window.closeAIPanel = function(){
+                var m=document.getElementById('aiModal');
+                if(m) m.classList.remove('active');
+                closeAIPlusMenu();
+            };
+            window.toggleChatsSidebar = function(){
+                var s=document.getElementById('aiChatsSidebar');
+                if(!s) return;
+                _sidebarOpen=!_sidebarOpen;
+                s.style.display=_sidebarOpen?'flex':'none';
+            };
+            window.toggleAIPlusMenu = function(e){
+                e.stopPropagation();
+                var menu=document.getElementById('aiPlusMenu');
+                if(menu) menu.classList.toggle('open');
+            };
+            window.closeAIPlusMenu = function(){
+                var menu=document.getElementById('aiPlusMenu');
+                if(menu) menu.classList.remove('open');
+            };
+            document.addEventListener('click',function(e){
+                var btn=document.getElementById('aiPlusBtn');
+                var menu=document.getElementById('aiPlusMenu');
+                if(menu&&btn&&!btn.contains(e.target)&&!menu.contains(e.target)) menu.classList.remove('open');
+            });
+
+            // ── Keyboard shortcut ──
             document.addEventListener('DOMContentLoaded',function(){
                 var inp=document.getElementById('aiUserInput');
                 if(!inp) return;
                 inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAIMessage();}});
-                inp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';});
+                inp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px';});
                 document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){setTimeout(_updateCtx,50);});});
+                _initChats();
             });
             document.addEventListener('keydown',function(e){
                 if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='A'){e.preventDefault();window.toggleAIPanel();}
             });
+
+            // Init si DOM déjà prêt
+            if(document.readyState!=='loading') { setTimeout(_initChats, 100); }
+
         })();
+
 
         async function doForgotPassword() {
             const email = document.getElementById('forgotEmail').value.trim();
