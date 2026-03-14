@@ -6079,6 +6079,22 @@
         .ai-msg.user .ai-msg-bubble{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:var(--text-primary);border-bottom-right-radius:4px;}
         .ai-msg.assistant .ai-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);border-bottom-left-radius:4px;}
         .ai-msg-bubble code{font-family:var(--font-mono);font-size:11.5px;background:rgba(0,0,0,.4);padding:1px 5px;border-radius:4px;color:#7dd3fc;}
+        /* ── Message action bar ── */
+        .ai-msg-actions{display:flex;align-items:center;gap:2px;margin-top:5px;opacity:0;transition:opacity .18s;height:24px;}
+        .ai-msg:hover .ai-msg-actions{opacity:1;}
+        .ai-msg.user .ai-msg-actions{justify-content:flex-end;}
+        .ai-msg.assistant .ai-msg-actions{justify-content:flex-start;}
+        .ai-msg-act-btn{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;background:none;border:none;cursor:pointer;color:var(--text-tertiary);transition:all .13s;}
+        .ai-msg-act-btn:hover{background:rgba(255,255,255,.08);color:var(--text-primary);}
+        .ai-msg-act-btn.liked{color:#f87171;}
+        .ai-msg-act-btn.disliked{color:#60a5fa;}
+        /* Edit mode inline */
+        .ai-msg-edit-area{width:100%;background:rgba(79,142,247,.07);border:1px solid rgba(79,142,247,.3);border-radius:10px;padding:9px 12px;color:var(--text-primary);font-family:var(--font-sans);font-size:13px;outline:none;resize:none;min-height:60px;box-sizing:border-box;margin-top:4px;}
+        .ai-msg-edit-btns{display:flex;gap:6px;margin-top:6px;}
+        .ai-msg-edit-send{background:var(--primary-purple);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:700;font-family:var(--font-sans);cursor:pointer;transition:all .15s;}
+        .ai-msg-edit-send:hover{background:var(--purple-light);color:#0a0f1e;}
+        .ai-msg-edit-cancel{background:rgba(255,255,255,.07);color:var(--text-secondary);border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .15s;}
+        .ai-msg-edit-cancel:hover{background:rgba(255,255,255,.12);}
         .ai-code-block{margin:8px 0;border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden;background:rgba(0,0,0,.3);}
         .ai-code-header{display:flex;align-items:center;padding:6px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);}
         .ai-code-lang{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-tertiary);font-family:var(--font-mono);}
@@ -13909,16 +13925,195 @@ self.addEventListener('fetch', e => {
             }
 
             // ── Messages UI ──
-            function _addMsg(role, content) {
+            var _msgIndex = 0; // unique id for each message
+
+            function _addMsg(role, content, historyIdx) {
                 var msgs=document.getElementById('aiMessages');
                 if(!msgs) return;
+                var id = 'aimsg_'+(++_msgIndex);
                 var d=document.createElement('div');
                 d.className='ai-msg '+role;
-                d.innerHTML='<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>'+(role==='user'?'VOUS':'SCRIX AI')+'</div><div class="ai-msg-bubble"></div>';
+                d.id=id;
+
+                // SVG icons
+                var svgCopy   = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+                var svgEdit   = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+                var svgRetry  = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>';
+                var svgThumbU = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
+                var svgThumbD = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>';
+
+                var actionsHtml = '';
+                if(role === 'user'){
+                    actionsHtml = '<div class="ai-msg-actions">'
+                        + '<button class="ai-msg-act-btn" title="Modifier" onclick="_editMsg(\''+id+'\')" >'+svgEdit+'</button>'
+                        + '<button class="ai-msg-act-btn" title="Copier" onclick="_copyMsg(\''+id+'\')">'+svgCopy+'</button>'
+                        + '</div>';
+                } else {
+                    actionsHtml = '<div class="ai-msg-actions">'
+                        + '<button class="ai-msg-act-btn" title="Copier" onclick="_copyMsg(\''+id+'\')">'+svgCopy+'</button>'
+                        + '<button class="ai-msg-act-btn" title="Relancer" onclick="_retryMsg(\''+id+'\')">'+svgRetry+'</button>'
+                        + '<button class="ai-msg-act-btn" id="'+id+'_up" title="Bonne réponse" onclick="_likeMsg(\''+id+'\',true)">'+svgThumbU+'</button>'
+                        + '<button class="ai-msg-act-btn" id="'+id+'_dn" title="Mauvaise réponse" onclick="_likeMsg(\''+id+'\',false)">'+svgThumbD+'</button>'
+                        + '</div>';
+                }
+
+                d.innerHTML='<div class="ai-msg-role"><div class="ai-msg-role-dot"></div>'+(role==='user'?'VOUS':'SCRIX AI')+'</div>'
+                    +'<div class="ai-msg-bubble"></div>'
+                    + actionsHtml;
                 msgs.appendChild(d);
                 d.querySelector('.ai-msg-bubble').innerHTML=content;
                 msgs.scrollTop=msgs.scrollHeight;
+                return id;
             }
+
+            // ── Message actions ──
+            window._copyMsg = function(id){
+                var el=document.getElementById(id);
+                var bubble=el&&el.querySelector('.ai-msg-bubble');
+                if(!bubble) return;
+                var text=bubble.innerText||bubble.textContent||'';
+                navigator.clipboard.writeText(text).then(function(){
+                    if(typeof showNotification==='function') showNotification('Message copié !','success');
+                }).catch(function(){});
+            };
+
+            window._likeMsg = function(id, up){
+                var upBtn=document.getElementById(id+'_up');
+                var dnBtn=document.getElementById(id+'_dn');
+                if(!upBtn||!dnBtn) return;
+                upBtn.classList.remove('liked'); dnBtn.classList.remove('disliked');
+                if(up){ upBtn.classList.add('liked'); if(typeof showNotification==='function') showNotification('Merci pour ton retour 👍','success'); }
+                else  { dnBtn.classList.add('disliked'); if(typeof showNotification==='function') showNotification('Noté, je ferai mieux 👎','info'); }
+            };
+
+            window._retryMsg = function(id){
+                // Retirer la dernière réponse de l'IA et re-envoyer le dernier msg user
+                var chat=_chats[_activeChatId];
+                if(!chat||chat.history.length<2) return;
+                // Supprimer la dernière réponse assistant de l'historique
+                var last=chat.history[chat.history.length-1];
+                if(last.role==='assistant'){
+                    chat.history.pop();
+                    _saveChats();
+                }
+                // Retirer le message du DOM
+                var el=document.getElementById(id);
+                var prev=el&&el.previousElementSibling;
+                if(el) el.remove();
+                // Re-envoyer le dernier message user depuis l'historique
+                var lastUser=chat.history[chat.history.length-1];
+                if(lastUser&&lastUser.role==='user'){
+                    var textContent=typeof lastUser.content==='string'?lastUser.content:'';
+                    // Enlever le contexte code du contenu pour l'affichage
+                    var displayQ=textContent.split('\n\n## CODE ACTUEL')[0];
+                    // Re-send directement
+                    _sendFromHistory(displayQ, chat);
+                }
+            };
+
+            window._editMsg = function(id){
+                var el=document.getElementById(id);
+                var bubble=el&&el.querySelector('.ai-msg-bubble');
+                if(!bubble||el.querySelector('.ai-msg-edit-area')) return;
+                var originalText=bubble.innerText||'';
+                // Stocker l'original dans un data attribute
+                el.dataset.editOriginal = bubble.innerHTML;
+                bubble.style.display='none';
+                var actions=el.querySelector('.ai-msg-actions');
+                if(actions) actions.style.display='none';
+                var editDiv=document.createElement('div');
+                editDiv.className='_editDiv';
+                var ta=document.createElement('textarea');
+                ta.className='ai-msg-edit-area';
+                ta.value=originalText;
+                var btns=document.createElement('div');
+                btns.className='ai-msg-edit-btns';
+                btns.innerHTML='<button class="ai-msg-edit-send">Envoyer</button><button class="ai-msg-edit-cancel">Annuler</button>';
+                editDiv.appendChild(ta);editDiv.appendChild(btns);
+                el.appendChild(editDiv);
+                btns.querySelector('.ai-msg-edit-send').onclick=function(){ window._submitEdit(id); };
+                btns.querySelector('.ai-msg-edit-cancel').onclick=function(){ window._cancelEdit(id); };
+                ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);
+            };
+
+            window._cancelEdit = function(id){
+                var el=document.getElementById(id);
+                if(!el) return;
+                var editDiv=el.querySelector('._editDiv');
+                if(editDiv) editDiv.remove();
+                var bubble=el.querySelector('.ai-msg-bubble');
+                if(bubble){ bubble.style.display=''; bubble.innerHTML=el.dataset.editOriginal||bubble.innerHTML; }
+                var actions=el.querySelector('.ai-msg-actions');
+                if(actions) actions.style.display='';
+                delete el.dataset.editOriginal;
+            };
+
+            window._submitEdit = function(id){
+                var el=document.getElementById(id);
+                if(!el) return;
+                var ta=el.querySelector('.ai-msg-edit-area');
+                var newText=ta?ta.value.trim():'';
+                if(!newText) return;
+
+                // Mettre à jour le bubble avec le nouveau texte
+                var bubble=el.querySelector('.ai-msg-bubble');
+                if(bubble){ bubble.innerHTML=_esc(newText).replace(/\n/g,'<br>'); bubble.style.display='';}
+                var editWrapper=el.querySelector('.ai-msg-edit-area');
+                if(editWrapper) editWrapper.closest('div').remove();
+                var editBtns=el.querySelector('.ai-msg-edit-btns');
+                if(editBtns) editBtns.parentElement.remove();
+                var actions=el.querySelector('.ai-msg-actions');
+                if(actions) actions.style.display='';
+
+                // Supprimer TOUS les messages suivants dans le DOM
+                var next=el.nextElementSibling;
+                while(next){
+                    var toRemove=next;
+                    next=next.nextElementSibling;
+                    toRemove.remove();
+                }
+
+                // Recalculer l'index de ce message dans le DOM (hors message d'accueil)
+                var allMsgs=[].slice.call(document.querySelectorAll('#aiMessages .ai-msg'));
+                var msgIndex=allMsgs.indexOf(el); // 0-based, message d'accueil = index 0
+
+                // Tronquer l'historique : on garde les messages AVANT ce message
+                // (index DOM 0 = message d'accueil, pas dans history ; index 1 = history[0], etc.)
+                var chat=_chats[_activeChatId];
+                if(chat && msgIndex > 0){
+                    chat.history = chat.history.slice(0, msgIndex - 1);
+                } else if(chat){
+                    chat.history = [];
+                }
+
+                // Envoyer directement via l'input
+                var inp=document.getElementById('aiUserInput');
+                if(inp){ inp.value=newText; }
+                sendAIMessage();
+            };
+
+            async function _sendFromHistory(q, chat){
+                if(_aiStreaming) return;
+                var btn=document.getElementById('aiSendBtn');
+                _aiStreaming=true; if(btn) btn.disabled=true;
+                _showTyping();
+                var sys='Tu es SCRIX AI, un assistant expert en développement web et programmation.\n\nFournis du code dans ```html ```css ```javascript ```python. Code COMPLET, AUTONOME. Réponds en français.';
+                try {
+                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:8192,messages:[{role:'system',content:sys}].concat(chat.history)})});
+                    if(!resp.ok){var err=await resp.json().catch(function(){return{};});throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);}
+                    var data=await resp.json();
+                    _hideTyping();
+                    var text=(data.choices&&data.choices[0]&&data.choices[0].message)?data.choices[0].message.content:'Erreur : réponse vide.';
+                    chat.history.push({role:'assistant',content:text});
+                    _saveChats();
+                    _addMsg('assistant',_format(text));
+                } catch(e){
+                    _hideTyping();
+                    _addMsg('assistant','<span style="color:#f87171">❌ '+(e.message||'Erreur')+'</span>');
+                }
+                _aiStreaming=false; if(btn) btn.disabled=false;
+            }
+
             function _showTyping(){
                 var msgs=document.getElementById('aiMessages');
                 if(!msgs) return;
@@ -13975,52 +14170,39 @@ self.addEventListener('fetch', e => {
                 }
 
                 var userMsgContent;
-                if(_aiAttach&&_aiAttach.type==='image'){
-                    // Pour le message courant, on envoie image+texte en array
-                    userMsgContent=[{type:'image_url',image_url:{url:'data:'+_aiAttach.mediaType+';base64,'+_aiAttach.data}},{type:'text',text:q+ctx}];
-                } else if(_aiAttach&&_aiAttach.type==='text'){
-                    // Tronquer les fichiers trop longs (max ~6000 chars)
+                var attachModel = 'llama-3.3-70b-versatile'; // toujours le même modèle texte
+                if(_aiAttach && _aiAttach.type==='image'){
+                    // Le proxy Groq ne supporte pas image_url — on décrit l'image en texte
+                    userMsgContent = q + '\n\n[L\'utilisateur a joint une image : ' + _aiAttach.name + '. Réponds en te basant sur la description textuelle de sa demande.]' + ctx;
+                } else if(_aiAttach && _aiAttach.type==='text'){
                     var fileContent = _aiAttach.data;
                     var MAX_FILE = 6000;
                     if(fileContent.length > MAX_FILE){
-                        fileContent = fileContent.substring(0, MAX_FILE) + '\n\n[... fichier tronqué à ' + MAX_FILE + ' caractères pour éviter la limite de tokens ...]';
+                        fileContent = fileContent.substring(0, MAX_FILE) + '\n\n[... fichier tronqué à '+MAX_FILE+' chars ...]';
                     }
-                    userMsgContent=q+'\n\n## FICHIER JOINT : '+_aiAttach.name+'\n```\n'+fileContent+'\n```'+ctx;
+                    userMsgContent = q + '\n\n## FICHIER JOINT : '+_aiAttach.name+'\n```\n'+fileContent+'\n```' + ctx;
                 } else {
-                    userMsgContent=q+ctx;
+                    userMsgContent = q + ctx;
                 }
-
-                // Pour stocker dans l'historique : si c'était une image,
-                // on garde seulement le texte (l'image base64 ne peut pas rester dans l'historique multi-tour)
-                var historyContent = Array.isArray(userMsgContent)
-                    ? '[Image jointe] ' + q  // version texte pour l'historique
-                    : userMsgContent;
-
-                var attachModel=(_aiAttach&&_aiAttach.type==='image')?'llama-3.2-11b-vision-preview':'llama-3.3-70b-versatile';
                 clearAIAttach();
 
                 var chat=_chats[_activeChatId];
                 if(!chat) { chat=_chats[_createChat()]; }
 
-                // On pousse la version history (toujours string) dans le chat
-                chat.history.push({role:'user', content: historyContent});
+                chat.history.push({role:'user', content: userMsgContent});
                 if(chat.history.length>20) chat.history=chat.history.slice(chat.history.length-20);
 
                 // Auto-rename chat on first message
                 if(chat.history.length===1){
-                    var nameStr = typeof historyContent==='string' ? historyContent : q;
-                    chat.name = nameStr.replace(/\n/g,' ').substring(0,28) + (nameStr.length>28?'...':'');
+                    var nameStr = q.replace(/\n/g,' ');
+                    chat.name = nameStr.substring(0,28) + (nameStr.length>28?'...':'');
                     _renderChatList();
                     var label=document.getElementById('aiChatNameLabel');
                     if(label) label.textContent=chat.name;
                 }
 
-                // Pour l'API : on envoie le vrai contenu (avec image si présente) pour le message actuel
-                // mais on remplace ce message dans l'historique envoyé (pas dans chat.history)
-                var apiHistory = chat.history.slice(0, -1).concat([{role:'user', content: userMsgContent}]);
-
                 try {
-                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:attachModel,max_tokens:8192,messages:[{role:'system',content:sys}].concat(apiHistory)})});
+                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:attachModel,max_tokens:8192,messages:[{role:'system',content:sys}].concat(chat.history)})});
                     if(!resp.ok){var err=await resp.json().catch(function(){return{};});throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);}
                     var data=await resp.json();
                     _hideTyping();
