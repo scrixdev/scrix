@@ -13721,26 +13721,30 @@ self.addEventListener('fetch', e => {
                 if (aiHistory.length > 10) aiHistory = aiHistory.slice(aiHistory.length - 10);
 
                 // ⚠️ REMPLACE l'URL ci-dessous par celle de ton Cloudflare Worker après déploiement
-                const PROXY_URL = "https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev/";
+                const PROXY_URL = 'https://scrix-aisuco-the-shadowsworkersdev.suco-the-shadows.workers.dev';
 
                 try {
+                    // Format OpenAI-compatible pour Groq
+                    const groqMessages = [
+                        { role: 'system', content: systemPrompt },
+                        ...aiHistory
+                    ];
                     const response = await fetch(PROXY_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            model: 'claude-sonnet-4-20250514',
-                            max_tokens: 1000,
-                            system: systemPrompt,
-                            messages: aiHistory
+                            model: 'llama-3.3-70b-versatile',
+                            max_tokens: 1024,
+                            messages: groqMessages
                         })
                     });
                     if (!response.ok) {
                         const errData = await response.json().catch(() => ({}));
-                        throw new Error(errData.error || 'HTTP ' + response.status);
+                        throw new Error((errData.error && errData.error.message) || 'HTTP ' + response.status);
                     }
                     const data = await response.json();
                     hideTyping();
-                    const text = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Erreur : réponse vide.';
+                    const text = (data.choices && data.choices[0] && data.choices[0].message) ? data.choices[0].message.content : 'Erreur : réponse vide.';
                     aiHistory.push({ role: 'assistant', content: text });
                     addAIMessage('assistant', formatAIResponse(text));
                 } catch(err) {
