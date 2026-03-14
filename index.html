@@ -13976,31 +13976,51 @@ self.addEventListener('fetch', e => {
 
                 var userMsgContent;
                 if(_aiAttach&&_aiAttach.type==='image'){
+                    // Pour le message courant, on envoie image+texte en array
                     userMsgContent=[{type:'image_url',image_url:{url:'data:'+_aiAttach.mediaType+';base64,'+_aiAttach.data}},{type:'text',text:q+ctx}];
                 } else if(_aiAttach&&_aiAttach.type==='text'){
-                    userMsgContent=q+'\n\n## FICHIER : '+_aiAttach.name+'\n```\n'+_aiAttach.data+'\n```'+ctx;
+                    // Tronquer les fichiers trop longs (max ~6000 chars)
+                    var fileContent = _aiAttach.data;
+                    var MAX_FILE = 6000;
+                    if(fileContent.length > MAX_FILE){
+                        fileContent = fileContent.substring(0, MAX_FILE) + '\n\n[... fichier tronqué à ' + MAX_FILE + ' caractères pour éviter la limite de tokens ...]';
+                    }
+                    userMsgContent=q+'\n\n## FICHIER JOINT : '+_aiAttach.name+'\n```\n'+fileContent+'\n```'+ctx;
                 } else {
                     userMsgContent=q+ctx;
                 }
+
+                // Pour stocker dans l'historique : si c'était une image,
+                // on garde seulement le texte (l'image base64 ne peut pas rester dans l'historique multi-tour)
+                var historyContent = Array.isArray(userMsgContent)
+                    ? '[Image jointe] ' + q  // version texte pour l'historique
+                    : userMsgContent;
 
                 var attachModel=(_aiAttach&&_aiAttach.type==='image')?'llama-3.2-11b-vision-preview':'llama-3.3-70b-versatile';
                 clearAIAttach();
 
                 var chat=_chats[_activeChatId];
                 if(!chat) { chat=_chats[_createChat()]; }
-                chat.history.push({role:'user',content:userMsgContent});
-                if(chat.history.length>30) chat.history=chat.history.slice(chat.history.length-30);
+
+                // On pousse la version history (toujours string) dans le chat
+                chat.history.push({role:'user', content: historyContent});
+                if(chat.history.length>20) chat.history=chat.history.slice(chat.history.length-20);
 
                 // Auto-rename chat on first message
-                if(chat.history.length===1 && typeof userMsgContent==='string') {
-                    chat.name = userMsgContent.substring(0,28).replace(/\n/g,' ') + (userMsgContent.length>28?'...':'');
+                if(chat.history.length===1){
+                    var nameStr = typeof historyContent==='string' ? historyContent : q;
+                    chat.name = nameStr.replace(/\n/g,' ').substring(0,28) + (nameStr.length>28?'...':'');
                     _renderChatList();
                     var label=document.getElementById('aiChatNameLabel');
                     if(label) label.textContent=chat.name;
                 }
 
+                // Pour l'API : on envoie le vrai contenu (avec image si présente) pour le message actuel
+                // mais on remplace ce message dans l'historique envoyé (pas dans chat.history)
+                var apiHistory = chat.history.slice(0, -1).concat([{role:'user', content: userMsgContent}]);
+
                 try {
-                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:attachModel,max_tokens:8192,messages:[{role:'system',content:sys}].concat(chat.history)})});
+                    var resp=await fetch(_PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:attachModel,max_tokens:8192,messages:[{role:'system',content:sys}].concat(apiHistory)})});
                     if(!resp.ok){var err=await resp.json().catch(function(){return{};});throw new Error((err.error&&err.error.message)||'HTTP '+resp.status);}
                     var data=await resp.json();
                     _hideTyping();
